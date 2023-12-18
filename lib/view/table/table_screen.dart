@@ -26,52 +26,104 @@ class _TableScreenState extends State<TableScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("${tableController.products}");
+    print("${tableController.products.length}");
     return Scaffold(
-        body: SafeArea(
-            child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                child: ListView(children: [
-                  logoHeader(context),
-                  searchBar(context),
-                  //
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  selectedBtn(context),
-                  const SizedBox(
-                    height: 15,
-                  ),
+        body: Obx(
+      () => SafeArea(
+          child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              child: ListView(children: [
+                logoHeader(context),
+                searchBar(context),
+                //
+                const SizedBox(
+                  height: 15,
+                ),
+                selectedBtn(context),
+                const SizedBox(
+                  height: 15,
+                ),
 
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    margin: const EdgeInsets.symmetric(horizontal: 13),
-                    height: 350,
-                    width: 1.0.w(context),
-                    child: GridView.builder(
-                        itemCount: 10,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3),
-                        itemBuilder: (context, index) => Container(
-                              child: Stack(children: [
-                                Container(
-                                  height: 100,
-                                  width: 100,
-                                  color: Colors.red,
-                                )
-                              ]),
-                            )),
-                  )
-                ]))));
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Text(
+                    "Ground Floor",
+                    style: myTextStyle(
+                        textColor, 0.013.toResponsive(context), "Roboto"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                //gridContainer
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  height: 350,
+                  width: 1.0.w(context),
+                  child: Stack(
+                    children: [
+                      GridView.builder(
+                          itemCount: tableController.products.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                          itemBuilder: (context, index) => Card(
+                                color:
+                                    tableController.products[index].reserved ==
+                                            true
+                                        ? reservedColor
+                                        : primary,
+                                child: Stack(children: [
+                                  Positioned(
+                                    top: 10,
+                                    left: 20,
+                                    child: Container(
+                                      child: Text(tableController
+                                          .products[index].tableName),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    height: 20,
+                                    left: 10,
+                                    width: 1.0.w(context),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          height: 25,
+                                          width: 25,
+                                          decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      "assets/images/imageperson.png"))),
+                                        ),
+                                        Text(
+                                            "${tableController.products[index].number.toString()} people"),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                              )),
+                      Positioned(
+                        bottom: 1,
+                        child: Text("hello Bibek"),
+                      )
+                    ],
+                  ),
+                )
+              ]))),
+    ));
   }
 
   Container selectedBtn(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
-      margin: const EdgeInsets.symmetric(horizontal: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       height: 30,
-      width: 0.9.w(context),
+      width: 0.1.w(context),
       child: Row(
         children: [
           ...List.generate(
