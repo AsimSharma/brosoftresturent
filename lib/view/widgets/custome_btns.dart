@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 import '../../utils/app_style.dart';
 
 class CustomBtn extends StatelessWidget {
-  const CustomBtn(
-      {super.key,
-      required this.btnTitle,
-      required this.onPressed,
-      this.width = 300,
-      this.height = 45});
+  const CustomBtn({
+    super.key,
+    required this.btnTitle,
+    required this.onPressed,
+    this.width = 100,
+    this.height = 45,
+    this.color = btnPrimaryColor,
+  });
 
   final String btnTitle;
   final VoidCallback onPressed;
   final double width, height;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +25,13 @@ class CustomBtn extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        decoration: const BoxDecoration(
-            color: btnPrimaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
         child: Center(
             child: Text(
           btnTitle,
-          style: myTextStyle(primary, 0.001.toResponsive(context), 'Roboto'),
+          style: myTextStyle(primary, 0.01.toResponsive(context), 'Roboto'),
         )),
       ),
     );

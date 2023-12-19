@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:brosoftresturent/utils/url_constant.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,7 @@ import '../model/tables_model.dart';
 
 class TableController extends GetxController {
   var products = <TableModels>[].obs;
+  var guestNumber = 0.obs;
 
   getTables() async {
     log("GEt tables called");
@@ -20,5 +22,14 @@ class TableController extends GetxController {
 
     List data = jsonDecode(response.body);
     products.addAll(data.map((post) => TableModels.fromjson(post)).toList());
+  }
+
+  //increment guestNumber
+  incrementNumber(int indexs) {
+    return log("heloo from increments");
+  }
+
+  decRementNumber(int indexs) {
+    return log("heloo from increments");
   }
 }

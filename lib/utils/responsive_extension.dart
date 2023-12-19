@@ -17,3 +17,9 @@ extension GetSize on double {
     return MediaQuery.of(context).size.width * this;
   }
 }
+
+extension EmptySpace on num {
+  SizedBox get height => SizedBox(height: toDouble());
+
+  SizedBox get width => SizedBox(width: toDouble());
+}
