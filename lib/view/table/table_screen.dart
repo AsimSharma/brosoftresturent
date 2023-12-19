@@ -1,4 +1,5 @@
 import 'package:brosoftresturent/controller/table_controller.dart';
+import 'package:brosoftresturent/model/guest_userInfo.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/widgets/custome_inputs.dart';
@@ -8,6 +9,7 @@ import 'dart:developer';
 
 import '../widgets/custome_btns.dart';
 import 'models/btnModels.dart';
+import 'models/releted_orderbtn.dart';
 
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
@@ -26,6 +28,10 @@ class _TableScreenState extends State<TableScreen> {
   }
 
   bool isReserved = true;
+
+  final nameController = TextEditingController();
+  final numberController = TextEditingController();
+  final customerNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +86,13 @@ class _TableScreenState extends State<TableScreen> {
                                             tableController
                                                 .products[index].tableName,
                                             tableController
-                                                .products[index].number)
+                                                .products[index].noOfGuest)
                                         : bottomSheetNoReserved(
                                             context,
                                             tableController
                                                 .products[index].tableName,
                                             tableController
-                                                .products[index].number,
+                                                .products[index].noOfGuest,
                                             index),
                                   );
                                 },
@@ -96,7 +102,7 @@ class _TableScreenState extends State<TableScreen> {
                                           true
                                       ? reservedColor
                                       : primary,
-                                  child: tableController.products.isEmpty
+                                  child: tableController.products.length == 0
                                       ? const Center(
                                           child: CircularProgressIndicator(
                                             color: secondaryColors,
@@ -106,34 +112,29 @@ class _TableScreenState extends State<TableScreen> {
                                       : Stack(children: [
                                           Positioned(
                                             top: 10,
-                                            left: 20,
                                             child: Container(
                                               child: Text(tableController
                                                   .products[index].tableName),
                                             ),
                                           ),
                                           Positioned(
-                                            bottom: 10,
-                                            height: 20,
-                                            left: 10,
-                                            width: 1.0.w(context),
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  height: 25,
-                                                  width: 25,
-                                                  decoration: const BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/images/imageperson.png"))),
-                                                ),
-                                                Text(
-                                                    "${tableController.products[index].number.toString()} people"),
-                                              ],
-                                            ),
-                                          ),
+                                              bottom: 5,
+                                              child: Container(
+                                                height: 0.05.h(context),
+                                                width: 1.0.w(context),
+                                                child: Row(children: [
+                                                  Container(
+                                                    height: 100,
+                                                    width: 0.08.w(context),
+                                                    decoration: const BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                "assets/images/imageperson.png"))),
+                                                  ),
+                                                  Text(
+                                                      "${tableController.products[index].noOfGuest} people")
+                                                ]),
+                                              ))
                                         ]),
                                 ),
                               )),
@@ -334,11 +335,6 @@ class _TableScreenState extends State<TableScreen> {
                         InkWell(
                             onTap: () {
                               log("increment");
-
-                              // tableController.incrementNumber(index);
-                              setState(() {
-                                numberGust = numberGust++;
-                              });
                             },
                             child: Image.asset("assets/images/Add icon.png")),
                         const VerticalDivider(
@@ -346,13 +342,7 @@ class _TableScreenState extends State<TableScreen> {
                           width: 10,
                         ),
                         InkWell(
-                            onTap: () {
-                              log("decrement");
-                              // tableController.decRementNumber(index);
-                              setState(() {
-                                numberGust = numberGust--;
-                              });
-                            },
+                            onTap: () {},
                             child:
                                 Image.asset("assets/images/subtract icon.png"))
                       ]),
@@ -381,7 +371,7 @@ class _TableScreenState extends State<TableScreen> {
                 width: 50,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/images/vector.png"))),
+                        image: AssetImage("assets/images/Barcode.png"))),
               ),
             ],
           ),
@@ -395,29 +385,34 @@ class _TableScreenState extends State<TableScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
                 height: 50,
                 width: 1.0.w(context),
-                child: const CustomeInputs(
-                    hintText: "Name", textinputTypes: TextInputType.text),
-              ),
-              10.height,
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: const BorderRadius.all(Radius.circular(40))),
-                height: 50,
-                width: 1.0.w(context),
-                child: const CustomeInputs(
-                    hintText: "Number", textinputTypes: TextInputType.text),
-              ),
-              10.height,
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: const BorderRadius.all(Radius.circular(40))),
-                height: 50,
-                width: 1.0.w(context),
-                child: const CustomeInputs(
-                    hintText: "Customer No",
+                child: CustomeInputs(
+                    textEditingController: nameController,
+                    hintText: "Name",
                     textinputTypes: TextInputType.text),
+              ),
+              10.height,
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: const BorderRadius.all(Radius.circular(40))),
+                height: 50,
+                width: 1.0.w(context),
+                child: CustomeInputs(
+                    textEditingController: numberController,
+                    hintText: "Number",
+                    textinputTypes: TextInputType.number),
+              ),
+              10.height,
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: const BorderRadius.all(Radius.circular(40))),
+                height: 50,
+                width: 1.0.w(context),
+                child: CustomeInputs(
+                    textEditingController: customerNumberController,
+                    hintText: "Customer No",
+                    textinputTypes: TextInputType.number),
               ),
             ]),
           ),
@@ -428,7 +423,10 @@ class _TableScreenState extends State<TableScreen> {
             children: [
               CustomBtn(
                 btnTitle: "Reserved",
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                  Get.bottomSheet(orderBottomSheet(context));
+                },
                 color: btnSecondaryColor,
                 width: 0.4.w(context),
               ),
@@ -437,12 +435,100 @@ class _TableScreenState extends State<TableScreen> {
                 btnTitle: "Start",
                 onPressed: () {
                   log("hello from non Reserved");
+
+                  tableController.postGuestInfo(
+                      guestModel: GuestModel(
+                          noOfGuest: 10,
+                          number: 25,
+                          customerNumber: 351,
+                          id: "1",
+                          name: "heloooo"));
                 },
                 width: 0.44.w(context),
               )
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Center orderBottomSheet(BuildContext context) {
+    return Center(
+      child: Container(
+        height: 0.4.h(context),
+        width: 1.0.toResponsive(context),
+        padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
+        decoration: const BoxDecoration(
+            color: primary,
+            borderRadius: BorderRadius.all(Radius.circular(15))),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Choose Related Order",
+                  style: myTextStyle(
+                      secondaryColors, 0.015.toResponsive(context), "Roboto"),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                AssetImage("assets/images/cance_icons.png"))),
+                  ),
+                ),
+              ],
+            ),
+
+            //choose Related order
+
+            ...List.generate(
+                3,
+                (index) => Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(12)),
+                              border: Border.all(
+                                  color: secondaryColors, width: 1.0)),
+                          // height: 10,
+                          // width: 50,
+                          child: Column(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/order_dark.png"))),
+                              ),
+                              Text(
+                                reletedOrderMode[index].name,
+                                style: myTextStyle(secondaryColors,
+                                    0.015.toResponsive(context), "Roboto"),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ))
+          ],
+        ),
       ),
     );
   }
