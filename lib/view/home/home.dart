@@ -1,3 +1,4 @@
+import 'package:brosoftresturent/main.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/view/message/message_screen.dart';
 import 'package:brosoftresturent/view/order/order_screen.dart';
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageController,
         physics: const BouncingScrollPhysics(),
         children: const [
-          TableScreen(),
+          Tablexyx(),
           OrderScreen(),
           MessageScreen(),
           ProfileScreen()
