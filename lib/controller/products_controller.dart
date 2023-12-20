@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class ProductsController extends GetxController {
   var productList = <Products>[].obs;
+  var selectedCategory = "All".obs;
 
   //getProductsItems
 

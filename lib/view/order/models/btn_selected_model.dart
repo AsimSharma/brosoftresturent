@@ -1,6 +1,1 @@
-final List<String> btnlistOrder = [
-  "All Caterozie",
-  "Momo",
-  "Biriyani",
-  "korean"
-];
+List<String> btnlistOrder = ["All", "Momo", "Biryani", "Chaumin"];

@@ -3,6 +3,7 @@ import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../model/product_items.dart';
 import '../../utils/app_style.dart';
 import 'dart:developer';
 
@@ -21,6 +22,17 @@ class _OrderScreenState extends State<OrderScreen> {
   int selectedRadio = 0;
   int btnTapIndex = 0;
   final productsController = Get.put(ProductsController());
+
+  List<Products> filteredProducts() {
+    if (btnTapIndex == 0) {
+      return productsController.productList;
+    } else {
+      var selectedCategory = btnlistOrder[btnTapIndex];
+      return productsController.productList
+          .where((product) => product.productName == selectedCategory)
+          .toList();
+    }
+  }
 
   @override
   void initState() {
@@ -162,132 +174,40 @@ class _OrderScreenState extends State<OrderScreen> {
             height: 0.005.h(context),
           ),
 
-          Obx(
-            () => Text(
-              productsController.productList[btnTapIndex].productName,
-              style: myTextStyle(
-                  secondaryColors, 0.017.toResponsive(context), "Roboto"),
-            ),
-          ),
+          Container(
+            height: 0.5.h(context),
+            child: Column(
+              children: [
+                Obx(() {
+                  var filtered = filteredProducts();
 
-          btnTapIndex == 0
-              ? SizedBox(
-                  height: 0.08.h(context),
-                  width: 1.0.w(context),
-                  child: ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (context, index) => Container(
-                      margin: const EdgeInsets.all(10),
-                      height: 20,
-                      width: 20,
-                      child: Obx(() => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
+                  return Card(
+                    child: Container(
+                      height: 0.4.h(context),
+                      color: Colors.green,
+                      child: ListView.builder(
+                        itemCount: filtered.length,
+                        itemBuilder: (context, index) {
+                          var product = filtered[index];
+
+                          return ListTile(
+                            title: Text(product.productName),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "heloo",
-                                  style: myTextStyle(primary,
-                                      0.015.toResponsive(context), "Roboto"),
-                                ),
-                                Text(
-                                  productsController
-                                      .productList[btnTapIndex].productName,
-                                  style: myTextStyle(primary,
-                                      0.015.toResponsive(context), "Roboto"),
-                                ),
+                                for (var item in product.productItem)
+                                  Text('${item.itemName} - ${item.rs} Rs'),
                               ],
                             ),
-                          )),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                )
-              : SizedBox(
-                  height: 0.35.h(context),
-                  width: 1.0.w(context),
-                  child: ListView.builder(
-                      itemCount: 4,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        var ttt = productsController
-                            .productList[btnTapIndex].productItem[index];
-
-                        return Card(
-                          child: Obx(
-                            () => Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              width: 0.5.w(context),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        height: 0.2.h(context),
-                                        width: 1.0.w(context),
-                                        color: Colors.black12),
-                                    Text(
-                                      productsController
-                                          .productList[btnTapIndex]
-                                          .productItem[index]
-                                          .itemName
-                                          .toString(),
-                                      style: myTextStyle(
-                                          secondaryColors,
-                                          0.015.toResponsive(context),
-                                          "Roboto"),
-                                    ),
-                                    Container(
-                                      color: Colors.red,
-                                      width: 0.5.w(context),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text("Rs"),
-                                              Text(ttt.rs.toString()),
-                                            ],
-                                          ),
-                                          Text("Customize")
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 0.005.h(context),
-                                    ),
-                                    //btnIncre/decre
-                                    Container(
-                                      height: 35,
-                                      width: 150,
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: const BoxDecoration(
-                                          color: secondaryColors,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15))),
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                                onTap: () {
-                                                  log("increment");
-                                                },
-                                                child: Image.asset(
-                                                    "assets/images/Add icon.png")),
-                                            const VerticalDivider(
-                                              color: textColor,
-                                              width: 10,
-                                            ),
-                                            InkWell(
-                                                onTap: () {},
-                                                child: Image.asset(
-                                                    "assets/images/subtract icon.png"))
-                                          ]),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        );
-                      })),
+                  );
+                }),
+              ],
+            ),
+          ),
         ]),
       ),
     );
