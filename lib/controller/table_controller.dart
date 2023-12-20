@@ -20,6 +20,8 @@ class TableController extends GetxController {
 
     List data = jsonDecode(response.body);
     products.addAll(data.map((post) => TableModels.fromjson(post)).toList());
+
+    log(response.toString());
   }
 
 //postInfo

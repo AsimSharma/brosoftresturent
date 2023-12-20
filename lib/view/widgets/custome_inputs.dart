@@ -12,10 +12,8 @@ class CustomeInputs extends StatefulWidget {
 
   final TextEditingController? textEditingController;
   final String hintText;
-
   final dynamic validators;
   final TextInputType textinputTypes;
-
   final dynamic inputFormatters;
 
   @override
@@ -27,8 +25,7 @@ class _CustomeInputsState extends State<CustomeInputs> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        // borderRadius: BorderRadius.circular(30),
+      decoration: const BoxDecoration(
         color: primary,
       ),
       child: TextFormField(
