@@ -7,7 +7,6 @@ import '../../model/product_items.dart';
 import '../../utils/app_style.dart';
 import 'dart:developer';
 
-import '../widgets/custome_inputs.dart';
 import 'models/btn_selected_model.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -65,47 +64,53 @@ class _OrderScreenState extends State<OrderScreen> {
             height: 0.02.h(context),
           ),
 
-          //search Icons
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                // padding: const EdgeInsets.symmetric(horizontal: 10),
-                // margin: const EdgeInsets.symmetric(horizontal: 20),
-                height: 0.055.h(context),
-                width: 0.55.w(context),
+                height: 0.06.h(context),
+                width: 0.7.w(context),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: const BorderRadius.all(Radius.circular(30))),
+                  border: Border.all(
+                    width: 2.2,
+                    style: BorderStyle.solid,
+                    color: textColor,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                ),
                 child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        height: 1.0.h(context),
-                        width: 0.05.w(context),
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/searchicons.png"))),
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 1.0.h(context),
-                          width: 0.3.w(context),
-                          child: const CustomeInputs(
-                              hintText: "search by Cusine name",
-                              textinputTypes: TextInputType.text),
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 0.1.h(context),
+                      width: 0.1.w(context),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/searchicons.png"),
                         ),
-                      )
-                    ]),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 0.7.w(context),
+                        height: 0.06.h(context),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Search by table or category",
+                            hintStyle: myTextStyle(textColor,
+                                0.011.toResponsive(context), "Roboto"),
+                            border: InputBorder.none,
+                          ),
+                          keyboardType: TextInputType.text,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-
-              //radioSelected
-              Container(
+              SizedBox(
                 // color: Colors.green,
-                height: 0.055.h(context),
-                width: 0.3.w(context),
+                height: 0.06.h(context),
+                width: 0.2.w(context),
                 child: Row(children: [
                   Text(
                     "veg only",
@@ -125,10 +130,10 @@ class _OrderScreenState extends State<OrderScreen> {
               )
             ],
           ),
+
           const SizedBox(
             height: 10,
           ),
-
           //btnSelected
           Container(
             padding: EdgeInsets.zero,
@@ -180,28 +185,35 @@ class _OrderScreenState extends State<OrderScreen> {
               children: [
                 Obx(() {
                   var filtered = filteredProducts();
+                  // log("this is filtter item length ${filtered.length}");
 
-                  return Card(
-                    child: Container(
-                      height: 0.4.h(context),
-                      color: Colors.green,
-                      child: ListView.builder(
-                        itemCount: filtered.length,
-                        itemBuilder: (context, index) {
-                          var product = filtered[index];
+                  return Container(
+                    height: 0.4.h(context),
+                    // color: Colors.green,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          color: Colors.red,
+                          height: 0.35.h(context),
+                          child: ListView.builder(
+                            itemCount: filtered.length,
+                            itemBuilder: (context, index) {
+                              var product = filtered[index];
 
-                          return ListTile(
-                            title: Text(product.productName),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                for (var item in product.productItem)
-                                  Text('${item.itemName} - ${item.rs} Rs'),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                              return Card(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(product.productName),
+                                  for (var item in product.productItem)
+                                    Text('${item.itemName} - ${item.rs} Rs'),
+                                ],
+                              ));
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }),
@@ -271,8 +283,8 @@ class _OrderScreenState extends State<OrderScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            height: 0.04.h(context),
-            width: 0.04.w(context),
+            height: 0.03.h(context),
+            width: 0.03.w(context),
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/Back Icon.png"))),

@@ -30,7 +30,6 @@ class TableController extends GetxController {
     var url = Uri.parse("${Url.resturentApiEndPoint}/guestInfo");
     var value = jsonEncode(guestModel.tojson());
     var response = await http.post(url, body: value);
-
     log(response.body);
   }
 }

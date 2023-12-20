@@ -38,110 +38,102 @@ class _TableScreenState extends State<TableScreen> {
     return Scaffold(
         body: Obx(
       () => SafeArea(
-          child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 5),
-              child: ListView(children: [
-                logoHeader(context),
-                searchBar(context),
-                //
-                const SizedBox(
-                  height: 15,
-                ),
-                selectedBtn(context),
-                const SizedBox(
-                  height: 15,
-                ),
+          child: ListView(children: [
+        logoHeader(context),
+        searchBar(context),
+        //
+        const SizedBox(
+          height: 15,
+        ),
+        selectedBtn(context),
+        const SizedBox(
+          height: 15,
+        ),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Text(
-                    "Ground Floor",
-                    style: myTextStyle(
-                        textColor, 0.013.toResponsive(context), "Roboto"),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Text(
+            "Ground Floor",
+            style:
+                myTextStyle(textColor, 0.013.toResponsive(context), "Roboto"),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
 
-                //gridContainer
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
-                  height: 350,
-                  width: 1.0.w(context),
-                  child: Stack(
-                    children: [
-                      GridView.builder(
-                          itemCount: tableController.products.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3),
-                          itemBuilder: (context, index) => InkWell(
-                                onTap: () {
-                                  Get.bottomSheet(
-                                    isReserved == false
-                                        ? bottomSheetReserved(
-                                            context,
-                                            tableController
-                                                .products[index].tableName,
-                                            tableController
-                                                .products[index].noOfGuest)
-                                        : bottomSheetNoReserved(
-                                            context,
-                                            tableController
-                                                .products[index].tableName,
-                                            tableController
-                                                .products[index].noOfGuest,
-                                            index),
-                                  );
-                                },
-                                child: Card(
-                                  color: tableController
-                                              .products[index].reserved ==
-                                          true
-                                      ? reservedColor
-                                      : primary,
-                                  child: tableController.products.length == 0
-                                      ? const Center(
-                                          child: CircularProgressIndicator(
-                                            color: secondaryColors,
-                                            backgroundColor: reservedColor,
+        //gridContainer
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 8),
+          height: 350,
+          width: 1.0.w(context),
+          child: Stack(
+            children: [
+              GridView.builder(
+                  itemCount: tableController.products.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          Get.bottomSheet(
+                            isReserved == false
+                                ? bottomSheetReserved(
+                                    context,
+                                    tableController.products[index].tableName,
+                                    tableController.products[index].noOfGuest)
+                                : bottomSheetNoReserved(
+                                    context,
+                                    tableController.products[index].tableName,
+                                    tableController.products[index].noOfGuest,
+                                    index),
+                          );
+                        },
+                        child: Card(
+                          color:
+                              tableController.products[index].reserved == true
+                                  ? reservedColor
+                                  : primary,
+                          child: tableController.products.length == 0
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: secondaryColors,
+                                    backgroundColor: reservedColor,
+                                  ),
+                                )
+                              : Stack(children: [
+                                  Positioned(
+                                    top: 10,
+                                    child: Container(
+                                      child: Text(tableController
+                                          .products[index].tableName),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      bottom: 5,
+                                      child: Container(
+                                        height: 0.05.h(context),
+                                        width: 1.0.w(context),
+                                        child: Row(children: [
+                                          Container(
+                                            height: 100,
+                                            width: 0.08.w(context),
+                                            decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/imageperson.png"))),
                                           ),
-                                        )
-                                      : Stack(children: [
-                                          Positioned(
-                                            top: 10,
-                                            child: Container(
-                                              child: Text(tableController
-                                                  .products[index].tableName),
-                                            ),
-                                          ),
-                                          Positioned(
-                                              bottom: 5,
-                                              child: Container(
-                                                height: 0.05.h(context),
-                                                width: 1.0.w(context),
-                                                child: Row(children: [
-                                                  Container(
-                                                    height: 100,
-                                                    width: 0.08.w(context),
-                                                    decoration: const BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                "assets/images/imageperson.png"))),
-                                                  ),
-                                                  Text(
-                                                      "${tableController.products[index].noOfGuest} people")
-                                                ]),
-                                              ))
+                                          Text(
+                                              "${tableController.products[index].noOfGuest} people")
                                         ]),
-                                ),
-                              )),
-                    ],
-                  ),
-                )
-              ]))),
+                                      ))
+                                ]),
+                        ),
+                      )),
+            ],
+          ),
+        )
+      ])),
     ));
   }
 
@@ -256,7 +248,7 @@ class _TableScreenState extends State<TableScreen> {
   Container bottomSheetNoReserved(
       BuildContext context, String tableNumber, num numberGust, int index) {
     return Container(
-      height: 0.8.h(context),
+      height: 0.9.h(context),
       width: 1.0.toResponsive(context),
       padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
       decoration: const BoxDecoration(
@@ -266,8 +258,8 @@ class _TableScreenState extends State<TableScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
+          SizedBox(
+            height: 0.005.h(context),
           ),
           Align(
             alignment: Alignment.topRight,
@@ -276,8 +268,8 @@ class _TableScreenState extends State<TableScreen> {
                 Get.back();
               },
               child: Container(
-                height: 40,
-                width: 40,
+                height: 0.03.h(context),
+                width: 0.03.h(context),
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/images/cance_icons.png"))),
@@ -289,21 +281,19 @@ class _TableScreenState extends State<TableScreen> {
               Text(
                 "Table",
                 style: myTextStyle(
-                    textColor, 0.018.toResponsive(context), "RobotoRegular"),
+                    textColor, 0.015.toResponsive(context), "RobotoRegular"),
               ),
               const SizedBox(
                 width: 5,
               ),
               Text(
                 tableNumber,
-                style: myTextStyle(secondaryColors, 0.018.toResponsive(context),
+                style: myTextStyle(secondaryColors, 0.015.toResponsive(context),
                     "RobotoRegular"),
               ),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+
           SizedBox(
             height: 0.05.h(context),
             width: 1.0.w(context),
@@ -313,18 +303,18 @@ class _TableScreenState extends State<TableScreen> {
                 Text(
                   "No of Guests:",
                   style: myTextStyle(
-                      textColor, 0.018.toResponsive(context), "RobotoRegular"),
+                      textColor, 0.013.toResponsive(context), "RobotoRegular"),
                 ),
                 Text(
                   numberGust.toString(),
                   style: myTextStyle(secondaryColors,
-                      0.017.toResponsive(context), "RobotoRegular"),
+                      0.013.toResponsive(context), "RobotoRegular"),
                 ),
-                6.width,
+
                 //btnContainer
                 Container(
-                  height: 35,
-                  width: 150,
+                  height: 0.035.h(context),
+                  width: 0.35.w(context),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 207, 218, 226),
@@ -336,21 +326,24 @@ class _TableScreenState extends State<TableScreen> {
                             onTap: () {
                               log("increment");
                             },
-                            child: Image.asset("assets/images/Add icon.png")),
+                            child: Expanded(
+                                child:
+                                    Image.asset("assets/images/Add icon.png"))),
                         const VerticalDivider(
                           color: textColor,
                           width: 10,
                         ),
                         InkWell(
                             onTap: () {},
-                            child:
-                                Image.asset("assets/images/subtract icon.png"))
+                            child: Expanded(
+                                child: Image.asset(
+                                    "assets/images/subtract icon.png")))
                       ]),
                 ),
               ],
             ),
           ),
-          8.height,
+
           const Divider(
             // height: 52,
             color: secondaryColors,
@@ -367,15 +360,15 @@ class _TableScreenState extends State<TableScreen> {
                     textColor, 0.014.toResponsive(context), "RobotoRegular"),
               ),
               Container(
-                height: 50,
-                width: 50,
+                height: 0.050.h(context),
+                width: 0.050.w(context),
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/images/Barcode.png"))),
               ),
             ],
           ),
-          10.height,
+
           //Inputs
           Container(
             child: Column(children: [
@@ -383,31 +376,35 @@ class _TableScreenState extends State<TableScreen> {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 2.0),
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
-                height: 50,
+                height: 0.050.h(context),
                 width: 1.0.w(context),
                 child: CustomeInputs(
                     textEditingController: nameController,
                     hintText: "Name",
                     textinputTypes: TextInputType.text),
               ),
-              10.height,
+              SizedBox(
+                height: 0.015.h(context),
+              ),
               Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: const BorderRadius.all(Radius.circular(40))),
-                height: 50,
+                height: 0.05.h(context),
                 width: 1.0.w(context),
                 child: CustomeInputs(
                     textEditingController: numberController,
                     hintText: "Number",
                     textinputTypes: TextInputType.number),
               ),
-              10.height,
+              SizedBox(
+                height: 0.015.h(context),
+              ),
               Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: const BorderRadius.all(Radius.circular(40))),
-                height: 50,
+                height: 0.05.h(context),
                 width: 1.0.w(context),
                 child: CustomeInputs(
                     textEditingController: customerNumberController,
@@ -416,8 +413,10 @@ class _TableScreenState extends State<TableScreen> {
               ),
             ]),
           ),
+          SizedBox(
+            height: 0.025.h(context),
+          ),
 
-          20.height,
           //btns
           Row(
             children: [
@@ -500,12 +499,11 @@ class _TableScreenState extends State<TableScreen> {
                         Container(
                           margin: const EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
+                              color: Colors.red,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(12)),
                               border: Border.all(
                                   color: secondaryColors, width: 1.0)),
-                          // height: 10,
-                          // width: 50,
                           child: Column(
                             // mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -535,10 +533,10 @@ class _TableScreenState extends State<TableScreen> {
 
   Container selectedBtn(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       margin: const EdgeInsets.symmetric(horizontal: 10),
       height: 30,
-      width: 0.1.w(context),
+      width: 0.8.w(context),
       child: Row(
         children: [
           ...List.generate(
@@ -549,23 +547,26 @@ class _TableScreenState extends State<TableScreen> {
                         btnTapIndex = index;
                       });
                     },
-                    child: Container(
-                      height: 30,
-                      width: 80,
-                      margin: const EdgeInsets.only(left: 5),
-                      decoration: BoxDecoration(
-                          color:
-                              btnTapIndex == index ? secondaryColors : primary,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50))),
-                      child: Center(
-                          child: Text(
-                        btnlist[index],
-                        style: myTextStyle(
-                            btnTapIndex != index ? secondaryColors : primary,
-                            0.008.toResponsive(context),
-                            " Roboto"),
-                      )),
+                    child: Expanded(
+                      child: Container(
+                        height: 30,
+                        width: 80,
+                        margin: const EdgeInsets.only(left: 5),
+                        decoration: BoxDecoration(
+                            color: btnTapIndex == index
+                                ? secondaryColors
+                                : primary,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(50))),
+                        child: Center(
+                            child: Text(
+                          btnlist[index],
+                          style: myTextStyle(
+                              btnTapIndex != index ? secondaryColors : primary,
+                              0.008.toResponsive(context),
+                              " Roboto"),
+                        )),
+                      ),
                     ),
                   ))
         ],
@@ -574,39 +575,46 @@ class _TableScreenState extends State<TableScreen> {
   }
 
   Container searchBar(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
         margin: const EdgeInsets.symmetric(horizontal: 20),
         height: 0.06.h(context),
         width: 1.0.w(context),
         decoration: BoxDecoration(
-            // color: Colors.red,
-            boxShadow: const [
-              BoxShadow(
-                  color: primary,
-                  offset: Offset(0.0, 0.1),
-                  blurRadius: 0.5,
-                  spreadRadius: 0.5)
-            ],
-            border: Border.all(color: Colors.black),
-            borderRadius: const BorderRadius.all(Radius.circular(40))),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Container(
-            height: 100,
-            width: 0.2.w(context),
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/searchicons.png"))),
+          border: Border.all(
+            width: 2.2,
+            style: BorderStyle.solid,
+            color: textColor,
           ),
-          Expanded(
-            child: SizedBox(
-              height: 120,
-              width: 0.7.w(context),
-              child: const CustomeInputs(
-                  hintText: "search by table or caterozie",
-                  textinputTypes: TextInputType.text),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 0.06.h(context),
+              width: 0.2.w(context),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/searchicons.png"),
+                ),
+              ),
             ),
-          )
-        ]),
+            Expanded(
+              child: SizedBox(
+                width: 0.7.w(context),
+                height: 0.06.h(context),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Search by table or category",
+                    hintStyle: myTextStyle(
+                        textColor, 0.015.toResponsive(context), "Roboto"),
+                    border: InputBorder.none,
+                  ),
+                  keyboardType: TextInputType.text,
+                ),
+              ),
+            ),
+          ],
+        ),
       );
 
   Container logoHeader(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:brosoftresturent/utils/app_style.dart';
+import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
 class CustomeInputs extends StatefulWidget {
@@ -34,6 +35,8 @@ class _CustomeInputsState extends State<CustomeInputs> {
         controller: widget.textEditingController,
         keyboardType: widget.textinputTypes,
         decoration: InputDecoration(
+            hintStyle:
+                myTextStyle(textColor, 0.015.toResponsive(context), "Roboto"),
             focusColor: primary,
             hoverColor: primary,
             fillColor: primary,
@@ -46,3 +49,34 @@ class _CustomeInputsState extends State<CustomeInputs> {
     );
   }
 }
+
+// class SearchBarIcons extends StatelessWidget {
+//   const SearchBarIcons(
+//       {super.key,
+//       required this.searchController,
+//       required this.iconsString,
+//       required this.hinTexxt});
+
+//   final TextEditingController searchController;
+//   final String hinTexxt;
+//   final String iconsString;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Container(
+//         padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//         child: TextField(
+//           controller: searchController,
+//           decoration: InputDecoration(
+//             hintText: hinTexxt,
+//             prefix: Image.asset(iconsString),
+//             border: OutlineInputBorder(
+//               borderRadius: BorderRadius.circular(20.0),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
