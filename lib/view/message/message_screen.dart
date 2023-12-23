@@ -10,6 +10,8 @@ import '../demo/demo_post_screen.dart';
 
 import 'dart:developer';
 
+import '../table/screen/selected_order.dart';
+
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
 
@@ -59,7 +61,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 color: Colors.green,
                 onPressed: () {
                   log("postdtaaa");
-                  Get.to( DemoDataPostScreen());
+                  Get.to(const DemoDataPostScreen());
                 },
               ),
               SizedBox(
@@ -76,6 +78,13 @@ class _MessageScreenState extends State<MessageScreen> {
                 btnTitle: "DeleteData",
                 color: Colors.red,
                 onPressed: () {},
+              ),
+              CustomBtn(
+                btnTitle: "Selected order",
+                color: secondaryColors,
+                onPressed: () {
+                  Get.to(const SelectedOrder());
+                },
               )
             ]),
           )
