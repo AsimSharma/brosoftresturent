@@ -27,7 +27,7 @@ class CustomBtn extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
             color: color,
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+            borderRadius: const BorderRadius.all(Radius.circular(12))),
         child: Center(
             child: Text(
           btnTitle,

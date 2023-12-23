@@ -782,7 +782,7 @@ class _TableScreenState extends State<TableScreen> {
                                   itemBuilder: (context, index2) {
                                     var tableItems =
                                         filterTable[index1].tableItem[index2];
-                                    return InkWell(
+                                    return GestureDetector(
                                       onTap: () {
                                         tableItems.reserved == true
                                             ? Get.bottomSheet(
@@ -1119,11 +1119,11 @@ class _TableScreenState extends State<TableScreen> {
   //nonReserved
   Container bottomSheetNoReserved(
     BuildContext context,
-    String tableNumber,
+    String tableName,
     int numberGust,
   ) {
     return Container(
-      height: 0.9.h(context),
+      height: 1.0.h(context),
       width: 1.0.toResponsive(context),
       padding: EdgeInsets.only(
           left: 0.020.toResponsive(context),
@@ -1132,199 +1132,194 @@ class _TableScreenState extends State<TableScreen> {
           color: primary,
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(40), topLeft: Radius.circular(40))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 0.035.h(context),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Container(
-                height: 0.06.h(context),
-                width: 0.03.h(context),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/cance_icons.png"))),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 0.035.h(context),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  height: 0.06.h(context),
+                  width: 0.03.h(context),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/cance_icons.png"))),
+                ),
               ),
             ),
-          ),
-          Row(
-            children: [
-              Text(
-                "Table",
-                style: myTextStyle(
-                    textColor, 0.015.toResponsive(context), "RobotoRegular"),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(
-                tableNumber,
-                style: myTextStyle(secondaryColors, 0.015.toResponsive(context),
-                    "RobotoRegular"),
-              ),
-            ],
-          ),
-
-          SizedBox(
-            height: 0.05.h(context),
-            width: 1.0.w(context),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
               children: [
                 Text(
-                  "No of Guests:",
+                  "Table",
                   style: myTextStyle(
-                      textColor, 0.013.toResponsive(context), "RobotoRegular"),
+                      textColor, 0.015.toResponsive(context), "RobotoRegular"),
+                ),
+                SizedBox(
+                  width: 0.005.w(context),
                 ),
                 Text(
-                  numberGust.toString(),
+                  tableName,
                   style: myTextStyle(secondaryColors,
-                      0.013.toResponsive(context), "RobotoRegular"),
-                ),
-
-                //btnContainer
-                Container(
-                  height: 0.035.h(context),
-                  width: 0.35.w(context),
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 207, 218, 226),
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              log("increment");
-                            },
-                            child: Expanded(
-                                child:
-                                    Image.asset("assets/images/Add icon.png"))),
-                        const VerticalDivider(
-                          color: textColor,
-                          width: 10,
-                        ),
-                        InkWell(
-                            onTap: () {},
-                            child: Expanded(
-                                child: Image.asset(
-                                    "assets/images/subtract icon.png")))
-                      ]),
+                      0.018.toResponsive(context), "RobotoRegular"),
                 ),
               ],
             ),
-          ),
 
-          const Divider(
-            // height: 52,
-            color: secondaryColors,
-            thickness: 2.0,
-          ),
+            Container(
+              // color: Colors.red,
+              height: 0.08.h(context),
+              width: 1.0.w(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "No of Guests:",
+                    style: myTextStyle(textColor, 0.015.toResponsive(context),
+                        "RobotoRegular"),
+                  ),
+                  Text(
+                    numberGust.toString(),
+                    style: TextStyle(
+                        color: secondaryColors,
+                        fontSize: 0.018.toResponsive(context),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "RobotoRegular"),
+                  ),
 
-          //GeustPersinolinfo
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Guest Personal Info:",
-                style: myTextStyle(
-                    textColor, 0.014.toResponsive(context), "RobotoRegular"),
+                  //btnContainer
+                  Container(
+                    height: 0.045.h(context),
+                    width: 0.35.w(context),
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 207, 218, 226),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                log("increment");
+                              },
+                              child: Image.asset("assets/images/Add icon.png")),
+                          const VerticalDivider(
+                            color: textColor,
+                            width: 10,
+                          ),
+                          InkWell(
+                              onTap: () {},
+                              child: Image.asset(
+                                  "assets/images/subtract icon.png"))
+                        ]),
+                  ),
+                ],
               ),
-              Container(
-                height: 0.050.h(context),
-                width: 0.050.w(context),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/Barcode.png"))),
-              ),
-            ],
-          ),
+            ),
 
-          //Inputs
-          Container(
-            child: Column(children: [
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 2.0),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                height: 0.050.h(context),
-                width: 1.0.w(context),
-                child: CustomeInputs(
-                    textEditingController: nameController,
-                    hintText: "Name",
-                    textinputTypes: TextInputType.text),
-              ),
-              SizedBox(
-                height: 0.015.h(context),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: const BorderRadius.all(Radius.circular(40))),
-                height: 0.05.h(context),
-                width: 1.0.w(context),
-                child: CustomeInputs(
-                    textEditingController: numberController,
-                    hintText: "Number",
-                    textinputTypes: TextInputType.number),
-              ),
-              SizedBox(
-                height: 0.015.h(context),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: const BorderRadius.all(Radius.circular(40))),
-                height: 0.05.h(context),
-                width: 1.0.w(context),
-                child: CustomeInputs(
-                    textEditingController: customernoController,
-                    hintText: "Customer No",
-                    textinputTypes: TextInputType.number),
-              ),
-            ]),
-          ),
-          SizedBox(
-            height: 0.025.h(context),
-          ),
+            const Divider(
+              color: secondaryColors,
+              thickness: 2.0,
+            ),
 
-          //btns
-          Row(
-            children: [
-              CustomBtn(
-                btnTitle: "Reserved",
-                onPressed: () {
-                  Get.back();
-                  // Get.bottomSheet(orderBottomSheet(context));
-                },
-                color: btnSecondaryColor,
-                width: 0.4.w(context),
+            //GeustPersinolinfo
+            Container(
+              height: 0.065.h(context),
+              width: 1.0.w(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Guest Personal Info:",
+                    style: myTextStyle(textColor, 0.015.toResponsive(context),
+                        "RobotoRegular"),
+                  ),
+                  Container(
+                    height: 0.4.h(context),
+                    width: 0.09.w(context),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/Barcode.png"))),
+                  ),
+                ],
               ),
-              18.0.width,
-              CustomBtn(
-                btnTitle: "Start",
-                onPressed: () {
-                  log("hello from non Reserved");
+            ),
 
-                  // tableController.postGuestInfo(
-                  //     guestModel: GuestModel(
-                  //         noOfGuest: 10,
-                  //         number: 25,
-                  //         customerNumber: 351,
-                  //         id: "1",
-                  //         name: "heloooo"));
-                },
-                width: 0.44.w(context),
-              )
-            ],
-          )
-        ],
+            //Inputs
+            Form(
+              child: Column(children: [
+                Container(
+                  height: 0.07.h(context),
+                  width: 1.0.w(context),
+                  child: CustomeInputs(
+                      textEditingController: nameController,
+                      hintText: "Name",
+                      textinputTypes: TextInputType.text),
+                ),
+                SizedBox(
+                  height: 0.01.h(context),
+                ),
+                Container(
+                  height: 0.07.h(context),
+                  width: 1.0.w(context),
+                  child: CustomeInputs(
+                      textEditingController: numberController,
+                      hintText: "Number",
+                      textinputTypes: TextInputType.number),
+                ),
+                SizedBox(
+                  height: 0.01.h(context),
+                ),
+                Container(
+                  color: Colors.red,
+                  height: 0.07.h(context),
+                  width: 1.0.w(context),
+                  child: CustomeInputs(
+                      textEditingController: customernoController,
+                      hintText: "Customer No",
+                      textinputTypes: TextInputType.number),
+                ),
+              ]),
+            ),
+            SizedBox(
+              height: 0.02.h(context),
+            ),
+            //btns
+            Container(
+              height: 0.058.h(context),
+              width: 1.0.w(context),
+
+              // padding: EdgeInsets.all(0.005.toResponsive(context)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomBtn(
+                    height: 0.5.h(context),
+                    btnTitle: "Reserved",
+                    onPressed: () {},
+                    color: btnSecondaryColor,
+                    width: 0.4.w(context),
+                  ),
+                  CustomBtn(
+                    height: 1.0.h(context),
+                    btnTitle: "Start",
+                    onPressed: () {},
+                    width: 0.44.w(context),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 0.02.h(context),
+            ),
+          ],
+        ),
       ),
     );
   }
