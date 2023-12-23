@@ -1,18 +1,36 @@
-class TableModels {
+class TableModel {
+  String tabletype;
+  List<TableItem> tableItem;
+
+  TableModel({
+    required this.tabletype,
+    required this.tableItem,
+  });
+
+  factory TableModel.fromJson(Map<String, dynamic> json) {
+    var dataItem = json['tableItem'] as List;
+    List<TableItem> maptableitem =
+        dataItem.map((items) => TableItem.fromJson(items)).toList();
+
+    return TableModel(tabletype: json['tabletype'], tableItem: maptableitem);
+  }
+}
+
+class TableItem {
   String tableName;
   bool reserved;
-  num noOfGuest;
-  String id;
+  int seat;
 
-  TableModels(
-      {required this.tableName,
-      required this.reserved,
-      required this.noOfGuest,
-      required this.id});
+  TableItem({
+    required this.tableName,
+    required this.reserved,
+    required this.seat,
+  });
 
-  factory TableModels.fromjson(Map<String, dynamic> json) => TableModels(
-      tableName: json['tableName'],
-      reserved: json['reserved'],
-      noOfGuest: json['noOfGuest'],
-      id: json['id']);
+  factory TableItem.fromJson(Map<String, dynamic> json) {
+    return TableItem(
+        tableName: json['tableName'],
+        reserved: json['reserved'],
+        seat: json['seat']);
+  }
 }

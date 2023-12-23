@@ -12,16 +12,14 @@ import 'package:get/get.dart';
 import '../model/tables_model.dart';
 
 class TableController extends GetxController {
-  var products = <TableModels>[].obs;
+  var tables = <TableModel>[].obs;
 
   getTables() async {
-    var url = Uri.parse("${Url.resturentApiEndPoint}/tablename");
+    var url = Uri.parse(Url.tableInfo);
     var response = await http.get(url);
-
     List data = jsonDecode(response.body);
-    products.addAll(data.map((post) => TableModels.fromjson(post)).toList());
-
-    log(response.toString());
+    tables.addAll(data.map((items) => TableModel.fromJson(items)).toList());
+    log(data.toString());
   }
 
 //postInfo

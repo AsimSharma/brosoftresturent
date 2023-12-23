@@ -1,1 +1,1 @@
-final List<String> btnlist = ["All", "Ground Floor", "Coatages", "Hall Room"];
+final List<String> btnlist = ["All", "Ground floor", "Cottage", "Open Garden"];
