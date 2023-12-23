@@ -1,38 +1,38 @@
-class Products {
+class Cruddemo {
   String productName;
-  List<ProductItem> productItem;
+  List<CruddemoItem> productItem;
 
-  Products({
+  Cruddemo({
     required this.productName,
     required this.productItem,
   });
 
-  factory Products.fromJson(Map<String, dynamic> json) {
+  factory Cruddemo.fromJson(Map<String, dynamic> json) {
     var productItem = json['productItem'] as List;
-    List<ProductItem> dproductItem =
-        productItem.map((items) => ProductItem.fromJson(items)).toList();
-    return Products(
+    List<CruddemoItem> dproductItem =
+        productItem.map((items) => CruddemoItem.fromJson(items)).toList();
+    return Cruddemo(
       productName: json['productName'],
       productItem: dproductItem,
     );
   }
 }
 
-class ProductItem {
+class CruddemoItem {
   String itemName;
   int rs;
   bool customize;
   bool veg;
 
-  ProductItem({
+  CruddemoItem({
     required this.itemName,
     required this.rs,
     required this.customize,
     required this.veg,
   });
 
-  factory ProductItem.fromJson(Map<String, dynamic> json) {
-    return ProductItem(
+  factory CruddemoItem.fromJson(Map<String, dynamic> json) {
+    return CruddemoItem(
       itemName: json['itemName'],
       rs: json['rs'],
       customize: json['customize'],

@@ -115,4 +115,26 @@
 //                             ),
 //                           ),
 //                         );
-//                       })),
+//                       })),]
+
+
+
+
+//  Row(children: [
+//                   Text(
+//                     "veg only",
+//                     style: myTextStyle(
+//                         textColor, 0.015.toResponsive(context), "Roboto"),
+//                   ),
+//                   Radio(
+//                     groupValue: selectedRadio,
+//                     value: "helloo",
+//                     onChanged: (value) {
+//                       setState(() {
+//                         selectedRadio != value!;
+
+//                         log(selectedRadio.toString());
+//                       });
+//                     },
+//                   )
+//                 ]),

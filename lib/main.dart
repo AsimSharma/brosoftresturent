@@ -31,20 +31,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: ResturantApp.order, page: () => const OrderScreen()),
         GetPage(name: ResturantApp.message, page: () => const MessageScreen()),
         GetPage(name: ResturantApp.profile, page: () => const ProfileScreen()),
+        // GetPage(
+        //     name: ResturantApp.demoscreen, page: () => const GetDemoProducts()),
       ],
-    );
-  }
-}
-
-class Tablexyx extends StatelessWidget {
-  const Tablexyx({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Demo Table "),
-      ),
     );
   }
 }
