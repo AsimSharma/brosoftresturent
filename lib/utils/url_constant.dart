@@ -5,7 +5,7 @@ class Url {
   static String productsEndPoints =
       "https://demo3876292.mockable.io/productsItem";
 
-  static String tableInfo = "https://demo3876292.mockable.io/tableInfo";
+  static String tableInfo = "https://demo3773503.mockable.io/tableInfo";
 
   static String ordercart = "https://demo3876292.mockable.io/orderCart";
 }

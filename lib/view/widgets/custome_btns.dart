@@ -31,7 +31,11 @@ class CustomBtn extends StatelessWidget {
         child: Center(
             child: Text(
           btnTitle,
-          style: myTextStyle(primary, 0.01.toResponsive(context), 'Roboto'),
+          style: TextStyle(
+              color: primary,
+              fontSize: 0.015.toResponsive(context),
+              fontFamily: 'Nunito',
+              fontWeight: FontWeight.w800),
         )),
       ),
     );

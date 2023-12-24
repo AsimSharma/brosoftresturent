@@ -2,6 +2,7 @@ import 'package:brosoftresturent/utils/routes.dart';
 import 'package:brosoftresturent/view/message/message_screen.dart';
 import 'package:brosoftresturent/view/order/order_screen.dart';
 import 'package:brosoftresturent/view/profile/profile_screen.dart';
+import 'package:brosoftresturent/view/table/screen/SelectedOrder/selected_order.dart';
 import 'package:brosoftresturent/view/table/screen/tablees/table_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -13,9 +14,7 @@ import 'view/home/home.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.dark,
-      statusBarColor: Colors.white,
-      systemNavigationBarColor: Colors.white));
+      statusBarColor: Colors.white, systemNavigationBarColor: Colors.white));
   runApp(const MyApp());
 }
 
@@ -37,8 +36,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: ResturantApp.order, page: () => const OrderScreen()),
         GetPage(name: ResturantApp.message, page: () => const MessageScreen()),
         GetPage(name: ResturantApp.profile, page: () => const ProfileScreen()),
-        // GetPage(
-        //     name: ResturantApp.demoscreen, page: () => const GetDemoProducts()),
+        GetPage(
+            name: ResturantApp.seleOrder, page: () => const SelectedOrder()),
       ],
     );
   }

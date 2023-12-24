@@ -31,17 +31,20 @@ class _CustomeInputsState extends State<CustomeInputs> {
       keyboardType: widget.textinputTypes,
       decoration: InputDecoration(
         hintStyle:
-            myTextStyle(textColor, 0.015.toResponsive(context), "Roboto"),
+            myTextStyle(textColor, 0.015.toResponsive(context), "Nunito"),
         focusColor: primary,
         hoverColor: primary,
         fillColor: primary,
         hintText: widget.hintText,
         filled: true,
         border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(color: secondaryColors, width: 2)),
         enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(color: secondaryColors, width: 2)),
         focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(color: secondaryColors, width: 2)),
       ),
     );

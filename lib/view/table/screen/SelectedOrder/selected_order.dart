@@ -545,12 +545,17 @@ class _SelectedOrderState extends State<SelectedOrder> {
             onTap: () {
               Get.back();
             },
-            child: Container(
-              height: 0.03.h(context),
-              width: 0.03.w(context),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/Back Icon.png"))),
+            child: SizedBox(
+              height: 0.05.h(context),
+              width: 0.05.w(context),
+              child: Container(
+                height: 0.03.h(context),
+                width: 0.03.w(context),
+                decoration: const BoxDecoration(
+                    color: Colors.red,
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/Back Icon.png"))),
+              ),
             ),
           ),
           Text(

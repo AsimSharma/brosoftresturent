@@ -5,4 +5,5 @@ class ResturantApp {
   static const String order = "/order";
   static const String profile = "/profile";
   static const String demoscreen = "/demoscreen";
+  static const String seleOrder = "/seleOrder";
 }
