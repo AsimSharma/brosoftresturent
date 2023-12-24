@@ -3,13 +3,13 @@ import 'package:brosoftresturent/model/ordercartmodel.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
-import 'package:brosoftresturent/view/table/screen/images.dart';
+import 'package:brosoftresturent/view/table/models/images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/products_controller.dart';
-import '../../../model/product_items.dart';
-import '../../order/models/btn_selected_model.dart';
+import '../../../../controller/products_controller.dart';
+import '../../../../model/product_items.dart';
+import '../../../order/models/btn_selected_model.dart';
 
 import 'dart:developer';
 

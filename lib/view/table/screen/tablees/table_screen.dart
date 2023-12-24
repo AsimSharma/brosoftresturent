@@ -3,15 +3,15 @@ import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/table_controller.dart';
-import '../../utils/app_style.dart';
-import '../widgets/custome_btns.dart';
-import '../widgets/custome_inputs.dart';
-import 'models/btnmodels.dart';
+import '../../../../controller/table_controller.dart';
+import '../../../../utils/app_style.dart';
+import '../../../widgets/custome_btns.dart';
+import '../../../widgets/custome_inputs.dart';
+import '../../models/btnmodels.dart';
 
 import 'dart:developer';
 
-import 'models/releted_orderbtn.dart';
+import '../../models/images.dart';
 
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
@@ -76,112 +76,112 @@ class _TableScreenState extends State<TableScreen> {
               height: 0.015.h(context),
             ),
             //tableItems
-            SizedBox(
-              height: 0.6.h(context),
-              width: 1.0.w(context),
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: filterTable.length,
-                  itemBuilder: (context, index1) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            filterTable[index1].tabletype,
-                            style: myTextStyle(secondaryColors,
-                                0.015.toResponsive(context), "Roboto"),
-                          ),
-                          SizedBox(
-                            height: 0.05.w(context),
-                          ),
-                          SizedBox(
-                              // color: Colors.red,
-                              height: 0.5.h(context),
-                              width: 1.0.w(context),
-                              child: GridView.builder(
-                                  itemCount:
-                                      filterTable[index1].tableItem.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3),
-                                  itemBuilder: (context, index2) {
-                                    var tableItems =
-                                        filterTable[index1].tableItem[index2];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        tableItems.reserved == true
-                                            ? Get.bottomSheet(
-                                                bottomSheetReserved(
-                                                    context,
-                                                    tableItems.tableName,
-                                                    tableItems.seat))
-                                            : Get.bottomSheet(
-                                                bottomSheetNoReserved(
-                                                context,
-                                                tableItems.tableName,
-                                                tableItems.seat,
-                                              ));
-                                      },
-                                      child: Card(
-                                        color: tableItems.reserved == true
-                                            ? reservedColor
-                                            : primary,
-                                        margin: const EdgeInsets.all(4),
-                                        child: Stack(children: [
-                                          Positioned(
-                                              top: 0.010.h(context),
-                                              right: 0.02.h(context),
-                                              child: Text(
-                                                tableItems.tableName,
-                                                style: TextStyle(
-                                                    color: secondaryColors,
-                                                    fontSize: 0.019
-                                                        .toResponsive(context),
-                                                    fontWeight: FontWeight.w900,
-                                                    fontFamily: "Roboto"),
-                                              )),
-                                          Positioned(
-                                            bottom: 0.01.h(context),
-                                            child: Row(children: [
-                                              Container(
-                                                height: 0.05.w(context),
-                                                width: 0.08.w(context),
-                                                decoration: const BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image: AssetImage(
-                                                            "assets/images/imageperson.png"))),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "${tableItems.seat} ",
-                                                    style: myTextStyle(
-                                                        secondaryColors,
-                                                        0.015.toResponsive(
-                                                            context),
-                                                        "Roboto"),
-                                                  ),
-                                                  Text(
-                                                    "people",
-                                                    style: myTextStyle(
-                                                        textColor,
-                                                        0.013.toResponsive(
-                                                            context),
-                                                        "Roboto"),
-                                                  )
-                                                ],
-                                              )
-                                            ]),
-                                          ),
-                                        ]),
-                                      ),
-                                    );
-                                  }))
-                        ],
-                      )),
-            )
+            llistedTableItems(context, filterTable)
           ],
         ),
       ),
+    );
+  }
+
+  SizedBox llistedTableItems(
+      BuildContext context, List<TableModel> filterTable) {
+    return SizedBox(
+      height: 0.6.h(context),
+      width: 1.0.w(context),
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: filterTable.length,
+          itemBuilder: (context, index1) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    filterTable[index1].tabletype,
+                    style: myTextStyle(
+                        secondaryColors, 0.015.toResponsive(context), "Roboto"),
+                  ),
+                  SizedBox(
+                    height: 0.05.w(context),
+                  ),
+                  SizedBox(
+                      // color: Colors.red,
+                      height: 0.5.h(context),
+                      width: 1.0.w(context),
+                      child: GridView.builder(
+                          itemCount: filterTable[index1].tableItem.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                          itemBuilder: (context, index2) {
+                            var tableItems =
+                                filterTable[index1].tableItem[index2];
+                            return GestureDetector(
+                              onTap: () {
+                                tableItems.reserved == true
+                                    ? Get.bottomSheet(bottomSheetReserved(
+                                        context,
+                                        tableItems.tableName,
+                                        tableItems.seat))
+                                    : Get.bottomSheet(bottomSheetNoReserved(
+                                        context,
+                                        tableItems.tableName,
+                                        tableItems.seat,
+                                      ));
+                              },
+                              child: Card(
+                                color: tableItems.reserved == true
+                                    ? reservedColor
+                                    : primary,
+                                margin: const EdgeInsets.all(4),
+                                child: Stack(children: [
+                                  Positioned(
+                                      top: 0.010.h(context),
+                                      right: 0.02.h(context),
+                                      child: Text(
+                                        tableItems.tableName,
+                                        style: TextStyle(
+                                            color: secondaryColors,
+                                            fontSize:
+                                                0.019.toResponsive(context),
+                                            fontWeight: FontWeight.w900,
+                                            fontFamily: "Roboto"),
+                                      )),
+                                  Positioned(
+                                    bottom: 0.01.h(context),
+                                    child: Row(children: [
+                                      Container(
+                                        height: 0.05.w(context),
+                                        width: 0.08.w(context),
+                                        decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/imageperson.png"))),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "${tableItems.seat} ",
+                                            style: myTextStyle(
+                                                secondaryColors,
+                                                0.015.toResponsive(context),
+                                                "Roboto"),
+                                          ),
+                                          Text(
+                                            "people",
+                                            style: myTextStyle(
+                                                textColor,
+                                                0.013.toResponsive(context),
+                                                "Roboto"),
+                                          )
+                                        ],
+                                      )
+                                    ]),
+                                  ),
+                                ]),
+                              ),
+                            );
+                          }))
+                ],
+              )),
     );
   }
 
@@ -653,7 +653,7 @@ class _TableScreenState extends State<TableScreen> {
 
   Container orderBottomSheet(BuildContext context) {
     return Container(
-      height: 0.35.h(context),
+      height: 0.4.h(context),
       width: 1.0.toResponsive(context),
       padding: const EdgeInsets.only(left: 20, right: 20),
       decoration: const BoxDecoration(
@@ -668,16 +668,19 @@ class _TableScreenState extends State<TableScreen> {
             children: [
               Text(
                 "Choose Related Order",
-                style: myTextStyle(
-                    secondaryColors, 0.015.toResponsive(context), "Roboto"),
+                style: TextStyle(
+                    color: secondaryColors,
+                    fontSize: 0.017.toResponsive(context),
+                    fontWeight: FontWeight.w800,
+                    fontFamily: "Nunito"),
               ),
               InkWell(
                 onTap: () {
                   Get.back();
                 },
                 child: Container(
-                  height: 40,
-                  width: 40,
+                  height: 0.060.h(context),
+                  width: 0.060.w(context),
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage("assets/images/cance_icons.png"))),
@@ -689,37 +692,66 @@ class _TableScreenState extends State<TableScreen> {
             height: 15,
           ),
           Container(
-            color: Colors.green,
             width: 1.0.w(context),
-            height: 0.45.w(context),
-            child: Container(
-              width: 1.0.w(context),
-              height: 0.45.w(context),
-              child: GridView.builder(
-                  itemCount: reletedOrderMode.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
+            height: 0.55.w(context),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      choseReletedContainer(context,
+                          images: imageListcro[0]['imageName'] ?? "",
+                          name: imageListcro[0]['name'] ?? ""),
+                      SizedBox(
+                        width: 0.013.toResponsive(context),
+                      ),
+                      choseReletedContainer(context,
+                          images: imageListcro[1]['imageName'] ?? "",
+                          name: imageListcro[1]['name'] ?? ""),
+                    ],
                   ),
-                  itemBuilder: (contex, index) {
-                    return Card(
-                      color: Colors.red,
-                      // height: 10,
-                      // width: 0.005.w(context),
-                      // margin: EdgeInsets.all(
-                      //   0.0015.toResponsive(context),
-                      // ),
-                      child: Column(children: [
-                        Image.asset(reletedOrderMode[index].images),
-                        Text(reletedOrderMode[index].name)
-                      ]),
-                    );
-                  }),
-            ),
+                  SizedBox(
+                    height: 0.015.h(context),
+                  ),
+                  choseReletedContainer(context,
+                      images: imageListcro[2]['imageName'] ?? "",
+                      name: imageListcro[2]['name'] ?? ""),
+                ]),
           )
         ],
       ),
+    );
+  }
+
+  Container choseReletedContainer(
+    BuildContext context, {
+    required String images,
+    required String name,
+  }) {
+    return Container(
+      height: 0.13.h(context),
+      width: 0.35.w(context),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          color: primary,
+          border: Border.all(width: 1, color: secondaryColors)),
+      child: Center(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+            Image.asset(images),
+            Text(
+              name,
+              style: TextStyle(
+                  color: secondaryColors,
+                  fontSize: 0.017.toResponsive(context),
+                  fontWeight: FontWeight.w800,
+                  fontFamily: "Nunito"),
+            )
+          ])),
     );
   }
 }
