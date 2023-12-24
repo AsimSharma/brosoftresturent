@@ -1,5 +1,7 @@
 import 'package:brosoftresturent/utils/app_style.dart';
+import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
+import 'package:brosoftresturent/view/table/screen/images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,6 +48,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     }
   }
 
+  bool addOrder = false;
+
   @override
   Widget build(BuildContext context) {
     var filterProduct = _filteredProducts();
@@ -65,12 +69,12 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 //headerSections
                 hederSections(context),
                 SizedBox(
-                  height: 0.011.h(context),
+                  height: 0.004.h(context),
                 ),
                 textSections(context),
                 const Divider(),
                 SizedBox(
-                  height: 0.015.h(context),
+                  height: 0.008.h(context),
                 ),
 
                 seaechBar(context),
@@ -86,7 +90,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 //ui filter
                 SizedBox(
                   width: 1.0.w(context),
-                  height: 0.63.h(context),
+                  height: 0.65.h(context),
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: filterProduct.length,
@@ -94,34 +98,185 @@ class _SelectedOrderState extends State<SelectedOrder> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(filterProduct[index1].productName),
+                          Text(
+                            filterProduct[index1].productName,
+                            style: myTextStyle(secondaryColors,
+                                0.015.toResponsive(context), "Roboto"),
+                          ),
                           SizedBox(
-                            height: 0.25.h(context),
+                            height: 0.0125.h(context),
+                          ),
+                          SizedBox(
+                            height: 0.35.h(context),
                             width: 1.0.w(context),
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount:
                                     filterProduct[index1].productItem.length,
                                 itemBuilder: (context, index2) {
+                                  var productItem =
+                                      filterProduct[index1].productItem[index2];
+                                  var images = imagesList[index2];
                                   return Card(
                                     color: Colors.grey[300],
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const Icon(Icons.abc),
-                                        Text(filterProduct[index1]
-                                            .productItem[index2]
-                                            .itemName
-                                            .capitalize
-                                            .toString()),
-                                        Text(filterProduct[index1]
-                                            .productItem[index2]
-                                            .rs
-                                            .toString()
-                                            .capitalize
-                                            .toString()),
-                                      ],
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: 0.0015.toResponsive(context),
+                                          left: 0.0015.toResponsive(context)),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.asset("${images['imageName']}"),
+                                          SizedBox(
+                                            height: 0.005.toResponsive(context),
+                                          ),
+                                          SizedBox(
+                                            height: 0.015.toResponsive(context),
+                                            width: 0.05.w(context),
+                                            child: Image.asset(
+                                                productItem.veg == false
+                                                    ? AppImages.novegImage
+                                                    : AppImages.vegImages),
+                                          ),
+                                          Text(
+                                            productItem.itemName.capitalize
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: secondaryColors,
+                                                fontSize:
+                                                    0.015.toResponsive(context),
+                                                fontFamily: "Roboto",
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Container(
+                                            height: 0.045.h(context),
+                                            child: Row(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        "assets/images/bluenepali.png"),
+                                                    Text(
+                                                      productItem.rs
+                                                          .toString()
+                                                          .capitalize
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color:
+                                                              secondaryColors,
+                                                          fontSize: 0.015
+                                                              .toResponsive(
+                                                                  context),
+                                                          fontFamily: "Roboto",
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                  ],
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {},
+                                                  child: Text(
+                                                    "Customiasble",
+                                                    style: myTextStyle(
+                                                        Colors.red,
+                                                        0.0125.toResponsive(
+                                                            context),
+                                                        "Roboto"),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          productItem.customize == true
+                                              ? Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 0.025.toResponsive(
+                                                          context),
+                                                      right: 0.025.toResponsive(
+                                                          context)),
+                                                  height: 0.048.h(context),
+                                                  width: 0.3.w(context),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color:
+                                                              secondaryColors,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          15))),
+                                                  child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        InkWell(
+                                                            child: Image.asset(
+                                                                "assets/images/addwhite.png")),
+                                                        Text(
+                                                          "2",
+                                                          style: TextStyle(
+                                                              color: primary,
+                                                              fontSize: 0.013
+                                                                  .toResponsive(
+                                                                      context),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "Roboto"),
+                                                        ),
+                                                        InkWell(
+                                                            child: Image.asset(
+                                                                "assets/images/subwhite.png"))
+                                                      ]),
+                                                )
+                                              : InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      productItem.customize ==
+                                                          false;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          left: 0.020
+                                                              .toResponsive(
+                                                                  context),
+                                                          right: 0.020
+                                                              .toResponsive(
+                                                                  context)),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      10)),
+                                                          border: Border.all(
+                                                              color:
+                                                                  secondaryColors,
+                                                              width: 2)),
+                                                      margin: EdgeInsets.only(
+                                                          left: 0.04
+                                                              .toResponsive(context),
+                                                          right: 0.04.toResponsive(context)),
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        "Add",
+                                                        style: myTextStyle(
+                                                            textColor,
+                                                            0.015.toResponsive(
+                                                                context),
+                                                            "Roboto"),
+                                                      )),
+                                                )
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }),
@@ -188,7 +343,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                   BorderRadius.all(Radius.circular(20))),
                           child: Center(
                             child: Text(
-                              "Add Order",
+                              "View Order",
                               style: myTextStyle(textColor,
                                   0.015.toResponsive(context), "Roboto"),
                             ),
@@ -330,7 +485,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
           Row(
             children: [
               Text(
-                "Table",
+                "Table ",
                 style: myTextStyle(
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
@@ -347,7 +502,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
           Row(
             children: [
               Text(
-                "Guest",
+                "Guest ",
                 style: myTextStyle(
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
@@ -364,7 +519,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
           Row(
             children: [
               Text(
-                "OrderNumber",
+                "Order No",
                 style: myTextStyle(
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
@@ -386,9 +541,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
   Container hederSections(BuildContext context) {
     return Container(
       // color: Colors.red,
-      padding: EdgeInsets.only(top: 0.015.toResponsive(context)),
+      padding: EdgeInsets.only(top: 0.001.toResponsive(context)),
       color: primary,
-      height: 0.08.h(context),
+      height: 0.06.h(context),
       width: 1.0.w(context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
