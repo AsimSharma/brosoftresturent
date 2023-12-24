@@ -4,7 +4,7 @@ class OrderCart {
   int orderNo;
   int totalprices;
   int totalItem;
-  List<PrductItem> productItems;
+  List<ProductItemo> productItems;
 
   OrderCart({
     required this.tableName,
@@ -25,13 +25,13 @@ class OrderCart {
       };
 }
 
-class PrductItem {
+class ProductItemo {
   String itemName;
   int rs;
   bool customize;
   bool veg;
 
-  PrductItem({
+  ProductItemo({
     required this.itemName,
     required this.rs,
     required this.customize,

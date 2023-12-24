@@ -1,3 +1,5 @@
+import 'package:brosoftresturent/controller/order_cart_controller.dart';
+import 'package:brosoftresturent/model/ordercartmodel.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
@@ -48,6 +50,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     }
   }
 
+  final orderCartController = Get.put(OrDerController());
+
   bool addOrder = false;
 
   @override
@@ -88,273 +92,262 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   height: 0.018.h(context),
                 ),
                 //ui filter
-                SizedBox(
-                  width: 1.0.w(context),
-                  height: 0.65.h(context),
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: filterProduct.length,
-                    itemBuilder: (context, index1) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            filterProduct[index1].productName,
-                            style: myTextStyle(secondaryColors,
-                                0.015.toResponsive(context), "Roboto"),
-                          ),
-                          SizedBox(
-                            height: 0.0125.h(context),
-                          ),
-                          SizedBox(
-                            height: 0.35.h(context),
-                            width: 1.0.w(context),
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount:
-                                    filterProduct[index1].productItem.length,
-                                itemBuilder: (context, index2) {
-                                  var productItem =
-                                      filterProduct[index1].productItem[index2];
-                                  var images = imagesList[index2];
-                                  return Card(
-                                    color: Colors.grey[300],
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: 0.0015.toResponsive(context),
-                                          left: 0.0015.toResponsive(context)),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset("${images['imageName']}"),
-                                          SizedBox(
-                                            height: 0.005.toResponsive(context),
-                                          ),
-                                          SizedBox(
-                                            height: 0.015.toResponsive(context),
-                                            width: 0.05.w(context),
-                                            child: Image.asset(
-                                                productItem.veg == false
-                                                    ? AppImages.novegImage
-                                                    : AppImages.vegImages),
-                                          ),
-                                          Text(
-                                            productItem.itemName.capitalize
-                                                .toString(),
-                                            style: TextStyle(
-                                                color: secondaryColors,
-                                                fontSize:
-                                                    0.015.toResponsive(context),
-                                                fontFamily: "Roboto",
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          Container(
-                                            height: 0.045.h(context),
-                                            child: Row(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                        "assets/images/bluenepali.png"),
-                                                    Text(
-                                                      productItem.rs
-                                                          .toString()
-                                                          .capitalize
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color:
-                                                              secondaryColors,
-                                                          fontSize: 0.015
-                                                              .toResponsive(
-                                                                  context),
-                                                          fontFamily: "Roboto",
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  ],
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {},
-                                                  child: Text(
-                                                    "Customiasble",
-                                                    style: myTextStyle(
-                                                        Colors.red,
-                                                        0.0125.toResponsive(
-                                                            context),
-                                                        "Roboto"),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          productItem.customize == true
-                                              ? Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 0.025.toResponsive(
-                                                          context),
-                                                      right: 0.025.toResponsive(
-                                                          context)),
-                                                  height: 0.048.h(context),
-                                                  width: 0.3.w(context),
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          color:
-                                                              secondaryColors,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          15))),
-                                                  child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        InkWell(
-                                                            child: Image.asset(
-                                                                "assets/images/addwhite.png")),
-                                                        Text(
-                                                          "2",
-                                                          style: TextStyle(
-                                                              color: primary,
-                                                              fontSize: 0.013
-                                                                  .toResponsive(
-                                                                      context),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "Roboto"),
-                                                        ),
-                                                        InkWell(
-                                                            child: Image.asset(
-                                                                "assets/images/subwhite.png"))
-                                                      ]),
-                                                )
-                                              : InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      productItem.customize ==
-                                                          false;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          left: 0.020
-                                                              .toResponsive(
-                                                                  context),
-                                                          right: 0.020
-                                                              .toResponsive(
-                                                                  context)),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      10)),
-                                                          border: Border.all(
-                                                              color:
-                                                                  secondaryColors,
-                                                              width: 2)),
-                                                      margin: EdgeInsets.only(
-                                                          left: 0.04
-                                                              .toResponsive(context),
-                                                          right: 0.04.toResponsive(context)),
-                                                      alignment: Alignment.center,
-                                                      child: Text(
-                                                        "Add",
-                                                        style: myTextStyle(
-                                                            textColor,
-                                                            0.015.toResponsive(
-                                                                context),
-                                                            "Roboto"),
-                                                      )),
-                                                )
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                )
+                listviewProducts(context, filterProduct)
               ]),
-              Positioned(
-                  bottom: 20,
-                  child: Container(
-                    height: 0.09.h(context),
-                    width: 0.92.w(context),
-                    decoration: const BoxDecoration(
-                        color: secondaryColors,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 0.05.w(context),
-                        ),
-                        //itemsrs
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "5 items",
-                              style: myTextStyle(primary,
-                                  0.015.toResponsive(context), "Roboto"),
-                            ),
-                            SizedBox(
-                              width: 0.05.w(context),
-                            ),
-                            Image.asset("assets/images/vectro7.png"),
-                            SizedBox(
-                              width: 0.05.w(context),
-                            ),
-                            Row(
-                              children: [
-                                Image.asset("assets/images/nepalirs (1).png"),
-                                Text(
-                                  "680",
-                                  style: myTextStyle(primary,
-                                      0.015.toResponsive(context), "Roboto"),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 0.16.w(context),
-                        ),
-
-                        Container(
-                          height: 0.06.h(context),
-                          width: 0.3.w(context),
-                          decoration: const BoxDecoration(
-                              color: primary,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Center(
-                            child: Text(
-                              "View Order",
-                              style: myTextStyle(textColor,
-                                  0.015.toResponsive(context), "Roboto"),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ))
+              bottomCartBar(context)
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Positioned bottomCartBar(BuildContext context) {
+    return Positioned(
+        bottom: 70,
+        child: Container(
+          height: 0.09.h(context),
+          width: 0.92.w(context),
+          decoration: const BoxDecoration(
+              color: secondaryColors,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 0.05.w(context),
+              ),
+              //itemsrs
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "5 items",
+                    style: myTextStyle(
+                        primary, 0.015.toResponsive(context), "Roboto"),
+                  ),
+                  SizedBox(
+                    width: 0.05.w(context),
+                  ),
+                  Image.asset("assets/images/vectro7.png"),
+                  SizedBox(
+                    width: 0.05.w(context),
+                  ),
+                  Row(
+                    children: [
+                      Image.asset("assets/images/nepalirs (1).png"),
+                      Text(
+                        "680",
+                        style: myTextStyle(
+                            primary, 0.015.toResponsive(context), "Roboto"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 0.16.w(context),
+              ),
+
+              Container(
+                height: 0.06.h(context),
+                width: 0.3.w(context),
+                decoration: const BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Center(
+                  child: Text(
+                    "View Order",
+                    style: myTextStyle(
+                        textColor, 0.015.toResponsive(context), "Roboto"),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+
+  SizedBox listviewProducts(
+      BuildContext context, List<Products> filterProduct) {
+    return SizedBox(
+      width: 1.0.w(context),
+      height: 0.65.h(context),
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: filterProduct.length,
+        itemBuilder: (context, index1) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                filterProduct[index1].productName,
+                style: myTextStyle(
+                    secondaryColors, 0.015.toResponsive(context), "Roboto"),
+              ),
+              SizedBox(
+                height: 0.0125.h(context),
+              ),
+              SizedBox(
+                height: 0.35.h(context),
+                width: 1.0.w(context),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: filterProduct[index1].productItem.length,
+                    itemBuilder: (context, index2) {
+                      var productItem =
+                          filterProduct[index1].productItem[index2];
+                      var images = imagesList[index2];
+                      return Card(
+                        color: Colors.grey[300],
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 0.0015.toResponsive(context),
+                              left: 0.0015.toResponsive(context)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset("${images['imageName']}"),
+                              SizedBox(
+                                height: 0.005.toResponsive(context),
+                              ),
+                              SizedBox(
+                                height: 0.015.toResponsive(context),
+                                width: 0.05.w(context),
+                                child: Image.asset(productItem.veg == false
+                                    ? AppImages.novegImage
+                                    : AppImages.vegImages),
+                              ),
+                              Text(
+                                productItem.itemName.capitalize.toString(),
+                                style: TextStyle(
+                                    color: secondaryColors,
+                                    fontSize: 0.015.toResponsive(context),
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Container(
+                                height: 0.045.h(context),
+                                child: Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                            "assets/images/bluenepali.png"),
+                                        Text(
+                                          productItem.rs
+                                              .toString()
+                                              .capitalize
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: secondaryColors,
+                                              fontSize:
+                                                  0.015.toResponsive(context),
+                                              fontFamily: "Roboto",
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Customiasble",
+                                        style: myTextStyle(
+                                            Colors.red,
+                                            0.0125.toResponsive(context),
+                                            "Roboto"),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              productItem.customize == true
+                                  ? Container(
+                                      margin: EdgeInsets.only(
+                                          left: 0.025.toResponsive(context),
+                                          right: 0.025.toResponsive(context)),
+                                      height: 0.048.h(context),
+                                      width: 0.3.w(context),
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: const BoxDecoration(
+                                          color: secondaryColors,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15))),
+                                      child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            InkWell(
+                                                child: Image.asset(
+                                                    "assets/images/addwhite.png")),
+                                            Text(
+                                              "2",
+                                              style: TextStyle(
+                                                  color: primary,
+                                                  fontSize: 0.013
+                                                      .toResponsive(context),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: "Roboto"),
+                                            ),
+                                            InkWell(
+                                                child: Image.asset(
+                                                    "assets/images/subwhite.png"))
+                                          ]),
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        orderCartController.addOrder(
+                                            products: ProductItemo(
+                                                itemName: productItem.itemName,
+                                                rs: productItem.rs,
+                                                customize:
+                                                    productItem.customize,
+                                                veg: productItem.veg),
+                                            tableName: "2A",
+                                            guestNumber: 5,
+                                            orderNo: 130,
+                                            totalPrices: 350,
+                                            totalItem: 10);
+
+                                        log("heloop ");
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 0.020.toResponsive(context),
+                                              right:
+                                                  0.020.toResponsive(context)),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                              border: Border.all(
+                                                  color: secondaryColors,
+                                                  width: 2)),
+                                          margin: EdgeInsets.only(
+                                              left: 0.04.toResponsive(context),
+                                              right:
+                                                  0.04.toResponsive(context)),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Add",
+                                            style: myTextStyle(
+                                                textColor,
+                                                0.015.toResponsive(context),
+                                                "Roboto"),
+                                          )),
+                                    )
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

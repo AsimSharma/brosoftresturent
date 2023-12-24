@@ -6,13 +6,14 @@ import 'package:brosoftresturent/view/table/table_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 
 import 'view/home/home.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
       statusBarColor: Colors.white,
       systemNavigationBarColor: Colors.white));
   runApp(const MyApp());
@@ -27,8 +28,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: true,
-      ),
+          // useMaterial3: true,
+          ),
       home: const HomeScreen(),
       getPages: [
         GetPage(name: ResturantApp.home, page: () => const HomeScreen()),
