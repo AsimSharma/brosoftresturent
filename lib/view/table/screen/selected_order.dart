@@ -86,7 +86,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 //ui filter
                 SizedBox(
                   width: 1.0.w(context),
-                  height: 0.61.h(context),
+                  height: 0.63.h(context),
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: filterProduct.length,
@@ -133,12 +133,69 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 )
               ]),
               Positioned(
-                  bottom: 10,
-                  child: Row(
-                    children: [
-                      Text("helooo"),
-                      Text("helooo"),
-                    ],
+                  bottom: 20,
+                  child: Container(
+                    height: 0.09.h(context),
+                    width: 0.92.w(context),
+                    decoration: const BoxDecoration(
+                        color: secondaryColors,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 0.05.w(context),
+                        ),
+                        //itemsrs
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "5 items",
+                              style: myTextStyle(primary,
+                                  0.015.toResponsive(context), "Roboto"),
+                            ),
+                            SizedBox(
+                              width: 0.05.w(context),
+                            ),
+                            Image.asset("assets/images/vectro7.png"),
+                            SizedBox(
+                              width: 0.05.w(context),
+                            ),
+                            Row(
+                              children: [
+                                Image.asset("assets/images/nepalirs (1).png"),
+                                Text(
+                                  "680",
+                                  style: myTextStyle(primary,
+                                      0.015.toResponsive(context), "Roboto"),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 0.16.w(context),
+                        ),
+
+                        Container(
+                          height: 0.06.h(context),
+                          width: 0.3.w(context),
+                          decoration: const BoxDecoration(
+                              color: primary,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Center(
+                            child: Text(
+                              "Add Order",
+                              style: myTextStyle(textColor,
+                                  0.015.toResponsive(context), "Roboto"),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ))
             ],
           ),

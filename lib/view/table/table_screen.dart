@@ -60,21 +60,24 @@ class _TableScreenState extends State<TableScreen> {
         ),
         child: Column(
           children: [
-            logoHeader(context),
             SizedBox(
-              height: 0.018.h(context),
+              height: 0.025.h(context),
+            ),
+            SingleChildScrollView(child: logoHeader(context)),
+            SizedBox(
+              height: 0.015.h(context),
             ),
             searchBar(context),
             SizedBox(
-              height: 0.018.h(context),
+              height: 0.015.h(context),
             ),
             selectedBtn(context),
             SizedBox(
-              height: 0.018.h(context),
+              height: 0.015.h(context),
             ),
             //tableItems
             SizedBox(
-              height: 0.65.h(context),
+              height: 0.6.h(context),
               width: 1.0.w(context),
               child: ListView.builder(
                   scrollDirection: Axis.vertical,

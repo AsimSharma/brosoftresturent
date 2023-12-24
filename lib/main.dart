@@ -1,14 +1,21 @@
+import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/routes.dart';
 import 'package:brosoftresturent/view/message/message_screen.dart';
 import 'package:brosoftresturent/view/order/order_screen.dart';
 import 'package:brosoftresturent/view/profile/profile_screen.dart';
 import 'package:brosoftresturent/view/table/table_screen.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'view/home/home.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.light,
+      statusBarColor: Colors.white,
+      systemNavigationBarColor: Colors.white));
   runApp(const MyApp());
 }
 
@@ -21,7 +28,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
