@@ -10,14 +10,21 @@ import 'package:get/get.dart';
 class ProductsController extends GetxController {
   var productList = <Products>[].obs;
   var selectedCategory = "All".obs;
+  var isLooding = false.obs;
 
   //getProductsItems
 
   getProductsItems() async {
-    var url = Uri.parse(Url.productsEndPoints);
-    var response = await http.get(url);
-    List data = jsonDecode(response.body);
-    productList.addAll(data.map((items) => Products.fromJson(items)).toList());
-    log(data.toString());
+    isLooding = true.obs;
+    try {
+      var url = Uri.parse(Url.productsEndPoints);
+      var response = await http.get(url);
+      List data = jsonDecode(response.body);
+      productList
+          .addAll(data.map((items) => Products.fromJson(items)).toList());
+      log(data.toString());
+    } finally {
+      isLooding = false.obs;
+    }
   }
 }

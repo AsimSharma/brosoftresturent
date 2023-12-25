@@ -9,6 +9,7 @@ import "package:http/http.dart" as http;
 import '../model/ordercartmodel.dart';
 
 class OrDerController extends GetxController {
+  var isLooding = false.obs;
   addOrder(
       {required ProductItemo products,
       required String tableName,
@@ -16,6 +17,7 @@ class OrDerController extends GetxController {
       required int orderNo,
       required int totalPrices,
       required int totalItem}) async {
+    isLooding = true.obs;
     try {
       log("this addOrder in cart");
 
@@ -39,6 +41,8 @@ class OrDerController extends GetxController {
       log(res.body.toString());
     } catch (err) {
       log(err.toString());
+    } finally {
+      isLooding = false.obs;
     }
   }
 }

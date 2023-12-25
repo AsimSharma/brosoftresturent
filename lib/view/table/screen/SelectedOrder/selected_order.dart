@@ -92,7 +92,12 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   height: 0.018.h(context),
                 ),
                 //ui filter
-                listviewProducts(context, filterProduct)
+
+                Obx(() => productsController.isLooding == true.obs
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : listviewProducts(context, filterProduct))
               ]),
               bottomCartBar(context)
             ],

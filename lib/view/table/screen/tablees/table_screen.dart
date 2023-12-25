@@ -83,7 +83,11 @@ class _TableScreenState extends State<TableScreen> {
               height: 0.015.h(context),
             ),
             //tableItems
-            llistedTableItems(context, filterTable)
+            Obx(() => tableComtroller.isLooding == true.obs
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : llistedTableItems(context, filterTable))
           ],
         ),
       ),
