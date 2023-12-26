@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:brosoftresturent/model/guest_userInfo.dart';
-import 'package:brosoftresturent/model/product_items.dart';
+
 import 'package:brosoftresturent/utils/url_constant.dart';
 
 import 'package:http/http.dart' as http;
@@ -21,31 +21,33 @@ class TableController extends GetxController {
 
   var reserved = false.obs;
 
-  increaseSeat(numberTotalguest) {
-    if (numberTotalguest > noofseat) {
+  increaseSeat(int tableIndex1, int tableIndex2) {
+    var currentTable = tables[tableIndex1].tableItem[tableIndex2];
+    if (noofseat < currentTable.seat) {
       noofseat++;
     } else {
-      noofseat = 0.obs;
+      Get.snackbar("helooo", "numner cannot be maximum");
     }
   }
 
-  dectasrseSeat() {
-    if (noofseat <= 0) {
-      noofseat = noofseat;
-      log("cantnot add less than Zero");
-    } else {
+  decreaseSeat(int tableIndex1, int tableIndex2) {
+    // var currentTable = tables[tableIndex1].tableItem[tableIndex2];
+    if (noofseat > 0) {
       noofseat--;
+    } else {
+      noofseat = 0.obs;
+      Get.snackbar("helooo", "numner cannot be less than Zero");
     }
-    log(noofseat.toString());
   }
 
   changeReserved(int index1, int index2) {
-    if (tables[index1].tableItem[index2].reserved = true) {
-      reserved = false.obs;
-    }
-    {
-      reserved = true.obs;
-    }
+    var currentTable = tables[index1].tableItem[index2];
+    log(currentTable.reserved.toString());
+    reserved == currentTable.reserved
+        ? reserved = true.obs
+        : reserved = false.obs;
+
+    log(reserved.toString());
   }
 
   getTables() async {

@@ -13,8 +13,6 @@ import '../../models/btnmodels.dart';
 
 import '../../models/images.dart';
 
-import 'dart:developer';
-
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
 
@@ -45,8 +43,7 @@ class _TableScreenState extends State<TableScreen> {
     super.initState();
   }
 
-  // bool reserved = false;
-  int addGuests = 0;
+  bool reservedww = false;
 
   final nameController = TextEditingController();
   final numberController = TextEditingController();
@@ -134,60 +131,63 @@ class _TableScreenState extends State<TableScreen> {
                                     context,
                                     tableItems.tableName,
                                     tableItems.seat,
-                                    tableItems.reserved));
+                                    index1,
+                                    index2));
                               },
-                              child: Card(
-                                color: tableItems.reserved == true
-                                    ? reservedColor
-                                    : primary,
-                                margin: EdgeInsets.all(
-                                    0.0051.toResponsive(context)),
-                                child: Stack(children: [
-                                  Positioned(
-                                      top: 0.010.h(context),
-                                      right: 0.02.h(context),
-                                      child: Text(
-                                        tableItems.tableName,
-                                        style: TextStyle(
-                                            color: secondaryColors,
-                                            fontSize:
-                                                0.017.toResponsive(context),
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: "Roboto"),
-                                      )),
-                                  Positioned(
-                                    bottom: 0.01.h(context),
-                                    child: Row(children: [
-                                      Container(
-                                        height: 0.03.w(context),
-                                        width: 0.05.w(context),
-                                        child: Image.asset(
-                                          "assets/images/imageperson.png",
-                                          fit: BoxFit.contain,
-                                          filterQuality: FilterQuality.high,
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "${tableItems.seat} ",
-                                            style: myTextStyle(
-                                                secondaryColors,
-                                                0.015.toResponsive(context),
-                                                "Roboto"),
+                              child: Obx(
+                                () => Card(
+                                  color: tableComtroller.reserved == true.obs
+                                      ? reservedColor
+                                      : primary,
+                                  margin: EdgeInsets.all(
+                                      0.0051.toResponsive(context)),
+                                  child: Stack(children: [
+                                    Positioned(
+                                        top: 0.010.h(context),
+                                        right: 0.02.h(context),
+                                        child: Text(
+                                          tableItems.tableName,
+                                          style: TextStyle(
+                                              color: secondaryColors,
+                                              fontSize:
+                                                  0.017.toResponsive(context),
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: "Roboto"),
+                                        )),
+                                    Positioned(
+                                      bottom: 0.01.h(context),
+                                      child: Row(children: [
+                                        Container(
+                                          height: 0.03.w(context),
+                                          width: 0.05.w(context),
+                                          child: Image.asset(
+                                            "assets/images/imageperson.png",
+                                            fit: BoxFit.contain,
+                                            filterQuality: FilterQuality.high,
                                           ),
-                                          Text(
-                                            "people",
-                                            style: myTextStyle(
-                                                textColor,
-                                                0.011.toResponsive(context),
-                                                "Nunito"),
-                                          )
-                                        ],
-                                      )
-                                    ]),
-                                  ),
-                                ]),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${tableItems.seat} ",
+                                              style: myTextStyle(
+                                                  secondaryColors,
+                                                  0.015.toResponsive(context),
+                                                  "Roboto"),
+                                            ),
+                                            Text(
+                                              "people",
+                                              style: myTextStyle(
+                                                  textColor,
+                                                  0.011.toResponsive(context),
+                                                  "Nunito"),
+                                            )
+                                          ],
+                                        )
+                                      ]),
+                                    ),
+                                  ]),
+                                ),
                               ),
                             );
                           }))
@@ -325,138 +325,138 @@ class _TableScreenState extends State<TableScreen> {
   }
 
 //bottomSheetReserved
-  Container bottomSheetReserved(
-      BuildContext context, String tableNumber, num numberGust) {
-    return Container(
-      height: 0.4.h(context),
-      width: 1.0.toResponsive(context),
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      decoration: const BoxDecoration(
-          color: primary,
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(40), topLeft: Radius.circular(40))),
-      child: Column(children: [
-        SizedBox(
-          height: 0.03.h(context),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Container(
-              height: 0.04.h(context),
-              width: 0.1.w(context),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/cance_icons.png"))),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 0.03.h(context),
-        ),
-        Row(
-          children: [
-            Text(
-              "Table",
-              style: myTextStyle(
-                  textColor, 0.018.toResponsive(context), "RobotoRegular"),
-            ),
-            SizedBox(
-              width: 0.005.w(context),
-            ),
-            Text(
-              tableNumber,
-              style: TextStyle(
-                  color: secondaryColors,
-                  fontSize: 0.017.toResponsive(context),
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w900),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 0.03.h(context),
-        ),
-        Container(
-          padding: EdgeInsets.all(0.005.toResponsive(context)),
-          height: 0.07.h(context),
-          width: 1.0.w(context),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "No of Guests:",
-                style: myTextStyle(
-                    textColor, 0.017.toResponsive(context), "RobotoRegular"),
-              ),
-              Text(
-                numberGust.toString(),
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.017.toResponsive(context),
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w900),
-              ),
+  // Container bottomSheetReserved(
+  //     BuildContext context, String tableNumber, num numberGust) {
+  //   return Container(
+  //     height: 0.4.h(context),
+  //     width: 1.0.toResponsive(context),
+  //     padding: const EdgeInsets.only(left: 20, right: 20),
+  //     decoration: const BoxDecoration(
+  //         color: primary,
+  //         borderRadius: BorderRadius.only(
+  //             topRight: Radius.circular(40), topLeft: Radius.circular(40))),
+  //     child: Column(children: [
+  //       SizedBox(
+  //         height: 0.03.h(context),
+  //       ),
+  //       Align(
+  //         alignment: Alignment.topRight,
+  //         child: InkWell(
+  //           onTap: () {
+  //             Get.back();
+  //           },
+  //           child: Container(
+  //             height: 0.04.h(context),
+  //             width: 0.1.w(context),
+  //             decoration: const BoxDecoration(
+  //                 image: DecorationImage(
+  //                     image: AssetImage("assets/images/cance_icons.png"))),
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(
+  //         height: 0.03.h(context),
+  //       ),
+  //       Row(
+  //         children: [
+  //           Text(
+  //             "Table",
+  //             style: myTextStyle(
+  //                 textColor, 0.018.toResponsive(context), "RobotoRegular"),
+  //           ),
+  //           SizedBox(
+  //             width: 0.005.w(context),
+  //           ),
+  //           Text(
+  //             tableNumber,
+  //             style: TextStyle(
+  //                 color: secondaryColors,
+  //                 fontSize: 0.017.toResponsive(context),
+  //                 fontFamily: 'Roboto',
+  //                 fontWeight: FontWeight.w900),
+  //           ),
+  //         ],
+  //       ),
+  //       SizedBox(
+  //         height: 0.03.h(context),
+  //       ),
+  //       Container(
+  //         padding: EdgeInsets.all(0.005.toResponsive(context)),
+  //         height: 0.07.h(context),
+  //         width: 1.0.w(context),
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "No of Guests:",
+  //               style: myTextStyle(
+  //                   textColor, 0.017.toResponsive(context), "RobotoRegular"),
+  //             ),
+  //             Text(
+  //               numberGust.toString(),
+  //               style: TextStyle(
+  //                   color: secondaryColors,
+  //                   fontSize: 0.017.toResponsive(context),
+  //                   fontFamily: 'Roboto',
+  //                   fontWeight: FontWeight.w900),
+  //             ),
 
-              //btnContainer
-              Container(
-                height: 35,
-                width: 150,
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 207, 218, 226),
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(child: Image.asset("assets/images/Add icon.png")),
-                      const VerticalDivider(
-                        color: textColor,
-                        width: 10,
-                      ),
-                      InkWell(
-                          child: Image.asset("assets/images/subtract icon.png"))
-                    ]),
-              ),
-            ],
-          ),
-        ),
+  //             //btnContainer
+  //             Container(
+  //               height: 35,
+  //               width: 150,
+  //               padding: const EdgeInsets.all(10),
+  //               decoration: const BoxDecoration(
+  //                   color: Color.fromARGB(255, 207, 218, 226),
+  //                   borderRadius: BorderRadius.all(Radius.circular(15))),
+  //               child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     InkWell(child: Image.asset("assets/images/Add icon.png")),
+  //                     const VerticalDivider(
+  //                       color: textColor,
+  //                       width: 10,
+  //                     ),
+  //                     InkWell(
+  //                         child: Image.asset("assets/images/subtract icon.png"))
+  //                   ]),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
 
-        SizedBox(
-          height: 0.04.h(context),
-        ),
-        //btns
-        Container(
-          height: 0.08.h(context),
-          width: 1.0.w(context),
-          padding: EdgeInsets.all(0.005.toResponsive(context)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomBtn(
-                btnTitle: "Reserved",
-                onPressed: () {},
-                color: btnSecondaryColor,
-                width: 0.4.w(context),
-              ),
-              CustomBtn(
-                btnTitle: "Start",
-                onPressed: () {},
-                width: 0.44.w(context),
-              )
-            ],
-          ),
-        )
-      ]),
-    );
-  }
+  //       SizedBox(
+  //         height: 0.04.h(context),
+  //       ),
+  //       //btns
+  //       Container(
+  //         height: 0.08.h(context),
+  //         width: 1.0.w(context),
+  //         padding: EdgeInsets.all(0.005.toResponsive(context)),
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             CustomBtn(
+  //               btnTitle: "Reserved",
+  //               onPressed: () {},
+  //               color: btnSecondaryColor,
+  //               width: 0.4.w(context),
+  //             ),
+  //             CustomBtn(
+  //               btnTitle: "Start",
+  //               onPressed: () {},
+  //               width: 0.44.w(context),
+  //             )
+  //           ],
+  //         ),
+  //       )
+  //     ]),
+  //   );
+  // }
 
   //nonReserved
-  Container bottomSheetNoReserved(
-      BuildContext context, String tableName, int numberGust, bool reserved) {
+  Container bottomSheetNoReserved(BuildContext context, String tableName,
+      int numberGust, int index1, int index2) {
     return Container(
       height: 2.0.h(context),
       width: 1.0.w(context),
@@ -529,13 +529,15 @@ class _TableScreenState extends State<TableScreen> {
                         fontWeight: FontWeight.w800),
                   ),
 
-                  Text(
-                    addGuests.toString(),
-                    style: TextStyle(
-                        color: secondaryColors,
-                        fontSize: 0.017.toResponsive(context),
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w900),
+                  Obx(
+                    () => Text(
+                      tableComtroller.noofseat.toString(),
+                      style: TextStyle(
+                          color: secondaryColors,
+                          fontSize: 0.017.toResponsive(context),
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w900),
+                    ),
                   ),
 
                   //btnContainer
@@ -551,10 +553,9 @@ class _TableScreenState extends State<TableScreen> {
                         children: [
                           InkWell(
                               onTap: () {
-                                setState(() {
-                                  addGuests = addGuests - 1;
-                                  log(addGuests.toString());
-                                });
+                                tableComtroller.decreaseSeat(index1, index2);
+
+                                tableComtroller.getTables();
                               },
                               child: SizedBox(
                                 height: 0.2.h(context),
@@ -568,10 +569,8 @@ class _TableScreenState extends State<TableScreen> {
                           ),
                           InkWell(
                               onTap: () {
-                                setState(() {
-                                  addGuests = addGuests + 1;
-                                  log(addGuests.toString());
-                                });
+                                tableComtroller.increaseSeat(index1, index2);
+                                tableComtroller.getTables();
                               },
                               child: SizedBox(
                                   height: 0.2.h(context),
@@ -667,10 +666,9 @@ class _TableScreenState extends State<TableScreen> {
                     height: 0.5.h(context),
                     btnTitle: "Reserved",
                     onPressed: () {
-                      setState(() {
-                        reserved = !reserved;
-                        log(reserved.toString());
-                      });
+                      tableComtroller.changeReserved(index1, index2);
+                      // tableComtroller.getTables();
+                      // Get.back();
                     },
                     color: btnSecondaryColor,
                     width: 0.4.w(context),
@@ -679,8 +677,9 @@ class _TableScreenState extends State<TableScreen> {
                     height: 1.0.h(context),
                     btnTitle: "Start",
                     onPressed: () {
-                      Get.back();
                       Get.bottomSheet(orderBottomSheet(context));
+                      tableComtroller.getTables();
+                      Get.back();
                     },
                     width: 0.44.w(context),
                   )
