@@ -1,43 +1,71 @@
+import 'package:brosoftresturent/model/product_items.dart';
+import 'package:uuid/uuid.dart';
+
+const uuid = Uuid();
+
 class OrderCart {
+  String orderId;
   String tableName;
-  int guest;
+  int totalGuest;
   int orderNo;
   int totalprices;
-  int totalItem;
-  List<ProductItemo> productItems;
+  List<ProductItem> productItems;
 
   OrderCart({
+    String? orderId,
     required this.tableName,
-    required this.guest,
+    required this.totalGuest,
     required this.orderNo,
     required this.totalprices,
-    required this.totalItem,
     required this.productItems,
-  });
+  }) : orderId = orderId ?? uuid.v1();
+
+  factory OrderCart.fromJson(Map<String, dynamic> json) {
+    var data = json['productItems'] as List;
+    List<ProductItem> dataa = data
+        .map(
+          (item) => ProductItem.fromJson(item),
+        )
+        .toList();
+    return OrderCart(
+      tableName: json['tableName'],
+      totalGuest: json['totalGuest'],
+      orderNo: json['orderNo'],
+      totalprices: json['totalprices'],
+      productItems: dataa,
+    );
+  }
 
   Map<String, dynamic> tojson() => {
         "tableName": tableName,
-        "guest": guest,
+        "totalGuest": totalGuest,
         "orderNo": orderNo,
         "totalprices": totalprices,
-        "totalItem": totalItem,
         "productItems": productItems
       };
 }
 
-class ProductItemo {
-  String itemName;
-  int rs;
-  bool customize;
-  bool veg;
+// class OrderProductItem {
+//   String id;
+//   String name;
+//   int prices;
+//   int quantity;
 
-  ProductItemo({
-    required this.itemName,
-    required this.rs,
-    required this.customize,
-    required this.veg,
-  });
+//   OrderProductItem(
+//       {String? id,
+//       required this.name,
+//       required this.prices,
+//       required this.quantity})
+//       : id = id ?? uuid.v1();
 
-  Map<String, dynamic> toJson() =>
-      {"itemName": itemName, "rs": rs, "customer": customize, "veg": veg};
-}
+//   factory OrderProductItem.fromJson(Map<String, dynamic> json) {
+//     return OrderProductItem(
+//         id: json['id'],
+//         name: json['name'],
+//         prices: json['prices'],
+//         quantity: json['quntity']);
+//   }
+
+//   Map<String, dynamic> toJson() =>
+//       {"id": id, "name": name, "prices": prices, "quantity": quantity};
+// }

@@ -2,7 +2,7 @@ import 'package:brosoftresturent/utils/routes.dart';
 import 'package:brosoftresturent/view/message/message_screen.dart';
 import 'package:brosoftresturent/view/order/order_screen.dart';
 import 'package:brosoftresturent/view/profile/profile_screen.dart';
-import 'package:brosoftresturent/view/table/screen/SelectedOrder/selected_order.dart';
+
 import 'package:brosoftresturent/view/table/screen/tablees/table_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -36,8 +36,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: ResturantApp.order, page: () => const OrderScreen()),
         GetPage(name: ResturantApp.message, page: () => const MessageScreen()),
         GetPage(name: ResturantApp.profile, page: () => const ProfileScreen()),
-        GetPage(
-            name: ResturantApp.seleOrder, page: () => const SelectedOrder()),
       ],
     );
   }

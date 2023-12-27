@@ -12,6 +12,7 @@ import '../../../widgets/custome_inputs.dart';
 import '../../models/btnmodels.dart';
 
 import '../../models/images.dart';
+import 'dart:developer';
 
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
@@ -79,6 +80,7 @@ class _TableScreenState extends State<TableScreen> {
             SizedBox(
               height: 0.015.h(context),
             ),
+
             //tableItems
             Obx(() => tableComtroller.isLooding == true.obs
                 ? const Center(
@@ -677,9 +679,11 @@ class _TableScreenState extends State<TableScreen> {
                     height: 1.0.h(context),
                     btnTitle: "Start",
                     onPressed: () {
-                      Get.bottomSheet(orderBottomSheet(context));
-                      tableComtroller.getTables();
                       Get.back();
+                      Get.bottomSheet(orderBottomSheet(
+                        context,
+                      ));
+                      // tableComtroller.getTables();
                     },
                     width: 0.44.w(context),
                   )
@@ -695,7 +699,9 @@ class _TableScreenState extends State<TableScreen> {
     );
   }
 
-  Container orderBottomSheet(BuildContext context) {
+  Container orderBottomSheet(
+    BuildContext context,
+  ) {
     return Container(
       height: 0.4.h(context),
       width: 1.0.toResponsive(context),
@@ -745,15 +751,19 @@ class _TableScreenState extends State<TableScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      choseReletedContainer(context,
-                          images: imageListcro[0]['imageName'] ?? "",
-                          name: imageListcro[0]['name'] ?? ""),
+                      choseReletedContainer(
+                        context,
+                        images: imageListcro[0]['imageName'] ?? "",
+                        name: imageListcro[0]['name'] ?? "",
+                      ),
                       SizedBox(
                         width: 0.013.toResponsive(context),
                       ),
-                      choseReletedContainer(context,
-                          images: imageListcro[1]['imageName'] ?? "",
-                          name: imageListcro[1]['name'] ?? ""),
+                      choseReletedContainer(
+                        context,
+                        images: imageListcro[1]['imageName'] ?? "",
+                        name: imageListcro[1]['name'] ?? "",
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -776,6 +786,10 @@ class _TableScreenState extends State<TableScreen> {
   }) {
     return InkWell(
       onTap: () {
+        Get.back();
+        // Random random = Random();
+        // int randomNumber2 = random.nextInt(100) + 1; // from 1 to 100 included
+
         Get.to(const SelectedOrder());
       },
       child: Container(

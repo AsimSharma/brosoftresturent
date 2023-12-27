@@ -1,20 +1,23 @@
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
-import 'package:brosoftresturent/model/ordercartmodel.dart';
+
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
+import 'package:brosoftresturent/view/table/screen/SelectedOrder/confirm_selected_order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../controller/products_controller.dart';
 import '../../../../model/product_items.dart';
-import '../../../order/models/btn_selected_model.dart';
+import '../../models/btn_selected_model.dart';
 
 import 'dart:developer';
 
 class SelectedOrder extends StatefulWidget {
-  const SelectedOrder({super.key});
+  const SelectedOrder({
+    super.key,
+  });
 
   @override
   State<SelectedOrder> createState() => _SelectedOrderState();
@@ -59,126 +62,140 @@ class _SelectedOrderState extends State<SelectedOrder> {
     var filterProduct = _filteredProducts();
 
     return Scaffold(
+      bottomNavigationBar: bottomCartBar(context),
       body: SafeArea(
         child: Container(
-          height: double.infinity,
+          height: 0.92.h(context),
           width: double.infinity,
           padding: EdgeInsets.only(
             left: 0.012.toResponsive(context),
             right: 0.012.toResponsive(context),
           ),
-          child: Stack(
-            children: [
+          child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                //headerSections
-                hederSections(context),
-                SizedBox(
-                  height: 0.004.h(context),
-                ),
-                textSections(context),
-                const Divider(),
-                SizedBox(
-                  height: 0.008.h(context),
-                ),
+            //headerSections
+            hederSections(context),
+            SizedBox(
+              height: 0.004.h(context),
+            ),
+            textSections(context, "2A", 5, 110),
+            const Divider(),
+            SizedBox(
+              height: 0.008.h(context),
+            ),
 
-                seaechBar(context),
+            seaechBar(context),
 
-                SizedBox(
-                  height: 0.015.h(context),
-                ),
-                //btnSelected
-                btnSelecteForItem(context),
-                SizedBox(
-                  height: 0.018.h(context),
-                ),
-                //ui filter
+            SizedBox(
+              height: 0.015.h(context),
+            ),
+            //btnSelected
+            selectedBtn(context),
+            SizedBox(
+              height: 0.018.h(context),
+            ),
+            //ui filter
 
-                Obx(() => productsController.isLooding == true.obs
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : listviewProducts(context, filterProduct))
-              ]),
-              bottomCartBar(context)
-            ],
-          ),
+            Obx(() => productsController.isLooding == true.obs
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : listviewProducts(context, filterProduct))
+          ]),
         ),
       ),
     );
   }
 
-  Positioned bottomCartBar(BuildContext context) {
-    return Positioned(
-        bottom: 70,
-        child: Container(
-          height: 0.09.h(context),
-          width: 0.92.w(context),
-          decoration: const BoxDecoration(
-              color: secondaryColors,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 0.05.w(context),
-              ),
-              //itemsrs
+  Container bottomCartBar(BuildContext context) {
+    return Container(
+      height: 0.08.h(context),
+      width: 1.0.w(context),
+      margin: EdgeInsets.all(0.002.toResponsive(context)),
+      decoration: const BoxDecoration(
+          color: secondaryColors,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 0.05.w(context),
+          ),
+          //itemsrs
 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Obx(
+                    () => Text(
+                      orderCartController.getTotalItems().toString(),
+                      style: myTextStyle(
+                          primary, 0.015.toResponsive(context), "Roboto"),
+                    ),
+                  ),
                   Text(
-                    "5 items",
+                    " items",
                     style: myTextStyle(
                         primary, 0.015.toResponsive(context), "Roboto"),
-                  ),
-                  SizedBox(
-                    width: 0.05.w(context),
-                  ),
-                  Image.asset("assets/images/vectro7.png"),
-                  SizedBox(
-                    width: 0.05.w(context),
-                  ),
-                  Row(
-                    children: [
-                      Image.asset("assets/images/nepalirs (1).png"),
-                      Text(
-                        "680",
-                        style: myTextStyle(
-                            primary, 0.015.toResponsive(context), "Roboto"),
-                      ),
-                    ],
-                  ),
+                  )
                 ],
               ),
               SizedBox(
-                width: 0.16.w(context),
+                width: 0.05.w(context),
               ),
-
-              Container(
-                height: 0.06.h(context),
-                width: 0.3.w(context),
-                decoration: const BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Center(
-                  child: Text(
-                    "View Order",
-                    style: myTextStyle(
-                        textColor, 0.015.toResponsive(context), "Roboto"),
+              Image.asset("assets/images/vectro7.png"),
+              SizedBox(
+                width: 0.05.w(context),
+              ),
+              Row(
+                children: [
+                  Image.asset("assets/images/nepalirs (1).png"),
+                  Obx(
+                    () => Text(
+                      orderCartController.calculateTotalPrices().toString(),
+                      style: myTextStyle(
+                          primary, 0.015.toResponsive(context), "Roboto"),
+                    ),
                   ),
-                ),
-              )
+                ],
+              ),
             ],
           ),
-        ));
+          SizedBox(
+            width: 0.16.w(context),
+          ),
+
+          InkWell(
+            onTap: () {
+              Get.to(const ConfirmOrderScreen());
+            },
+            child: Container(
+              height: 0.06.h(context),
+              width: 0.3.w(context),
+              decoration: const BoxDecoration(
+                  color: primary,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Center(
+                child: Text(
+                  "View Order",
+                  style: myTextStyle(
+                      textColor, 0.015.toResponsive(context), "Roboto"),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   SizedBox listviewProducts(
       BuildContext context, List<Products> filterProduct) {
     return SizedBox(
       width: 1.0.w(context),
-      height: 0.65.h(context),
+      height: 0.58.h(context),
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: filterProduct.length,
@@ -225,7 +242,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                     : AppImages.vegImages),
                               ),
                               Text(
-                                productItem.itemName.capitalize.toString(),
+                                productItem.name.capitalize.toString(),
                                 style: TextStyle(
                                     color: secondaryColors,
                                     fontSize: 0.015.toResponsive(context),
@@ -241,7 +258,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                         Image.asset(
                                             "assets/images/bluenepali.png"),
                                         Text(
-                                          productItem.rs
+                                          productItem.prices
                                               .toString()
                                               .capitalize
                                               .toString(),
@@ -254,21 +271,64 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                         ),
                                       ],
                                     ),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        "Customiasble",
-                                        style: myTextStyle(
-                                            Colors.red,
-                                            0.0125.toResponsive(context),
-                                            "Roboto"),
-                                      ),
-                                    )
+                                    productItem.customize == true
+                                        ? TextButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              "Customiasble",
+                                              style: myTextStyle(
+                                                  Colors.red,
+                                                  0.0125.toResponsive(context),
+                                                  "Roboto"),
+                                            ),
+                                          )
+                                        : const Text("")
                                   ],
                                 ),
                               ),
-                              productItem.customize == true
-                                  ? Container(
+                              orderCartController.getProductsID().toString() !=
+                                      productItem.id
+                                  ? InkWell(
+                                      onTap: () {
+                                        orderCartController.addtoCart(
+                                            "2A",
+                                            5,
+                                            189,
+                                            productItem.prices,
+                                            [
+                                              filterProduct[index1]
+                                                  .productItem[index2],
+                                            ],
+                                            productItem.id);
+                                        orderCartController.getProductsID();
+                                        log("This is data ${filterProduct[index1].productItem[index2].name}");
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 0.020.toResponsive(context),
+                                              right:
+                                                  0.020.toResponsive(context)),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                              border: Border.all(
+                                                  color: secondaryColors,
+                                                  width: 2)),
+                                          margin: EdgeInsets.only(
+                                              left: 0.04.toResponsive(context),
+                                              right:
+                                                  0.04.toResponsive(context)),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Add",
+                                            style: myTextStyle(
+                                                textColor,
+                                                0.015.toResponsive(context),
+                                                "Roboto"),
+                                          )),
+                                    )
+                                  : Container(
                                       margin: EdgeInsets.only(
                                           left: 0.025.toResponsive(context),
                                           right: 0.025.toResponsive(context)),
@@ -302,48 +362,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                     "assets/images/subwhite.png"))
                                           ]),
                                     )
-                                  : InkWell(
-                                      onTap: () {
-                                        orderCartController.addOrder(
-                                            products: ProductItemo(
-                                                itemName: productItem.itemName,
-                                                rs: productItem.rs,
-                                                customize:
-                                                    productItem.customize,
-                                                veg: productItem.veg),
-                                            tableName: "2A",
-                                            guestNumber: 5,
-                                            orderNo: 130,
-                                            totalPrices: 350,
-                                            totalItem: 10);
-
-                                        log("heloop ");
-                                      },
-                                      child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 0.020.toResponsive(context),
-                                              right:
-                                                  0.020.toResponsive(context)),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10)),
-                                              border: Border.all(
-                                                  color: secondaryColors,
-                                                  width: 2)),
-                                          margin: EdgeInsets.only(
-                                              left: 0.04.toResponsive(context),
-                                              right:
-                                                  0.04.toResponsive(context)),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "Add",
-                                            style: myTextStyle(
-                                                textColor,
-                                                0.015.toResponsive(context),
-                                                "Roboto"),
-                                          )),
-                                    )
                             ],
                           ),
                         ),
@@ -357,44 +375,41 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container btnSelecteForItem(BuildContext context) {
+  Container selectedBtn(BuildContext context) {
     return Container(
-      padding: EdgeInsets.zero,
-      height: 0.04.h(context),
-      width: 1.0.w(context),
       // color: Colors.red,
-      child: Row(
-        children: [
-          ...List.generate(
-              btnlistOrder.length,
-              (index) => InkWell(
-                    onTap: () {
-                      setState(() {
-                        btnTapIndex = index;
-                        log(btnTapIndex.toString());
-                      });
-                    },
-                    child: Container(
-                      height: 0.5.h(context),
-                      width: 0.22.w(context),
-                      margin: const EdgeInsets.only(left: 1),
-                      decoration: BoxDecoration(
-                          color:
-                              btnTapIndex == index ? secondaryColors : primary,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20))),
-                      child: Center(
-                          child: Text(
-                        btnlistOrder[index],
-                        style: myTextStyle(
-                            btnTapIndex != index ? secondaryColors : primary,
-                            0.0095.toResponsive(context),
-                            " Roboto"),
-                      )),
-                    ),
-                  ))
-        ],
-      ),
+      margin: EdgeInsets.only(left: 0.00015.toResponsive(context)),
+      padding: EdgeInsets.only(left: 0.00008.toResponsive(context)),
+      height: 0.05.h(context),
+      width: 1.0.w(context),
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: btnlistOrder.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  btnTapIndex = index;
+                });
+              },
+              child: Container(
+                height: 0.8.h(context),
+                width: 0.27.w(context),
+                margin: const EdgeInsets.only(left: 5),
+                decoration: BoxDecoration(
+                    color: btnTapIndex == index ? secondaryColors : primary,
+                    borderRadius: const BorderRadius.all(Radius.circular(50))),
+                child: Center(
+                    child: Text(
+                  btnlistOrder[index],
+                  style: myTextStyle(
+                      btnTapIndex != index ? secondaryColors : primary,
+                      0.0134.toResponsive(context),
+                      " Roboto"),
+                )),
+              ),
+            );
+          }),
     );
   }
 
@@ -428,14 +443,17 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   ),
                 ),
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search by table or category",
-                      hintStyle: myTextStyle(
-                          textColor, 0.011.toResponsive(context), "Roboto"),
-                      border: InputBorder.none,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Search by table or category",
+                        hintStyle: myTextStyle(
+                            textColor, 0.011.toResponsive(context), "Roboto"),
+                        border: InputBorder.none,
+                      ),
+                      keyboardType: TextInputType.text,
                     ),
-                    keyboardType: TextInputType.text,
                   ),
                 ),
               ],
@@ -472,7 +490,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container textSections(BuildContext context) {
+  Container textSections(BuildContext context, String tableName,
+      int guestNumber, int orderNumber) {
     return Container(
       height: 0.05.h(context),
       margin: EdgeInsets.only(left: 0.0015.toResponsive(context)),
@@ -488,7 +507,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
               Text(
-                "2A",
+                tableName,
                 style: TextStyle(
                     color: secondaryColors,
                     fontSize: 0.015.toResponsive(context),
@@ -505,7 +524,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
               Text(
-                "5",
+                guestNumber.toString(),
                 style: TextStyle(
                     color: secondaryColors,
                     fontSize: 0.015.toResponsive(context),
@@ -522,7 +541,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
               Text(
-                "150",
+                orderNumber.toString(),
                 style: TextStyle(
                     color: secondaryColors,
                     fontSize: 0.015.toResponsive(context),
@@ -554,10 +573,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
               height: 0.05.h(context),
               width: 0.05.w(context),
               child: Container(
-                height: 0.03.h(context),
-                width: 0.03.w(context),
+                height: 0.025.h(context),
+                width: 0.02.w(context),
                 decoration: const BoxDecoration(
-                    color: Colors.red,
                     image: DecorationImage(
                         image: AssetImage("assets/images/Back Icon.png"))),
               ),

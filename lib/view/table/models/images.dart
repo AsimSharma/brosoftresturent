@@ -6,7 +6,7 @@ List<Map<String, String>> imagesList = [
 ];
 
 List<Map<String, String>> imageListcro = [
-  {"imageName": "assets/images/Meal.png", "name": "Meals"},
+  {"imageName": "assets/images/meal.png", "name": "Meals"},
   {"imageName": "assets/images/Beverages.png", "name": "Beverages"},
   {"imageName": "assets/images/Dessert.png", "name": "Dessert"},
 ];
