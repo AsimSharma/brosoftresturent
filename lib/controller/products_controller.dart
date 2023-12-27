@@ -11,8 +11,7 @@ class ProductsController extends GetxController {
   var productList = <Products>[].obs;
   var selectedCategory = "All".obs;
   var isLooding = false.obs;
-
-  //getProductsItems
+  var quantity = 0.obs;
 
   getProductsItems() async {
     isLooding = true.obs;
@@ -25,6 +24,31 @@ class ProductsController extends GetxController {
       log(data.toString());
     } finally {
       isLooding = false.obs;
+    }
+  }
+
+  incrementQuantity(String id) {
+    for (var product in productList) {
+      for (var productItem in product.productItem) {
+        if (productItem.id == id) {
+          productItem.quantity++;
+          quantity.value = productItem.quantity;
+        }
+      }
+    }
+  }
+
+  decrementQuantity(String id) {
+    for (var product in productList) {
+      for (var productItem in product.productItem) {
+        if (productItem.id == id) {
+          if (productItem.quantity > 0) {
+            productItem.quantity--;
+            quantity.value = productItem.quantity;
+            break;
+          }
+        }
+      }
     }
   }
 }

@@ -443,9 +443,8 @@ class _TableScreenState extends State<TableScreen> {
                         children: [
                           InkWell(
                               onTap: () {
-                                tableComtroller.decreaseSeat(index1, index2);
-
-                                tableComtroller.getTables();
+                                tableComtroller.decreaseSeat(
+                                    context, index1, index2);
                               },
                               child: SizedBox(
                                 height: 0.2.h(context),
@@ -459,8 +458,8 @@ class _TableScreenState extends State<TableScreen> {
                           ),
                           InkWell(
                               onTap: () {
-                                tableComtroller.increaseSeat(index1, index2);
-                                tableComtroller.getTables();
+                                tableComtroller.increaseSeat(
+                                    context, index1, index2);
                               },
                               child: SizedBox(
                                   height: 0.2.h(context),

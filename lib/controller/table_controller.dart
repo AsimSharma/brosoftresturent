@@ -6,6 +6,8 @@ import 'dart:developer';
 import 'package:brosoftresturent/model/guest_userInfo.dart';
 
 import 'package:brosoftresturent/utils/url_constant.dart';
+import 'package:brosoftresturent/view/widgets/toast_message.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -21,22 +23,22 @@ class TableController extends GetxController {
 
   var reserved = false.obs;
 
-  increaseSeat(int tableIndex1, int tableIndex2) {
+  increaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
     var currentTable = tables[tableIndex1].tableItem[tableIndex2];
     if (noofseat < currentTable.seat) {
       noofseat++;
     } else {
-      Get.snackbar("helooo", "numner cannot be maximum");
+      showToast(context, "yo cant add more seats");
     }
   }
 
-  decreaseSeat(int tableIndex1, int tableIndex2) {
+  decreaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
     // var currentTable = tables[tableIndex1].tableItem[tableIndex2];
     if (noofseat > 0) {
       noofseat--;
     } else {
       noofseat = 0.obs;
-      Get.snackbar("helooo", "numner cannot be less than Zero");
+      showToast(context, "numner cannot be less than Zero");
     }
   }
 
