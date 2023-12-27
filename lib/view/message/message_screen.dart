@@ -11,7 +11,7 @@ import '../demo/demo_post_screen.dart';
 import 'dart:developer';
 
 import '../table/models/images.dart';
-import '../table/screen/SelectedOrder/selected_order.dart';
+import '../SelectedOrder/selected_order.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});

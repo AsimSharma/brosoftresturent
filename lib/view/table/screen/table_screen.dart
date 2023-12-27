@@ -1,17 +1,17 @@
 import 'package:brosoftresturent/model/tables_model.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 
-import 'package:brosoftresturent/view/table/screen/SelectedOrder/selected_order.dart';
+import 'package:brosoftresturent/view/SelectedOrder/selected_order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../controller/table_controller.dart';
-import '../../../../utils/app_style.dart';
-import '../../../widgets/custome_btns.dart';
-import '../../../widgets/custome_inputs.dart';
-import '../../models/btnmodels.dart';
+import '../../../controller/table_controller.dart';
+import '../../../utils/app_style.dart';
+import '../../widgets/custome_btns.dart';
+import '../../widgets/custome_inputs.dart';
+import '../models/btnmodels.dart';
 
-import '../../models/images.dart';
+import '../models/images.dart';
 import 'dart:developer';
 
 class TableScreen extends StatefulWidget {

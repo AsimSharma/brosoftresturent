@@ -4,13 +4,13 @@ import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
-import 'package:brosoftresturent/view/table/screen/SelectedOrder/confirm_selected_order.dart';
+import 'package:brosoftresturent/view/SelectedOrder/confirm_selected_order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../controller/products_controller.dart';
-import '../../../../model/product_items.dart';
-import '../../models/btn_selected_model.dart';
+import '../../controller/products_controller.dart';
+import '../../model/product_items.dart';
+import '../table/models/btn_selected_model.dart';
 
 import 'dart:developer';
 
@@ -291,17 +291,15 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                   ? InkWell(
                                       onTap: () {
                                         orderCartController.addtoCart(
-                                            "2A",
-                                            5,
-                                            189,
-                                            productItem.prices,
-                                            [
-                                              filterProduct[index1]
-                                                  .productItem[index2],
-                                            ],
-                                            productItem.id);
-                                        orderCartController.getProductsID();
-                                        log("This is data ${filterProduct[index1].productItem[index2].name}");
+                                          "2A",
+                                          5,
+                                          189,
+                                          productItem.prices,
+                                          [
+                                            filterProduct[index1]
+                                                .productItem[index2],
+                                          ],
+                                        );
                                       },
                                       child: Container(
                                           padding: EdgeInsets.only(

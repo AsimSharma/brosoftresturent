@@ -3,7 +3,7 @@ import 'package:brosoftresturent/view/message/message_screen.dart';
 import 'package:brosoftresturent/view/order/order_screen.dart';
 import 'package:brosoftresturent/view/profile/profile_screen.dart';
 
-import 'package:brosoftresturent/view/table/screen/tablees/table_screen.dart';
+import 'package:brosoftresturent/view/table/screen/table_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

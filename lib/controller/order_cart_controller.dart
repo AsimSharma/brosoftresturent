@@ -46,8 +46,13 @@ class OrDerController extends GetxController {
   //   }
   // }
 
-  addtoCart(String tableName, int totalGuest, int orderNo, int totalprices,
-      List<ProductItem> productItems, String id) {
+  addtoCart(
+    String tableName,
+    int totalGuest,
+    int orderNo,
+    int totalprices,
+    List<ProductItem> productItems,
+  ) {
     OrderCart orderCart = OrderCart(
       tableName: tableName,
       totalGuest: totalGuest,
@@ -56,25 +61,24 @@ class OrDerController extends GetxController {
       productItems: productItems,
     );
 
-    ordercart.add(orderCart);
+    log(productItems[0].id.toString());
+
     // for (var data in ordercart) {
-    //   for (var dataa in data.productItems) {
-    //     // final existingIndex =
-    //     //     data.productItems.indexWhere((item) => item.id == id);
+    //   log(data.toString());
+    //   int index = data.productItems
+    //       .indexWhere((i) => i.id == productItems[0].id.toString());
+    //   log(index.toString());
 
-    //     // if (existingIndex != -1) {
-    //     //   data.productItems[existingIndex].quantity += 1;
-
-    //     //   log("only add items ${data.productItems[existingIndex].quantity}");
-    //     // } else {
-    //     //   ordercart.add(orderCart);
-    //     //   log("ADD NEW ITEMS");
-    //     // }
-
+    //   if (index != -1) {
+    //     // updateProduct(product, product.qty + 1);
     //     ordercart.add(orderCart);
-    //     log("ADD NEW ITEMS");
+    //     log("heloloo");
+    //   } else {
+    //     ordercart.add(orderCart);
     //   }
     // }
+
+    ordercart.add(orderCart);
   }
 
   int getTotalItems() {
@@ -82,19 +86,17 @@ class OrDerController extends GetxController {
     for (var item in ordercart) {
       for (var iteem in item.productItems) {
         total += iteem.quantity;
-        log(" this tootal item in cart ${iteem.quantity}");
       }
     }
 
     return total;
   }
 
-  int calculateTotalPrices() {
-    int totalPrices = 0;
+  double calculateTotalPrices() {
+    double totalPrices = 0.0;
     for (var item in ordercart) {
       for (var iteem in item.productItems) {
         totalPrices += iteem.prices * iteem.quantity;
-        log("$totalPrices");
       }
     }
     return totalPrices;
@@ -105,13 +107,20 @@ class OrDerController extends GetxController {
     for (var item in ordercart) {
       for (var iteem in item.productItems) {
         productsId = iteem.id;
-        log("this is product id ${productsId.toString()}");
       }
     }
     return productsId;
   }
 
-  increment() {}
+// updateProduct(product, qty) {
+//     int index = cart.indexWhere((i) => i.id == product.id);
+//     cart[index].qty = qty;
+//     if (cart[index].qty == 0)
+//       removeProduct(product);
+
+//     calculateTotal();
+//     notifyListeners();
+//   }
 
   // void increaseItemQuantity(CartItem item) {
   //   final index = cartItems.indexOf(item);
