@@ -43,3 +43,29 @@
 //     }
 //   }
 // }
+
+
+
+// updateProduct(product, qty) {
+//     int index = cart.indexWhere((i) => i.id == product.id);
+//     cart[index].qty = qty;
+//     if (cart[index].qty == 0)
+//       removeProduct(product);
+
+//     calculateTotal();
+//     notifyListeners();
+//   }
+
+  // void increaseItemQuantity(CartItem item) {
+  //   final index = cartItems.indexOf(item);
+  //   if (index != -1) {
+  //     cartItems[index].quantity++;
+  //   }
+  // }
+
+  // void decreaseItemQuantity(CartItem item) {
+  //   final index = cartItems.indexOf(item);
+  //   if (index != -1 && cartItems[index].quantity > 1) {
+  //     cartItems[index].quantity--;
+  //   }
+  // }

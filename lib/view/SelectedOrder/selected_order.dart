@@ -5,7 +5,9 @@ import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
 import 'package:brosoftresturent/view/SelectedOrder/confirm_selected_order.dart';
+import 'package:brosoftresturent/view/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../../controller/products_controller.dart';
@@ -116,7 +118,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
           color: secondaryColors,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
             width: 0.05.w(context),
@@ -169,7 +171,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
           InkWell(
             onTap: () {
-              Get.to(const ConfirmOrderScreen());
+              orderCartController.ordercart.isEmpty
+                  ? showToast(context, "Add something in cart")
+                  : Get.to(const ConfirmOrderScreen());
             },
             child: Container(
               height: 0.06.h(context),
@@ -185,7 +189,10 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 ),
               ),
             ),
-          )
+          ),
+          SizedBox(
+            width: 0.026.w(context),
+          ),
         ],
       ),
     );
@@ -290,7 +297,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                       productItem.id
                                   ? InkWell(
                                       onTap: () {
-                                        orderCartController.addtoCart(
+                                        orderCartController.addtoCart11(
                                           "2A",
                                           5,
                                           189,

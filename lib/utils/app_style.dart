@@ -6,6 +6,7 @@ const Color btnPrimaryColor = Color(0xff1C277B);
 const Color btnSecondaryColor = Color.fromARGB(255, 249, 171, 171);
 const Color textColor = Color(0xff000000);
 const Color reservedColor = Color.fromARGB(255, 249, 171, 171);
+const Color btnBghColor = Color.fromARGB(255, 224, 226, 241);
 
 myTextStyle(Color colors, double fontSize, String fontFamily) {
   return TextStyle(color: colors, fontSize: fontSize, fontFamily: fontFamily);

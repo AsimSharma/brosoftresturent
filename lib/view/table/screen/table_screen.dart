@@ -23,7 +23,6 @@ class TableScreen extends StatefulWidget {
 
 class _TableScreenState extends State<TableScreen> {
   int btnTapIndex = 0;
-
   final tableComtroller = Get.put(TableController());
 
   List<TableModel> filterItems() {
@@ -42,6 +41,11 @@ class _TableScreenState extends State<TableScreen> {
     btnTapIndex = 0;
     tableComtroller.getTables();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   bool reservedww = false;
@@ -96,7 +100,7 @@ class _TableScreenState extends State<TableScreen> {
   Container llistedTableItems(
       BuildContext context, List<TableModel> filterTable) {
     return Container(
-      height: 0.63.h(context),
+      height: 0.62.h(context),
       width: 1.0.w(context),
       child: ListView.builder(
           shrinkWrap: false,
@@ -227,13 +231,19 @@ class _TableScreenState extends State<TableScreen> {
                   children: [
                     Text(
                       logoText,
-                      style: myTextStyle(
-                          textColor, 0.018.toResponsive(context), "Roboto"),
+                      style: TextStyle(
+                          color: textColor,
+                          fontSize: 0.019.toResponsive(context),
+                          fontFamily: "Nunito",
+                          fontWeight: FontWeight.w900),
                     ),
                     Text(
                       address,
-                      style: myTextStyle(
-                          textColor, 0.011.toResponsive(context), "Roboto"),
+                      style: TextStyle(
+                          color: textColor,
+                          fontSize: 0.012.toResponsive(context),
+                          fontFamily: "Nunito",
+                          fontWeight: FontWeight.w900),
                     )
                   ],
                 ),
@@ -250,7 +260,7 @@ class _TableScreenState extends State<TableScreen> {
   }
 
   Container searchBar(BuildContext context) => Container(
-        height: 0.06.h(context),
+        height: 0.065.h(context),
         width: 1.0.w(context),
         margin: EdgeInsets.only(left: 0.0055.toResponsive(context)),
         decoration: BoxDecoration(
@@ -273,15 +283,23 @@ class _TableScreenState extends State<TableScreen> {
                 ),
               ),
             ),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search by table or category",
-                  hintStyle: myTextStyle(
-                      textColor, 0.015.toResponsive(context), "Roboto"),
-                  border: InputBorder.none,
+            SizedBox(
+              height: 0.89.h(context),
+              width: 0.7.w(context),
+              child: Padding(
+                padding: EdgeInsets.all(0.0037.toResponsive(context)),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Search by table or category",
+                    hintStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 0.014.toResponsive(context),
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.w900),
+                    border: InputBorder.none,
+                  ),
+                  keyboardType: TextInputType.text,
                 ),
-                keyboardType: TextInputType.text,
               ),
             ),
           ],
@@ -325,136 +343,6 @@ class _TableScreenState extends State<TableScreen> {
           }),
     );
   }
-
-//bottomSheetReserved
-  // Container bottomSheetReserved(
-  //     BuildContext context, String tableNumber, num numberGust) {
-  //   return Container(
-  //     height: 0.4.h(context),
-  //     width: 1.0.toResponsive(context),
-  //     padding: const EdgeInsets.only(left: 20, right: 20),
-  //     decoration: const BoxDecoration(
-  //         color: primary,
-  //         borderRadius: BorderRadius.only(
-  //             topRight: Radius.circular(40), topLeft: Radius.circular(40))),
-  //     child: Column(children: [
-  //       SizedBox(
-  //         height: 0.03.h(context),
-  //       ),
-  //       Align(
-  //         alignment: Alignment.topRight,
-  //         child: InkWell(
-  //           onTap: () {
-  //             Get.back();
-  //           },
-  //           child: Container(
-  //             height: 0.04.h(context),
-  //             width: 0.1.w(context),
-  //             decoration: const BoxDecoration(
-  //                 image: DecorationImage(
-  //                     image: AssetImage("assets/images/cance_icons.png"))),
-  //           ),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         height: 0.03.h(context),
-  //       ),
-  //       Row(
-  //         children: [
-  //           Text(
-  //             "Table",
-  //             style: myTextStyle(
-  //                 textColor, 0.018.toResponsive(context), "RobotoRegular"),
-  //           ),
-  //           SizedBox(
-  //             width: 0.005.w(context),
-  //           ),
-  //           Text(
-  //             tableNumber,
-  //             style: TextStyle(
-  //                 color: secondaryColors,
-  //                 fontSize: 0.017.toResponsive(context),
-  //                 fontFamily: 'Roboto',
-  //                 fontWeight: FontWeight.w900),
-  //           ),
-  //         ],
-  //       ),
-  //       SizedBox(
-  //         height: 0.03.h(context),
-  //       ),
-  //       Container(
-  //         padding: EdgeInsets.all(0.005.toResponsive(context)),
-  //         height: 0.07.h(context),
-  //         width: 1.0.w(context),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "No of Guests:",
-  //               style: myTextStyle(
-  //                   textColor, 0.017.toResponsive(context), "RobotoRegular"),
-  //             ),
-  //             Text(
-  //               numberGust.toString(),
-  //               style: TextStyle(
-  //                   color: secondaryColors,
-  //                   fontSize: 0.017.toResponsive(context),
-  //                   fontFamily: 'Roboto',
-  //                   fontWeight: FontWeight.w900),
-  //             ),
-
-  //             //btnContainer
-  //             Container(
-  //               height: 35,
-  //               width: 150,
-  //               padding: const EdgeInsets.all(10),
-  //               decoration: const BoxDecoration(
-  //                   color: Color.fromARGB(255, 207, 218, 226),
-  //                   borderRadius: BorderRadius.all(Radius.circular(15))),
-  //               child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                   children: [
-  //                     InkWell(child: Image.asset("assets/images/Add icon.png")),
-  //                     const VerticalDivider(
-  //                       color: textColor,
-  //                       width: 10,
-  //                     ),
-  //                     InkWell(
-  //                         child: Image.asset("assets/images/subtract icon.png"))
-  //                   ]),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-
-  //       SizedBox(
-  //         height: 0.04.h(context),
-  //       ),
-  //       //btns
-  //       Container(
-  //         height: 0.08.h(context),
-  //         width: 1.0.w(context),
-  //         padding: EdgeInsets.all(0.005.toResponsive(context)),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             CustomBtn(
-  //               btnTitle: "Reserved",
-  //               onPressed: () {},
-  //               color: btnSecondaryColor,
-  //               width: 0.4.w(context),
-  //             ),
-  //             CustomBtn(
-  //               btnTitle: "Start",
-  //               onPressed: () {},
-  //               width: 0.44.w(context),
-  //             )
-  //           ],
-  //         ),
-  //       )
-  //     ]),
-  //   );
-  // }
 
   //nonReserved
   Container bottomSheetNoReserved(BuildContext context, String tableName,

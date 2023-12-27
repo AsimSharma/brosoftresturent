@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 import "dart:developer";
 
+import 'order_placed_screen.dart';
+
 class ConfirmOrderScreen extends StatelessWidget {
   const ConfirmOrderScreen({super.key});
 
@@ -40,63 +42,73 @@ class ConfirmOrderScreen extends StatelessWidget {
                 height: 0.008.h(context),
               ),
               confirmOrderList(context, orderController),
-              Container(
-                height: 0.2.h(context),
-                width: 1.0.w(context),
-                child: Row(children: [
-                  //left
-                  Container(
-                    child: Row(children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50)),
-                          border: Border.all(
-                              color: const Color(0xFF000000), width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.add_rounded,
-                          color: secondaryColors,
-                          size: 15,
-                        ),
-                      ),
-                      Text(
-                        "Add More Item",
-                        style: TextStyle(
-                            color: textColor,
-                            fontFamily: "RobotoRegular",
-                            fontWeight: FontWeight.w900,
-                            fontSize: 0.014.toResponsive(context)),
-                      )
-                    ]),
-                  ),
-                  //right
-                  Container(
-                    width: 0.6.w(context),
-                    height: 1.0.h(context),
-                    child: Column(children: [
-                      textData(
-                          context,
-                          "Total",
-                          orderController.calculateTotalPrices(),
-                          secondaryColors,
-                          "nepalirupees.png",
-                          "Roboto",
-                          FontWeight.w500),
-                      textData(context, "Service Tax", 120.0, Colors.grey,
-                          "nepalirupees.png", "Roboto", FontWeight.w400),
-                      textData(context, "Vat 13%", 120.0, Colors.grey,
-                          "nepalirupees.png", "Roboto", FontWeight.w400),
-                      textData(context, "Grand Total", 120.0, secondaryColors,
-                          "paisanilo.png", "Roboto", FontWeight.w900),
-                    ]),
-                  )
-                ]),
-              )
+              grandTotaL(context, orderController)
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Container grandTotaL(BuildContext context, OrDerController orderController) {
+    return Container(
+      height: 0.17.h(context),
+      width: 1.0.w(context),
+      padding: const EdgeInsets.all(10),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        //left
+        InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            height: 0.06.h(context),
+            padding: EdgeInsets.all(0.010.toResponsive(context)),
+            decoration: const BoxDecoration(
+                color: btnBghColor,
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            child: Row(children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
+                  border: Border.all(color: const Color(0xFF000000), width: 2),
+                ),
+                child: const Icon(
+                  Icons.add_rounded,
+                  color: secondaryColors,
+                  size: 15,
+                ),
+              ),
+              SizedBox(
+                width: 0.016.w(context),
+              ),
+              Text(
+                "Add More Item",
+                style: TextStyle(
+                    color: textColor,
+                    fontFamily: "RobotoRegular",
+                    fontWeight: FontWeight.w900,
+                    fontSize: 0.014.toResponsive(context)),
+              )
+            ]),
+          ),
+        ),
+        //right
+        Container(
+          // width: 0.6.w(context),
+          height: 1.0.h(context),
+          child: Column(children: [
+            textData(context, "Total", orderController.calculateTotalPrices(),
+                secondaryColors, "nepalirupees.png", "Roboto", FontWeight.w500),
+            textData(context, "Service Tax", orderController.getServicTax(),
+                Colors.grey, "nepalirupees.png", "Roboto", FontWeight.w400),
+            textData(context, "Vat 13%", orderController.getVatTax(),
+                Colors.grey, "nepalirupees.png", "Roboto", FontWeight.w400),
+            textData(context, "Grand Total", orderController.grandTotalPrices(),
+                secondaryColors, "paisanilo.png", "Roboto", FontWeight.w900),
+          ]),
+        )
+      ]),
     );
   }
 
@@ -390,7 +402,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                   Image.asset("assets/images/nepalirs (1).png"),
                   Obx(
                     () => Text(
-                      orderController.calculateTotalPrices().toString(),
+                      orderController.grandTotalPrices().toString(),
                       style: myTextStyle(
                           primary, 0.015.toResponsive(context), "Roboto"),
                     ),
@@ -405,7 +417,7 @@ class ConfirmOrderScreen extends StatelessWidget {
 
           InkWell(
             onTap: () {
-              Get.to(const ConfirmOrderScreen());
+              Get.to(const OrderPlacedSucess());
             },
             child: Container(
               height: 0.06.h(context),

@@ -46,14 +46,14 @@ class OrDerController extends GetxController {
   //   }
   // }
 
-  addtoCart(
+  addtoCart11(
     String tableName,
     int totalGuest,
     int orderNo,
     int totalprices,
     List<ProductItem> productItems,
   ) {
-    OrderCart orderCart = OrderCart(
+    OrderCart neworderCart = OrderCart(
       tableName: tableName,
       totalGuest: totalGuest,
       orderNo: orderNo,
@@ -64,21 +64,22 @@ class OrDerController extends GetxController {
     log(productItems[0].id.toString());
 
     // for (var data in ordercart) {
-    //   log(data.toString());
-    //   int index = data.productItems
-    //       .indexWhere((i) => i.id == productItems[0].id.toString());
-    //   log(index.toString());
+    //   for (var dataa in data.productItems) {
+    //     log(data.toString());
+    //     int index = data.productItems
+    //         .indexWhere((i) => i.id == productItems[0].id.toString());
+    //     log(index.toString());
 
-    //   if (index != -1) {
-    //     // updateProduct(product, product.qty + 1);
-    //     ordercart.add(orderCart);
-    //     log("heloloo");
-    //   } else {
-    //     ordercart.add(orderCart);
+    //     if (index != -1) {
+    //       // updateProduct(product, product.qty + 1);
+    //       ordercart.add(neworderCart);
+    //       log("heloloo");
+    //     } else {
+    //       ordercart.add(neworderCart);
+    //     }
     //   }
     // }
-
-    ordercart.add(orderCart);
+    ordercart.add(neworderCart);
   }
 
   int getTotalItems() {
@@ -112,27 +113,64 @@ class OrDerController extends GetxController {
     return productsId;
   }
 
-// updateProduct(product, qty) {
-//     int index = cart.indexWhere((i) => i.id == product.id);
-//     cart[index].qty = qty;
-//     if (cart[index].qty == 0)
-//       removeProduct(product);
+  clearCart() {
+    ordercart = <OrderCart>[].obs;
+    log(ordercart.length.toString());
+  }
 
-//     calculateTotal();
-//     notifyListeners();
-//   }
+  double grandTotalPrices() {
+    double totalPrices = calculateTotalPrices();
 
-  // void increaseItemQuantity(CartItem item) {
-  //   final index = cartItems.indexOf(item);
-  //   if (index != -1) {
-  //     cartItems[index].quantity++;
-  //   }
-  // }
+    double serviceTax = getServicTax();
+    double vaTax = getVatTax();
 
-  // void decreaseItemQuantity(CartItem item) {
-  //   final index = cartItems.indexOf(item);
-  //   if (index != -1 && cartItems[index].quantity > 1) {
-  //     cartItems[index].quantity--;
+    double grandTotalPrices = totalPrices + serviceTax + vaTax;
+
+    log(totalPrices.toString());
+
+    return grandTotalPrices.roundToDouble();
+  }
+
+  double getServicTax() {
+    double totalPrices = calculateTotalPrices();
+    double serviceTaxCalc = totalPrices * 13 / 100;
+
+    return serviceTaxCalc;
+  }
+
+  double getVatTax() {
+    //vat tax 13 %
+    double totalPrices = calculateTotalPrices();
+    double vattaxCalc = totalPrices * 13 / 100;
+
+    return vattaxCalc;
+  }
+
+  // addUpdateOrderItem(
+  //   String tableName,
+  //   int totalGuest,
+  //   int orderNo,
+  //   int totalprices,
+  //   List<ProductItem> productItems,
+  // ) {
+  //   OrderCart neworderCart = OrderCart(
+  //     tableName: tableName,
+  //     totalGuest: totalGuest,
+  //     orderNo: orderNo,
+  //     totalprices: totalprices,
+  //     productItems: productItems,
+  //   );
+
+  //   var existingOrder = ordercart.firstWhere(
+  //     (order) =>
+  //         order.productItems.any((item) => item.id == productItems[0].id),
+  //   );
+
+  //   if (existingOrder != null) {
+  //   } else {
+  //     // If product is not in any order, create a new order
+
+  //     ordercart.add(neworderCart);
   //   }
   // }
 }
