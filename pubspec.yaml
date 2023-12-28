@@ -78,6 +78,10 @@ flutter:
       fonts:
         - asset: assets/fonts/Nunito-VariableFont_wght.ttf
 
+    - family: Abhaya
+      fonts:
+        - asset: assets/fonts/AbhayaLibre-Regular.ttf   
+
         
 
   # To add assets to your application, add an assets section, like this:

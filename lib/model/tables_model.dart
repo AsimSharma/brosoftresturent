@@ -1,3 +1,7 @@
+import 'package:uuid/uuid.dart';
+
+const uuid = Uuid();
+
 class TableModel {
   String tabletype;
   List<TableItem> tableItem;
@@ -20,12 +24,14 @@ class TableItem {
   String tableName;
   bool reserved;
   int seat;
+  String id;
 
   TableItem({
+    String? id,
     required this.tableName,
     required this.reserved,
     required this.seat,
-  });
+  }) : id = id ?? uuid.v1();
 
   factory TableItem.fromJson(Map<String, dynamic> json) {
     return TableItem(

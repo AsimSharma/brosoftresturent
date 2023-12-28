@@ -305,15 +305,15 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                           log(productItem.quantity.toString());
 
                                           orderCartController.addtoCart11(
-                                            "2A",
-                                            5,
-                                            189,
-                                            productItem.prices,
-                                            [
-                                              filterProduct[index1]
-                                                  .productItem[index2],
-                                            ],
-                                          );
+                                              "2A",
+                                              5,
+                                              189,
+                                              productItem.prices,
+                                              [
+                                                filterProduct[index1]
+                                                    .productItem[index2],
+                                              ],
+                                              productItem.id);
                                         },
                                         child: Container(
                                             padding: EdgeInsets.only(

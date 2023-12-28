@@ -10,6 +10,7 @@ class OrDerController extends GetxController {
   var isLooding = false.obs;
   var ordercart = <OrderCart>[].obs;
 
+//add order to the database
   // addOrder(
   //     {required ProductItemo products,
   //     required String tableName,
@@ -46,13 +47,8 @@ class OrDerController extends GetxController {
   //   }
   // }
 
-  addtoCart11(
-    String tableName,
-    int totalGuest,
-    int orderNo,
-    int totalprices,
-    List<ProductItem> productItems,
-  ) {
+  addtoCart11(String tableName, int totalGuest, int orderNo, int totalprices,
+      List<ProductItem> productItems, String id) {
     OrderCart neworderCart = OrderCart(
       tableName: tableName,
       totalGuest: totalGuest,
@@ -61,7 +57,7 @@ class OrDerController extends GetxController {
       productItems: productItems,
     );
 
-    log(productItems[0].id.toString());
+    ordercart.add(neworderCart);
 
     // for (var data in ordercart) {
     //   for (var dataa in data.productItems) {
@@ -79,7 +75,6 @@ class OrDerController extends GetxController {
     //     }
     //   }
     // }
-    ordercart.add(neworderCart);
   }
 
   int getTotalItems() {

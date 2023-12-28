@@ -22,6 +22,8 @@ class ProductsController extends GetxController {
       productList
           .addAll(data.map((items) => Products.fromJson(items)).toList());
       log(data.toString());
+    } catch (err) {
+      log(err.toString());
     } finally {
       isLooding = false.obs;
     }
@@ -33,6 +35,9 @@ class ProductsController extends GetxController {
         if (productItem.id == id) {
           productItem.quantity++;
           quantity.value = productItem.quantity;
+
+          productList.refresh();
+          update();
         }
       }
     }
@@ -45,7 +50,8 @@ class ProductsController extends GetxController {
           if (productItem.quantity > 0) {
             productItem.quantity--;
             quantity.value = productItem.quantity;
-            break;
+
+            update();
           }
         }
       }

@@ -2,6 +2,7 @@ import 'package:brosoftresturent/model/tables_model.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 
 import 'package:brosoftresturent/view/SelectedOrder/selected_order.dart';
+import 'package:brosoftresturent/view/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -131,6 +132,8 @@ class _TableScreenState extends State<TableScreen> {
                           itemBuilder: (context, index2) {
                             var tableItems =
                                 filterTable[index1].tableItem[index2];
+
+                            log(filterTable.reversed.toString());
                             return GestureDetector(
                               onTap: () {
                                 Get.bottomSheet(bottomSheetNoReserved(
@@ -138,62 +141,61 @@ class _TableScreenState extends State<TableScreen> {
                                     tableItems.tableName,
                                     tableItems.seat,
                                     index1,
-                                    index2));
+                                    index2,
+                                    filterTable));
                               },
-                              child: Obx(
-                                () => Card(
-                                  color: tableComtroller.reserved == true.obs
-                                      ? reservedColor
-                                      : primary,
-                                  margin: EdgeInsets.all(
-                                      0.0051.toResponsive(context)),
-                                  child: Stack(children: [
-                                    Positioned(
-                                        top: 0.010.h(context),
-                                        right: 0.02.h(context),
-                                        child: Text(
-                                          tableItems.tableName,
-                                          style: TextStyle(
-                                              color: secondaryColors,
-                                              fontSize:
-                                                  0.017.toResponsive(context),
-                                              fontWeight: FontWeight.w900,
-                                              fontFamily: "Roboto"),
-                                        )),
-                                    Positioned(
-                                      bottom: 0.01.h(context),
-                                      child: Row(children: [
-                                        Container(
-                                          height: 0.03.w(context),
-                                          width: 0.05.w(context),
-                                          child: Image.asset(
-                                            "assets/images/imageperson.png",
-                                            fit: BoxFit.contain,
-                                            filterQuality: FilterQuality.high,
-                                          ),
+                              child: Card(
+                                color: filterTable.reversed == true
+                                    ? reservedColor
+                                    : primary,
+                                margin: EdgeInsets.all(
+                                    0.0051.toResponsive(context)),
+                                child: Stack(children: [
+                                  Positioned(
+                                      top: 0.010.h(context),
+                                      right: 0.02.h(context),
+                                      child: Text(
+                                        tableItems.tableName,
+                                        style: TextStyle(
+                                            color: secondaryColors,
+                                            fontSize:
+                                                0.017.toResponsive(context),
+                                            fontWeight: FontWeight.w900,
+                                            fontFamily: "Roboto"),
+                                      )),
+                                  Positioned(
+                                    bottom: 0.01.h(context),
+                                    child: Row(children: [
+                                      Container(
+                                        height: 0.03.w(context),
+                                        width: 0.05.w(context),
+                                        child: Image.asset(
+                                          "assets/images/imageperson.png",
+                                          fit: BoxFit.contain,
+                                          filterQuality: FilterQuality.high,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "${tableItems.seat} ",
-                                              style: myTextStyle(
-                                                  secondaryColors,
-                                                  0.015.toResponsive(context),
-                                                  "Roboto"),
-                                            ),
-                                            Text(
-                                              "people",
-                                              style: myTextStyle(
-                                                  textColor,
-                                                  0.011.toResponsive(context),
-                                                  "Nunito"),
-                                            )
-                                          ],
-                                        )
-                                      ]),
-                                    ),
-                                  ]),
-                                ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "${tableItems.seat} ",
+                                            style: myTextStyle(
+                                                secondaryColors,
+                                                0.015.toResponsive(context),
+                                                "Roboto"),
+                                          ),
+                                          Text(
+                                            "people",
+                                            style: myTextStyle(
+                                                textColor,
+                                                0.011.toResponsive(context),
+                                                "Nunito"),
+                                          )
+                                        ],
+                                      )
+                                    ]),
+                                  ),
+                                ]),
                               ),
                             );
                           }))
@@ -346,7 +348,8 @@ class _TableScreenState extends State<TableScreen> {
 
   //nonReserved
   Container bottomSheetNoReserved(BuildContext context, String tableName,
-      int numberGust, int index1, int index2) {
+      int numberGust, int index1, int index2, List<TableModel> filterTable) {
+    var tableItems = filterTable[index1].tableItem[index2];
     return Container(
       height: 2.0.h(context),
       width: 1.0.w(context),
@@ -368,6 +371,7 @@ class _TableScreenState extends State<TableScreen> {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
+                  tableComtroller.noofseat = 0.obs;
                   Get.back();
                 },
                 child: Container(
@@ -444,7 +448,10 @@ class _TableScreenState extends State<TableScreen> {
                           InkWell(
                               onTap: () {
                                 tableComtroller.decreaseSeat(
-                                    context, index1, index2);
+                                  context,
+                                );
+
+                                tableComtroller.getTables();
                               },
                               child: SizedBox(
                                 height: 0.2.h(context),
@@ -460,6 +467,7 @@ class _TableScreenState extends State<TableScreen> {
                               onTap: () {
                                 tableComtroller.increaseSeat(
                                     context, index1, index2);
+                                tableComtroller.getTables();
                               },
                               child: SizedBox(
                                   height: 0.2.h(context),
@@ -555,9 +563,9 @@ class _TableScreenState extends State<TableScreen> {
                     height: 0.5.h(context),
                     btnTitle: "Reserved",
                     onPressed: () {
-                      tableComtroller.changeReserved(index1, index2);
-                      // tableComtroller.getTables();
-                      // Get.back();
+                      tableComtroller.changeReserved(tableItems.id);
+
+                      Get.back();
                     },
                     color: btnSecondaryColor,
                     width: 0.4.w(context),
@@ -567,9 +575,11 @@ class _TableScreenState extends State<TableScreen> {
                     btnTitle: "Start",
                     onPressed: () {
                       Get.back();
-                      Get.bottomSheet(orderBottomSheet(
-                        context,
-                      ));
+                      tableComtroller.noofseat > 0
+                          ? Get.bottomSheet(orderBottomSheet(
+                              context,
+                            ))
+                          : showToast(context, "guest cannot be Zero");
                       // tableComtroller.getTables();
                     },
                     width: 0.44.w(context),

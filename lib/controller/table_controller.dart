@@ -18,9 +18,7 @@ import '../model/tables_model.dart';
 class TableController extends GetxController {
   var tables = <TableModel>[].obs;
   var noofseat = 0.obs;
-
   var isLooding = false.obs;
-
   var reserved = false.obs;
 
   increaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
@@ -32,8 +30,9 @@ class TableController extends GetxController {
     }
   }
 
-  decreaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
-    // var currentTable = tables[tableIndex1].tableItem[tableIndex2];
+  decreaseSeat(
+    BuildContext context,
+  ) {
     if (noofseat > 0) {
       noofseat--;
     } else {
@@ -42,25 +41,46 @@ class TableController extends GetxController {
     }
   }
 
-  changeReserved(int index1, int index2) {
-    var currentTable = tables[index1].tableItem[index2];
-    log(currentTable.reserved.toString());
-    reserved == currentTable.reserved
-        ? reserved = true.obs
-        : reserved = false.obs;
+  changeReserved(String id) {
+    for (var data in tables) {
+      for (var dataa in data.tableItem) {
+        if (dataa.reserved == true) {
+          dataa.reserved = false;
+          update();
 
-    log(reserved.toString());
+          log(dataa.reserved.toString());
+        } else {
+          dataa.reserved = true;
+          update();
+
+          log(dataa.reserved.toString());
+        }
+      }
+    }
+
+    // var currentTable = tables[index1].tableItem[index2];
+    // log(currentTable.reserved.toString());
+    // reserved == currentTable.reserved
+    //     ? reserved = true.obs
+    //     : reserved = false.obs;
+
+    // tables.refresh();
+
+    // log(reserved.toString());
   }
 
   getTables() async {
-    isLooding = true.obs;
+    isLooding = false.obs;
 
     try {
+      isLooding = true.obs;
       var url = Uri.parse(Url.tableInfo);
       var response = await http.get(url);
       List data = jsonDecode(response.body);
       tables.addAll(data.map((items) => TableModel.fromJson(items)).toList());
       log(data.toString());
+    } catch (err) {
+      log(err.toString());
     } finally {
       isLooding = false.obs;
     }
