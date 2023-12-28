@@ -84,6 +84,7 @@ class OrDerController extends GetxController {
         total += iteem.quantity;
       }
     }
+    update();
 
     return total;
   }
@@ -93,8 +94,10 @@ class OrDerController extends GetxController {
     for (var item in ordercart) {
       for (var iteem in item.productItems) {
         totalPrices += iteem.prices * iteem.quantity;
+        update();
       }
     }
+    update();
     return totalPrices;
   }
 
@@ -105,11 +108,13 @@ class OrDerController extends GetxController {
         productsId = iteem.id;
       }
     }
+    update();
     return productsId;
   }
 
   clearCart() {
     ordercart = <OrderCart>[].obs;
+    update();
     log(ordercart.length.toString());
   }
 
@@ -122,14 +127,14 @@ class OrDerController extends GetxController {
     double grandTotalPrices = totalPrices + serviceTax + vaTax;
 
     log(totalPrices.toString());
-
+    update();
     return grandTotalPrices.roundToDouble();
   }
 
   double getServicTax() {
     double totalPrices = calculateTotalPrices();
     double serviceTaxCalc = totalPrices * 13 / 100;
-
+    update();
     return serviceTaxCalc;
   }
 
@@ -137,35 +142,7 @@ class OrDerController extends GetxController {
     //vat tax 13 %
     double totalPrices = calculateTotalPrices();
     double vattaxCalc = totalPrices * 13 / 100;
-
+    update();
     return vattaxCalc;
   }
-
-  // addUpdateOrderItem(
-  //   String tableName,
-  //   int totalGuest,
-  //   int orderNo,
-  //   int totalprices,
-  //   List<ProductItem> productItems,
-  // ) {
-  //   OrderCart neworderCart = OrderCart(
-  //     tableName: tableName,
-  //     totalGuest: totalGuest,
-  //     orderNo: orderNo,
-  //     totalprices: totalprices,
-  //     productItems: productItems,
-  //   );
-
-  //   var existingOrder = ordercart.firstWhere(
-  //     (order) =>
-  //         order.productItems.any((item) => item.id == productItems[0].id),
-  //   );
-
-  //   if (existingOrder != null) {
-  //   } else {
-  //     // If product is not in any order, create a new order
-
-  //     ordercart.add(neworderCart);
-  //   }
-  // }
 }

@@ -50,7 +50,7 @@ class ProductsController extends GetxController {
           if (productItem.quantity > 0) {
             productItem.quantity--;
             quantity.value = productItem.quantity;
-
+            productList.refresh();
             update();
           }
         }
