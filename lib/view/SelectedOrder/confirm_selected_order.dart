@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
+import 'package:brosoftresturent/controller/products_controller.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import "dart:developer";
 
 import 'order_placed_screen.dart';
 
@@ -14,6 +15,7 @@ class ConfirmOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderController = Get.find<OrDerController>();
+    final productController = Get.find<ProductsController>();
     var date = DateTime.now();
     log("ahele bihanko ${date.minute} bajyoo");
     return Scaffold(
@@ -41,7 +43,7 @@ class ConfirmOrderScreen extends StatelessWidget {
               SizedBox(
                 height: 0.008.h(context),
               ),
-              confirmOrderList(context, orderController),
+              confirmOrderList(context, orderController, productController),
               grandTotaL(context, orderController)
             ],
           ),
@@ -146,8 +148,8 @@ class ConfirmOrderScreen extends StatelessWidget {
     );
   }
 
-  SizedBox confirmOrderList(
-      BuildContext context, OrDerController orderController) {
+  SizedBox confirmOrderList(BuildContext context,
+      OrDerController orderController, ProductsController productController) {
     return SizedBox(
       height: 0.45.h(context),
       width: 1.0.w(context),
@@ -156,147 +158,164 @@ class ConfirmOrderScreen extends StatelessWidget {
           itemCount: orderController.ordercart.length,
           itemBuilder: ((context, index) {
             var data = orderController.ordercart[index].productItems[0];
-            return Container(
-              margin: EdgeInsets.only(top: 0.005.toResponsive(context)),
-              padding: EdgeInsets.all(0.005.toResponsive(context)),
-              height: 0.14.h(context),
-              width: 0.5.w(context),
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 245, 239, 238),
-                  boxShadow: [
-                    BoxShadow(
-                        // spreadRadius: 5,
-                        blurRadius: 1,
-                        color: Colors.black,
-                        offset: Offset(0.0, 0.0005))
-                  ]),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //top
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 0.04.h(context),
-                              width: 0.04.w(context),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(data.veg != true
-                                          ? "assets/images/Non-veg Icon.png"
-                                          : "assets/images/Veg Icon.png"))),
-                            ),
-                            SizedBox(
-                              width: 0.01.w(context),
-                            ),
-                            Text(
-                              data.name,
-                              style: TextStyle(
-                                  color: textColor,
-                                  fontFamily: "RobotoRegular",
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 0.014.toResponsive(context)),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 0.05.h(context),
-                          width: 0.25.w(context),
-                          padding: EdgeInsets.all(0.0075.toResponsive(context)),
-                          decoration: const BoxDecoration(
-                              color: secondaryColors,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                    child: SizedBox(
-                                  height: 0.045.h(context),
-                                  width: 0.035.w(context),
-                                  // color: Colors.red,
-                                  child:
-                                      Image.asset("assets/images/subwhite.png"),
-                                )),
-                                Text(
-                                  data.quantity.toString(),
-                                  style: myTextStyle(
-                                      primary,
-                                      0.015.toResponsive(context),
-                                      "RobotoRegular"),
-                                ),
-                                InkWell(
-                                    child: SizedBox(
-                                  height: 0.045.h(context),
-                                  width: 0.035.w(context),
-                                  // color: Colors.red,
-                                  child:
-                                      Image.asset("assets/images/addwhite.png"),
-                                )),
-                              ]),
-                        ),
-                      ],
-                    ),
-                    //bottom
-
-                    Padding(
-                      padding: EdgeInsets.all(0.008.toResponsive(context)),
-                      child: Row(
+            log(data.quantity.toString());
+            return Visibility(
+              visible: data.quantity > 0,
+              child: Container(
+                margin: EdgeInsets.only(top: 0.005.toResponsive(context)),
+                padding: EdgeInsets.all(0.005.toResponsive(context)),
+                height: 0.14.h(context),
+                width: 0.5.w(context),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 245, 239, 238),
+                    boxShadow: [
+                      BoxShadow(
+                          // spreadRadius: 5,
+                          blurRadius: 1,
+                          color: Colors.black,
+                          offset: Offset(0.0, 0.0005))
+                    ]),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //top
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
                               Container(
+                                height: 0.04.h(context),
+                                width: 0.04.w(context),
                                 decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(50)),
-                                  border: Border.all(
-                                      color: const Color(0xFF000000), width: 2),
-                                ),
-                                child: const Icon(
-                                  Icons.add_rounded,
-                                  color: secondaryColors,
-                                  size: 15,
-                                ),
+                                    image: DecorationImage(
+                                        image: AssetImage(data.veg != true
+                                            ? "assets/images/Non-veg Icon.png"
+                                            : "assets/images/Veg Icon.png"))),
                               ),
                               SizedBox(
                                 width: 0.01.w(context),
                               ),
                               Text(
-                                "Add note",
+                                data.name,
                                 style: TextStyle(
-                                    color: secondaryColors,
-                                    fontFamily: "Nunito",
+                                    color: textColor,
+                                    fontFamily: "RobotoRegular",
                                     fontWeight: FontWeight.w900,
                                     fontSize: 0.014.toResponsive(context)),
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                height: 0.045.h(context),
-                                width: 0.035.w(context),
-                                child: Image.asset(
-                                    "assets/images/nepalirupees.png"),
-                              ),
-                              Text(
-                                data.prices.toString(),
-                                style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 138, 133, 133),
-                                    fontSize: 0.014.toResponsive(context),
-                                    fontWeight: FontWeight.w900,
-                                    fontFamily: "RobotRegular"),
-                              ),
-                            ],
-                          )
+                          Container(
+                            height: 0.05.h(context),
+                            width: 0.25.w(context),
+                            padding:
+                                EdgeInsets.all(0.0075.toResponsive(context)),
+                            decoration: const BoxDecoration(
+                                color: secondaryColors,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        productController
+                                            .decrementQuantity(data.id);
+                                        log("sub'");
+                                      },
+                                      child: SizedBox(
+                                        height: 0.045.h(context),
+                                        width: 0.035.w(context),
+                                        // color: Colors.red,
+                                        child: Image.asset(
+                                            "assets/images/subwhite.png"),
+                                      )),
+                                  Text(
+                                    data.quantity.toString(),
+                                    style: myTextStyle(
+                                        primary,
+                                        0.015.toResponsive(context),
+                                        "RobotoRegular"),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        productController
+                                            .incrementQuantity(data.id);
+                                        log("addd'");
+                                      },
+                                      child: SizedBox(
+                                        height: 0.045.h(context),
+                                        width: 0.035.w(context),
+                                        // color: Colors.red,
+                                        child: Image.asset(
+                                            "assets/images/addwhite.png"),
+                                      )),
+                                ]),
+                          ),
                         ],
                       ),
-                    ),
-                  ]),
+                      //bottom
+
+                      Padding(
+                        padding: EdgeInsets.all(0.008.toResponsive(context)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(50)),
+                                    border: Border.all(
+                                        color: const Color(0xFF000000),
+                                        width: 2),
+                                  ),
+                                  child: const Icon(
+                                    Icons.add_rounded,
+                                    color: secondaryColors,
+                                    size: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 0.01.w(context),
+                                ),
+                                Text(
+                                  "Add note",
+                                  style: TextStyle(
+                                      color: secondaryColors,
+                                      fontFamily: "Nunito",
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 0.014.toResponsive(context)),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  height: 0.045.h(context),
+                                  width: 0.035.w(context),
+                                  child: Image.asset(
+                                      "assets/images/nepalirupees.png"),
+                                ),
+                                Text(
+                                  data.prices.toString(),
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 138, 133, 133),
+                                      fontSize: 0.014.toResponsive(context),
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: "RobotRegular"),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ]),
+              ),
             );
           })),
     );
@@ -421,13 +440,13 @@ class ConfirmOrderScreen extends StatelessWidget {
             },
             child: Container(
               height: 0.06.h(context),
-              width: 0.35.w(context),
+              width: 0.3.w(context),
               decoration: const BoxDecoration(
                   color: primary,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Center(
                 child: Text(
-                  "connfirm Order",
+                  "confirm Order",
                   style: myTextStyle(
                       textColor, 0.015.toResponsive(context), "Roboto"),
                 ),

@@ -75,6 +75,8 @@ class OrDerController extends GetxController {
     //     }
     //   }
     // }
+    getTotalItems();
+    update();
   }
 
   int getTotalItems() {

@@ -48,30 +48,42 @@ class ProfileScreen extends StatelessWidget {
               myListTile(context, 2),
               myListTile(context, 3),
               myListTile(context, 4),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 0.12.h(context),
-                      width: 1.0.w(context),
-                      color: Colors.red,
-                    ),
-                    Text(
-                      "A Product of Brosoft Pvt. ltd",
-                      style: TextStyle(
-                        color: textColor,
-                        fontFamily: "Abhaya",
-                        fontWeight: FontWeight.w800,
-                        fontSize: 0.016.toResponsive(context),
-                      ),
-                    )
-                  ],
-                ),
-              )
+              SizedBox(
+                height: 0.02.h(context),
+              ),
+              fotter(context)
             ],
           )),
     ));
+  }
+
+  Center fotter(BuildContext context) {
+    return Center(
+      child: Stack(
+        children: [
+          Container(
+            height: 0.11.h(context),
+            width: 1.0.w(context),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/brologo.png"))),
+          ),
+          Positioned(
+            bottom: 0.001.h(context),
+            left: 0.1.h(context),
+            child: Text(
+              "A Product of Brosoft Pvt. ltd",
+              style: TextStyle(
+                color: textColor,
+                fontFamily: "Abhaya",
+                fontWeight: FontWeight.w800,
+                fontSize: 0.016.toResponsive(context),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Container myListTile(
@@ -102,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
 
   SizedBox profileHeader(BuildContext context) {
     return SizedBox(
-      height: 0.15.h(context),
+      height: 0.185.h(context),
       width: 1.0.w(context),
       child: Stack(
         children: [

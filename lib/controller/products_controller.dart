@@ -35,7 +35,6 @@ class ProductsController extends GetxController {
         if (productItem.id == id) {
           productItem.quantity++;
           quantity.value = productItem.quantity;
-
           productList.refresh();
           update();
         }

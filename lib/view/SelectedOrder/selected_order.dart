@@ -168,7 +168,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
             ],
           ),
           SizedBox(
-            width: 0.16.w(context),
+            width: 0.09.w(context),
           ),
 
           InkWell(
@@ -361,12 +361,17 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                             children: [
                                               InkWell(
                                                   onTap: () {
+                                                    log("decrement");
                                                     productsController
-                                                        .incrementQuantity(
+                                                        .decrementQuantity(
                                                             productItem.id);
                                                   },
-                                                  child: Image.asset(
-                                                      "assets/images/addwhite.png")),
+                                                  child: Container(
+                                                    height: 1.0.h(context),
+                                                    width: 0.063.w(context),
+                                                    child: Image.asset(
+                                                        "assets/images/subwhite.png"),
+                                                  )),
                                               Text(
                                                 productItem.quantity.toString(),
                                                 style: TextStyle(
@@ -378,13 +383,16 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                               ),
                                               InkWell(
                                                   onTap: () {
-                                                    log("decrement");
                                                     productsController
-                                                        .decrementQuantity(
+                                                        .incrementQuantity(
                                                             productItem.id);
                                                   },
-                                                  child: Image.asset(
-                                                      "assets/images/subwhite.png"))
+                                                  child: Container(
+                                                    height: 1.0.h(context),
+                                                    width: 0.063.w(context),
+                                                    child: Image.asset(
+                                                        "assets/images/addwhite.png"),
+                                                  )),
                                             ]),
                                       )
                               ]),
