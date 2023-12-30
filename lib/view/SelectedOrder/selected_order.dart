@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../controller/order_controller.dart';
 import '../../controller/products_controller.dart';
+import '../../model/order_models.dart';
 import '../../model/product_items.dart';
 import '../table/models/btn_selected_model.dart';
 
@@ -56,6 +58,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
   }
 
   final orderCartController = Get.put(OrDerController());
+
+  final orderCartCtrl = Get.put(OrderCartCtrl());
 
   bool addOrder = false;
 
@@ -298,22 +302,38 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 ),
                                 productItem.quantity == 0
                                     ? InkWell(
-                                        onTap: () {
+                                        onTap: () async {
                                           productsController.incrementQuantity(
                                               productItem.id);
 
                                           log(productItem.quantity.toString());
 
-                                          orderCartController.addtoCart11(
-                                              "2A",
-                                              5,
-                                              189,
-                                              productItem.prices,
-                                              [
-                                                filterProduct[index1]
-                                                    .productItem[index2],
-                                              ],
-                                              productItem.id);
+                                          // orderCartController.addtoCart11(
+                                          //     "2A",
+                                          //     5,
+                                          //     189,
+                                          //     productItem.prices,
+                                          //     [
+                                          //       filterProduct[index1]
+                                          //           .productItem[index2],
+                                          //     ],
+                                          //     productItem.id);
+
+                                          orderCartCtrl.postorder(
+                                              orderNo: 130,
+                                              tableName: "302",
+                                              time: "1m ago",
+                                              sheduleFor: "",
+                                              isComplete: true,
+                                              totalGuest: 5);
+
+                                          log(orderCartCtrl
+                                              .getOrder(2)
+                                              .toString());
+
+                                          Order? dtta =
+                                              await orderCartCtrl.getOrder(2);
+                                          log(dtta!.tableName ?? "".toString());
                                         },
                                         child: Container(
                                             padding: EdgeInsets.only(
