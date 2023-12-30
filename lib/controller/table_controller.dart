@@ -41,19 +41,25 @@ class TableController extends GetxController {
     }
   }
 
-  changeReserved(String id) {
+  changeReserved(String tid) {
     for (var data in tables) {
       for (var dataa in data.tableItem) {
-        if (dataa.reserved == true) {
-          dataa.reserved = false;
-          update();
+        if (dataa.tid == tid) {
+          if (dataa.reserved == true) {
+            dataa.reserved = false;
+            reserved.value = dataa.reserved;
+            tables.refresh();
+            update();
 
-          log(dataa.reserved.toString());
-        } else {
-          dataa.reserved = true;
-          update();
+            log(dataa.reserved.toString());
+          } else {
+            dataa.reserved = true;
+            reserved.value = dataa.reserved;
+            tables.refresh();
+            update();
 
-          log(dataa.reserved.toString());
+            log(dataa.reserved.toString());
+          }
         }
       }
     }
@@ -74,7 +80,7 @@ class TableController extends GetxController {
 
     try {
       isLooding = true.obs;
-      var url = Uri.parse(Url.tableInfo);
+      var url = Uri.parse(Url.tableinfo);
       var response = await http.get(url);
       List data = jsonDecode(response.body);
       tables.addAll(data.map((items) => TableModel.fromJson(items)).toList());
@@ -98,4 +104,17 @@ class TableController extends GetxController {
       isLooding = false.obs;
     }
   }
+
+  // //get by id
+  // Future<TableModel?> getTablesbyId(String id) async {
+  //   var url = Uri.parse(
+  //       "https://658fad9fcbf74b575eca09d9.mockapi.io/table$id"); // Replace with your actual endpoint
+  //   http.Response response = await http.get(url);
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+  //     return TableModel.fromJson(jsonResponse);
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

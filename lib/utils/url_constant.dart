@@ -14,4 +14,12 @@ class Url {
   //orderCart
   static String ordercartf =
       "https://657fe58b6ae0629a3f53d242.mockapi.io/orderCart";
+
+  //orderCart
+
+  static String tableinfo = "https://658fad9fcbf74b575eca09d9.mockapi.io/table";
+
+  //custumerInfo
+  static String customerinfo =
+      "https://658fad9fcbf74b575eca09d9.mockapi.io/customerInfo";
 }

@@ -2,33 +2,47 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:brosoftresturent/model/order_models.dart';
 import 'package:brosoftresturent/utils/url_constant.dart';
+
 import 'package:get/get.dart';
 
 import "package:http/http.dart" as http;
 
 class OrderCartCtrl extends GetxController {
-  //post data
+  var orderList = [].obs;
+  var isLoading = false.obs;
 
-  postorder({
-    required int orderNo,
-    required String tableName,
-    required String time,
-    required String sheduleFor,
-    required bool isComplete,
-    required int totalGuest,
-    required String fid,
-  }) async {
-    Order? existingOrder = await getOrder("3");
+  var selectorder = <OrderItem>[].obs;
+
+  getAllProducts() async {
+    var isLoading = false.obs;
+    try {
+      var isLoading = true.obs;
+      var url = Uri.parse(Url.ordercart);
+      http.Response response = await http.get(url);
+      List data = jsonDecode(response.body);
+      orderList.addAll(data.map((e) => Order.fromJson).toList());
+      log(response.body);
+    } catch (err) {
+      log(err.toString());
+    } finally {
+      var isLoading = true.obs;
+    }
+  }
+
+  //post data
+  postorder({required Order order}) async {
+    Order? existingOrder = await getOrder(order.orderId);
+
     if (existingOrder != null) {
-      existingOrder.totalGuest = totalGuest;
+      // existingOrder.totalGuest = totalGuest;
       for (var existingItem in existingOrder.order) {
-        if (existingItem.fid == fid) {
+        if (existingItem.fid == order.order[0].fid) {
           existingItem.quantity += 1;
         }
       }
       var data = jsonEncode(existingOrder.tojason());
-      var url =
-          Uri.parse("https://657fe58b6ae0629a3f53d242.mockapi.io/orderCart/4");
+      var url = Uri.parse(
+          "https://657fe58b6ae0629a3f53d242.mockapi.io/orderCart/${order.orderId}");
 
       http.Response res = await http.put(
         url,
@@ -37,38 +51,18 @@ class OrderCartCtrl extends GetxController {
       );
 
       log(res.body.toString());
+    } else {
+      var data = jsonEncode(order.tojason());
+      var url = Uri.parse(Url.ordercartf);
+
+      http.Response res = await http.post(
+        url,
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: data,
+      );
+
+      log(res.body.toString());
     }
-
-    Order newOrder = Order(
-        orderNo: orderNo,
-        tableName: tableName,
-        time: time,
-        sheduleFor: sheduleFor,
-        isComplete: isComplete,
-        order: [
-          // OrderItem(
-          //     fname: "ds",
-          //     ftableName: "aSAS",
-          //     fprices: 150,
-          //     quantity: 2,
-          //     fcustomize: true,
-          //     fveg: true,
-          //     note: "",
-          //     foodquantity: 5,
-          //     spicyLevel: "mid")
-        ],
-        addOrder: [],
-        totalGuest: totalGuest);
-    var data = jsonEncode(newOrder.tojason());
-    var url = Uri.parse(Url.ordercartf);
-
-    http.Response res = await http.post(
-      url,
-      headers: <String, String>{'Content-Type': 'application/json'},
-      body: data,
-    );
-
-    log(res.body.toString());
   }
 
 //get by id

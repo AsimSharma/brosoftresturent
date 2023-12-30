@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 const uuid = Uuid();
 
 class Order {
-  String? id;
+  String orderId;
   int orderNo;
   String tableName;
   String time;
@@ -26,8 +26,8 @@ class Order {
     required this.order,
     required this.addOrder,
     required this.totalGuest,
-    String? id,
-  }) : id = id ?? uuid.v1();
+    required this.orderId,
+  });
 
   factory Order.fromJson(Map<String, dynamic> json) {
     var data = json['order'] as List;
@@ -37,6 +37,7 @@ class Order {
         )
         .toList();
     return Order(
+        orderId: json['orderId'],
         orderNo: json['orderNo'],
         tableName: json['tableName'],
         time: json['time'],
@@ -44,19 +45,18 @@ class Order {
         isComplete: json['isComplete'],
         order: orderdata,
         addOrder: json['addOrder'],
-        id: json['id'] ?? "",
         totalGuest: json['totalGuest']);
   }
 
   Map<String, dynamic> tojason() => {
         "orderNo": orderNo,
+        "orderId": orderId,
         "tableName": tableName,
         "time": time,
         "sheduleFor": sheduleFor,
         "isComplete": isComplete,
         "order": order,
         "addOrder": addOrder,
-        "id": id,
         "totalGuest": totalGuest
       };
 }

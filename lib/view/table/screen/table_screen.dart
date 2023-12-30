@@ -135,6 +135,7 @@ class _TableScreenState extends State<TableScreen> {
                                 filterTable[index1].tableItem[index2];
 
                             log(filterTable.reversed.toString());
+
                             return GestureDetector(
                               onTap: () {
                                 Get.bottomSheet(bottomSheetNoReserved(
@@ -564,9 +565,14 @@ class _TableScreenState extends State<TableScreen> {
                     height: 0.5.h(context),
                     btnTitle: "Reserved",
                     onPressed: () {
-                      tableComtroller.changeReserved(tableItems.id);
+                      tableComtroller
+                          .changeReserved("op3361111167t101088844111111");
+                      // tableComtroller.updateTableinfo(
+                      //     filterTable[index1].id,
+                      //     tableItems,
+                      //     tableItems.reserved == true ? false : true);
 
-                      Get.back();
+                      // Get.back();
                     },
                     color: btnSecondaryColor,
                     width: 0.4.w(context),

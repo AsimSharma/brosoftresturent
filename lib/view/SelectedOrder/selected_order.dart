@@ -316,6 +316,21 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
                                           log(productItem.quantity.toString());
 
+                                          orderCartCtrl.selectorder.add(
+                                              OrderItem(
+                                                  fname: productItem.name,
+                                                  ftableName: widget.tablename,
+                                                  fprices: productItem.prices,
+                                                  quantity:
+                                                      productItem.quantity,
+                                                  fcustomize:
+                                                      productItem.customize,
+                                                  fveg: productItem.veg,
+                                                  note: "",
+                                                  foodquantity:
+                                                      productItem.quantity,
+                                                  spicyLevel: ""));
+
                                           // orderCartController.addtoCart11(
                                           //     "2A",
                                           //     5,
@@ -327,21 +342,27 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                           //     ],
                                           //     productItem.id);
 
-                                          orderCartCtrl.postorder(
-                                              orderNo: 130,
-                                              tableName: "302",
-                                              time: "1m ago",
+                                          Order neworder = Order(
+                                              orderId: widget.oderNo.toString(),
+                                              tableName: widget.tablename,
+                                              time: "",
                                               sheduleFor: "",
-                                              isComplete: true,
-                                              totalGuest: 5,
-                                              fid: "12143245455454");
+                                              isComplete: false,
+                                              orderNo: widget.oderNo,
+                                              totalGuest: widget.totalGuest,
+                                              order: List.from(
+                                                  orderCartCtrl.selectorder),
+                                              addOrder: []);
+
+                                          orderCartCtrl.postorder(
+                                              order: neworder);
 
                                           log(orderCartCtrl
-                                              .getOrder("3")
+                                              .getOrder("2")
                                               .toString());
 
                                           Order? dtta =
-                                              await orderCartCtrl.getOrder('3');
+                                              await orderCartCtrl.getOrder('2');
                                           log(dtta!.tableName);
                                         },
                                         child: Container(
