@@ -21,7 +21,14 @@ import 'dart:developer';
 class SelectedOrder extends StatefulWidget {
   const SelectedOrder({
     super.key,
+    required this.tablename,
+    required this.totalGuest,
+    required this.oderNo,
   });
+
+  final String tablename;
+  final int totalGuest;
+  final int oderNo;
 
   @override
   State<SelectedOrder> createState() => _SelectedOrderState();
@@ -85,7 +92,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
               SizedBox(
                 height: 0.004.h(context),
               ),
-              textSections(context, "2A", 5, 110),
+              textSections(
+                  context, widget.tablename, widget.totalGuest, widget.oderNo),
               const Divider(),
               SizedBox(
                 height: 0.008.h(context),
@@ -325,15 +333,16 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                               time: "1m ago",
                                               sheduleFor: "",
                                               isComplete: true,
-                                              totalGuest: 5);
+                                              totalGuest: 5,
+                                              fid: "12143245455454");
 
                                           log(orderCartCtrl
-                                              .getOrder(2)
+                                              .getOrder("3")
                                               .toString());
 
                                           Order? dtta =
-                                              await orderCartCtrl.getOrder(2);
-                                          log(dtta!.tableName ?? "".toString());
+                                              await orderCartCtrl.getOrder('3');
+                                          log(dtta!.tableName);
                                         },
                                         child: Container(
                                             padding: EdgeInsets.only(
@@ -542,8 +551,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container textSections(BuildContext context, String tableName,
-      int guestNumber, int orderNumber) {
+  Container textSections(
+      BuildContext context, String tableName, int guestNumber, int oderNo) {
     return Container(
       height: 0.05.h(context),
       margin: EdgeInsets.only(left: 0.0015.toResponsive(context)),
@@ -593,7 +602,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
               Text(
-                orderNumber.toString(),
+                oderNo.toString(),
                 style: TextStyle(
                     color: secondaryColors,
                     fontSize: 0.015.toResponsive(context),

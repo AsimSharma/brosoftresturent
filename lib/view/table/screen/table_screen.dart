@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../../controller/table_controller.dart';
 import '../../../utils/app_style.dart';
+import '../../../utils/random_number.dart';
 import '../../widgets/custome_btns.dart';
 import '../../widgets/custome_inputs.dart';
 import '../models/btnmodels.dart';
@@ -451,7 +452,7 @@ class _TableScreenState extends State<TableScreen> {
                                   context,
                                 );
 
-                                tableComtroller.getTables();
+                                // tableComtroller.getTables();
                               },
                               child: SizedBox(
                                 height: 0.2.h(context),
@@ -467,7 +468,7 @@ class _TableScreenState extends State<TableScreen> {
                               onTap: () {
                                 tableComtroller.increaseSeat(
                                     context, index1, index2);
-                                tableComtroller.getTables();
+                                // tableComtroller.getTables();
                               },
                               child: SizedBox(
                                   height: 0.2.h(context),
@@ -576,9 +577,8 @@ class _TableScreenState extends State<TableScreen> {
                     onPressed: () {
                       Get.back();
                       tableComtroller.noofseat > 0
-                          ? Get.bottomSheet(orderBottomSheet(
-                              context,
-                            ))
+                          ? Get.bottomSheet(orderBottomSheet(context, tableName,
+                              tableComtroller.noofseat.toInt()))
                           : showToast(context, "guest cannot be Zero");
                       // tableComtroller.getTables();
                     },
@@ -598,6 +598,8 @@ class _TableScreenState extends State<TableScreen> {
 
   Container orderBottomSheet(
     BuildContext context,
+    String tableName,
+    int totalGuest,
   ) {
     return Container(
       height: 0.4.h(context),
@@ -648,19 +650,19 @@ class _TableScreenState extends State<TableScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      choseReletedContainer(
-                        context,
-                        images: imageListcro[0]['imageName'] ?? "",
-                        name: imageListcro[0]['name'] ?? "",
-                      ),
+                      choseReletedContainer(context,
+                          images: imageListcro[0]['imageName'] ?? "",
+                          name: imageListcro[0]['name'] ?? "",
+                          tableName: tableName,
+                          totalGuest: totalGuest),
                       SizedBox(
                         width: 0.013.toResponsive(context),
                       ),
-                      choseReletedContainer(
-                        context,
-                        images: imageListcro[1]['imageName'] ?? "",
-                        name: imageListcro[1]['name'] ?? "",
-                      ),
+                      choseReletedContainer(context,
+                          images: imageListcro[1]['imageName'] ?? "",
+                          name: imageListcro[1]['name'] ?? "",
+                          tableName: tableName,
+                          totalGuest: totalGuest),
                     ],
                   ),
                   SizedBox(
@@ -668,7 +670,9 @@ class _TableScreenState extends State<TableScreen> {
                   ),
                   choseReletedContainer(context,
                       images: imageListcro[2]['imageName'] ?? "",
-                      name: imageListcro[2]['name'] ?? ""),
+                      name: imageListcro[2]['name'] ?? "",
+                      tableName: tableName,
+                      totalGuest: totalGuest),
                 ]),
           )
         ],
@@ -680,14 +684,20 @@ class _TableScreenState extends State<TableScreen> {
     BuildContext context, {
     required String images,
     required String name,
+    required String tableName,
+    required totalGuest,
   }) {
     return InkWell(
       onTap: () {
         Get.back();
-        // Random random = Random();
-        // int randomNumber2 = random.nextInt(100) + 1; // from 1 to 100 included
 
-        Get.to(const SelectedOrder());
+        // from 1 to 100 included
+
+        Get.to(SelectedOrder(
+          tablename: tableName,
+          totalGuest: totalGuest,
+          oderNo: getRandomnumber(),
+        ));
       },
       child: Container(
         height: 0.1.h(context),
