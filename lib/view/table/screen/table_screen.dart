@@ -695,15 +695,27 @@ class _TableScreenState extends State<TableScreen> {
   }) {
     return InkWell(
       onTap: () {
-        Get.back();
-
+        log("Tapped");
         // from 1 to 100 included
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => SelectedOrder(
+                tablename: tableName,
+                totalGuest: totalGuest,
+                oderNo: getRandomnumber())));
+        // Get.to(() => SelectedOrder(
+        //     tablename: "tablename", totalGuest: totalGuest, oderNo: 1));
 
-        Get.to(SelectedOrder(
-          tablename: tableName,
-          totalGuest: totalGuest,
-          oderNo: getRandomnumber(),
-        ));
+        // Get.to(() => SelectedOrder(
+        //     tablename: tableName,
+        //     totalGuest: totalGuest,
+        //     oderNo: getRandomnumber()));
+
+        // log("Heloo from log bottom choose");
+
+        // Get.offAll(SelectedOrder(
+        //     tablename: tableName,
+        //     totalGuest: totalGuest,
+        //     oderNo: getRandomnumber()));
       },
       child: Container(
         height: 0.1.h(context),

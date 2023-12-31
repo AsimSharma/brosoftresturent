@@ -316,54 +316,34 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
                                           log(productItem.quantity.toString());
 
-                                          orderCartCtrl.selectorder.add(
-                                              OrderItem(
-                                                  fname: productItem.name,
-                                                  ftableName: widget.tablename,
-                                                  fprices: productItem.prices,
-                                                  quantity:
-                                                      productItem.quantity,
-                                                  fcustomize:
-                                                      productItem.customize,
-                                                  fveg: productItem.veg,
-                                                  note: "",
-                                                  foodquantity:
-                                                      productItem.quantity,
-                                                  spicyLevel: ""));
+                                          // orderCartCtrl.selectorder.add(
+                                          //     OrderItem(
+                                          //         fname: productItem.name,
+                                          //         ftableName: widget.tablename,
+                                          //         fprices: productItem.prices,
+                                          //         quantity:
+                                          //             productItem.quantity,
+                                          //         fcustomize:
+                                          //             productItem.customize,
+                                          //         fveg: productItem.veg,
+                                          //         note: "",
+                                          //         foodquantity:
+                                          //             productItem.quantity,
+                                          //         spicyLevel: ""));
 
                                           // orderCartController.addtoCart11(
                                           //     "2A",
                                           //     5,
                                           //     189,
                                           //     productItem.prices,
-                                          //     [
-                                          //       filterProduct[index1]
-                                          //           .productItem[index2],
-                                          //     ],
+                                          //     filterProduct[index1]
+                                          //         .productItem[index2],
                                           //     productItem.id);
 
-                                          Order neworder = Order(
-                                              orderId: widget.oderNo.toString(),
-                                              tableName: widget.tablename,
-                                              time: "",
-                                              sheduleFor: "",
-                                              isComplete: false,
-                                              orderNo: widget.oderNo,
-                                              totalGuest: widget.totalGuest,
-                                              order: List.from(
-                                                  orderCartCtrl.selectorder),
-                                              addOrder: []);
-
-                                          orderCartCtrl.postorder(
-                                              order: neworder);
-
-                                          log(orderCartCtrl
-                                              .getOrder("2")
-                                              .toString());
-
-                                          Order? dtta =
-                                              await orderCartCtrl.getOrder('2');
-                                          log(dtta!.tableName);
+                                          orderCartController.addItemsOnCart(
+                                            filterProduct[index1]
+                                                .productItem[index2],
+                                          );
                                         },
                                         child: Container(
                                             padding: EdgeInsets.only(
