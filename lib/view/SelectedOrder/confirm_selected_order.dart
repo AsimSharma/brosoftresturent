@@ -305,7 +305,9 @@ class ConfirmOrderScreen extends StatelessWidget {
                                       "assets/images/nepalirupees.png"),
                                 ),
                                 Text(
-                                  data.prices.toString(),
+                                  orderController
+                                      .calculateTotalPrices()
+                                      .toString(),
                                   style: TextStyle(
                                       color: const Color.fromARGB(
                                           255, 138, 133, 133),
