@@ -73,7 +73,7 @@ class OrderPlacedSucess extends StatelessWidget {
               CustomBtn(
                 btnTitle: "Done",
                 onPressed: () {
-                  // orderController.clearCart();
+                  orderController.clearCart();
                   Get.to(const HomeScreen());
                 },
                 height: 0.065.h(context),

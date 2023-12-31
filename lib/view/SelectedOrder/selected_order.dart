@@ -185,7 +185,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
           InkWell(
             onTap: () {
-              orderCartController.ordercart.isEmpty
+              orderCartController.addItems.isEmpty
                   ? showToast(context, "Add something in cart")
                   : Get.to(const ConfirmOrderScreen());
             },
@@ -308,38 +308,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                     ],
                                   ),
                                 ),
-                                productItem.quantity == 0
+                                productsController.quantity == 0
                                     ? InkWell(
                                         onTap: () async {
-                                          productsController.incrementQuantity(
-                                              productItem.id);
-
-                                          log(productItem.quantity.toString());
-
-                                          // orderCartCtrl.selectorder.add(
-                                          //     OrderItem(
-                                          //         fname: productItem.name,
-                                          //         ftableName: widget.tablename,
-                                          //         fprices: productItem.prices,
-                                          //         quantity:
-                                          //             productItem.quantity,
-                                          //         fcustomize:
-                                          //             productItem.customize,
-                                          //         fveg: productItem.veg,
-                                          //         note: "",
-                                          //         foodquantity:
-                                          //             productItem.quantity,
-                                          //         spicyLevel: ""));
-
-                                          // orderCartController.addtoCart11(
-                                          //     "2A",
-                                          //     5,
-                                          //     189,
-                                          //     productItem.prices,
-                                          //     filterProduct[index1]
-                                          //         .productItem[index2],
-                                          //     productItem.id);
-
                                           orderCartController.addItemsOnCart(
                                             filterProduct[index1]
                                                 .productItem[index2],
@@ -392,9 +363,16 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                               InkWell(
                                                   onTap: () {
                                                     log("decrement");
-                                                    productsController
-                                                        .decrementQuantity(
-                                                            productItem.id);
+                                                    // productsController
+                                                    //     .decrementQuantity(
+                                                    //         productItem.id);
+
+                                                    orderCartController
+                                                        .decQuanity(
+                                                            filterProduct[
+                                                                        index1]
+                                                                    .productItem[
+                                                                index2]);
                                                   },
                                                   child: Container(
                                                     height: 1.0.h(context),
@@ -403,7 +381,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                         "assets/images/subwhite.png"),
                                                   )),
                                               Text(
-                                                productItem.quantity.toString(),
+                                                orderCartController
+                                                    .addItems[index1].quantity
+                                                    .toString(),
                                                 style: TextStyle(
                                                     color: primary,
                                                     fontSize: 0.013
@@ -413,9 +393,15 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                               ),
                                               InkWell(
                                                   onTap: () {
-                                                    productsController
-                                                        .incrementQuantity(
-                                                            productItem.id);
+                                                    // productsController
+                                                    //     .incrementQuantity(
+                                                    //         productItem.id);
+                                                    orderCartController
+                                                        .increaseQuanity(
+                                                            filterProduct[
+                                                                        index1]
+                                                                    .productItem[
+                                                                index2]);
                                                   },
                                                   child: Container(
                                                     height: 1.0.h(context),

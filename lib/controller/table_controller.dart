@@ -19,7 +19,7 @@ class TableController extends GetxController {
   var tables = <TableModel>[].obs;
   var noofseat = 0.obs;
   var isLooding = false.obs;
-  var reserved = false.obs;
+  // var reserved = false.obs;
 
   increaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
     var currentTable = tables[tableIndex1].tableItem[tableIndex2];
@@ -41,38 +41,14 @@ class TableController extends GetxController {
     }
   }
 
-  changeReserved(String tid) {
-    for (var data in tables) {
-      for (var dataa in data.tableItem) {
-        if (dataa.tid == tid) {
-          if (dataa.reserved == true) {
-            dataa.reserved = false;
-            reserved.value = dataa.reserved;
-            tables.refresh();
-            update();
-
-            log(dataa.reserved.toString());
-          } else {
-            dataa.reserved = true;
-            reserved.value = dataa.reserved;
-            tables.refresh();
-            update();
-
-            log(dataa.reserved.toString());
-          }
-        }
-      }
+  changeReserved(TableItem tableItem, int index) {
+    for (TableItem item in tables[index].tableItem) {
+      log(item.toString());
+      item.reserved = !item.reserved;
+      log(item.reserved.toString());
+      tables.refresh();
+      update();
     }
-
-    // var currentTable = tables[index1].tableItem[index2];
-    // log(currentTable.reserved.toString());
-    // reserved == currentTable.reserved
-    //     ? reserved = true.obs
-    //     : reserved = false.obs;
-
-    // tables.refresh();
-
-    // log(reserved.toString());
   }
 
   getTables() async {
@@ -104,17 +80,4 @@ class TableController extends GetxController {
       isLooding = false.obs;
     }
   }
-
-  // //get by id
-  // Future<TableModel?> getTablesbyId(String id) async {
-  //   var url = Uri.parse(
-  //       "https://658fad9fcbf74b575eca09d9.mockapi.io/table$id"); // Replace with your actual endpoint
-  //   http.Response response = await http.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-  //     return TableModel.fromJson(jsonResponse);
-  //   } else {
-  //     return null;
-  //   }
-  // }
 }

@@ -565,8 +565,7 @@ class _TableScreenState extends State<TableScreen> {
                     height: 0.5.h(context),
                     btnTitle: "Reserved",
                     onPressed: () {
-                      tableComtroller
-                          .changeReserved("op3361111167t101088844111111");
+                      tableComtroller.changeReserved(tableItems, index1);
                       // tableComtroller.updateTableinfo(
                       //     filterTable[index1].id,
                       //     tableItems,

@@ -155,9 +155,9 @@ class ConfirmOrderScreen extends StatelessWidget {
       width: 1.0.w(context),
       child: ListView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: orderController.ordercart.length,
+          itemCount: orderController.addItems.length,
           itemBuilder: ((context, index) {
-            var data = orderController.ordercart[index].productItems[0];
+            var data = orderController.addItems[index];
             log(data.quantity.toString());
             return Visibility(
               visible: data.quantity > 0,
@@ -221,9 +221,11 @@ class ConfirmOrderScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                       onTap: () {
-                                        productController
-                                            .decrementQuantity(data.id);
-                                        log("sub'");
+                                        // productController
+                                        //     .decrementQuantity(data.id);
+                                        // log("sub'");
+
+                                        orderController.decQuanity(data);
                                       },
                                       child: SizedBox(
                                         height: 0.045.h(context),
@@ -241,8 +243,10 @@ class ConfirmOrderScreen extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        productController
-                                            .incrementQuantity(data.id);
+                                        // productController
+                                        //     .incrementQuantity(data.id);
+
+                                        orderController.increaseQuanity(data);
                                         log("addd'");
                                       },
                                       child: SizedBox(
