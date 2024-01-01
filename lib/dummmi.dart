@@ -1,71 +1,585 @@
-
-// class OrderCartController extends GetxController {
-//   var orderCartList = <OrderCart>[].obs;
-
-//   void addOrUpdateOrderCart(ProductItem productItem) {
-//     // Check if the product is already added to any order
-//     var existingOrder = orderCartList.firstWhere(
-//       (order) => order.productItems.any((item) => item.id == productItem.id),
-//       orElse: () => null,
-//     );
-
-//     if (existingOrder != null) {
-//       // If product is already in an order, update its quantity
-//       existingOrder.updateQuantity(productItem);
-//     } else {
-//       // If product is not in any order, create a new order
-//       var newOrderCart = OrderCart(
-//         tableName: 'Table 1', // Example table name
-//         totalGuest: 4, // Example total guest count
-//         orderNo: orderCartList.length + 1,
-//         totalprices: productItem.prices,
-//         productItems: [productItem],
-//       );
-//       orderCartList.add(newOrderCart);
-//     }
-//   }
-// }
-
-// class OrderCart {
-//   // ... existing code ...
-
-//   void updateQuantity(ProductItem productItem) {
-//     var existingItem = productItems.firstWhere(
-//       (item) => item.id == productItem.id,
-//       orElse: () => null,
-//     );
-
-//     if (existingItem != null) {
-//       // If product is already in the order, increase its quantity
-//       existingItem.quantity += productItem.quantity;
-//       // Update total prices based on the increased quantity
-//       totalprices += (productItem.prices * productItem.quantity);
-//     }
-//   }
-// }
-
-
-
-// updateProduct(product, qty) {
-//     int index = cart.indexWhere((i) => i.id == product.id);
-//     cart[index].qty = qty;
-//     if (cart[index].qty == 0)
-//       removeProduct(product);
-
-//     calculateTotal();
-//     notifyListeners();
-//   }
-
-  // void increaseItemQuantity(CartItem item) {
-  //   final index = cartItems.indexOf(item);
-  //   if (index != -1) {
-  //     cartItems[index].quantity++;
-  //   }
-  // }
-
-  // void decreaseItemQuantity(CartItem item) {
-  //   final index = cartItems.indexOf(item);
-  //   if (index != -1 && cartItems[index].quantity > 1) {
-  //     cartItems[index].quantity--;
-  //   }
-  // }
+final data = [
+  {
+    "orderNo": 661,
+    "totalGuest": 1,
+    "tableName": "7G",
+    "time": "2022-11-29 16:34:56.739110",
+    "scheduleFor": "2022-11-29 16:34:56.739469",
+    "isCompleted": true,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "7G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "7G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "3"
+  },
+  {
+    "orderNo": 662,
+    "totalGuest": 1,
+    "tableName": "7G",
+    "time": "2022-11-29 16:34:56.739110",
+    "scheduleFor": "2022-11-29 16:34:56.739469",
+    "isCompleted": true,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "7G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "7G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "4"
+  },
+  {
+    "orderNo": 663,
+    "totalGuest": 1,
+    "tableName": "7G",
+    "time": "2022-11-29 16:34:56.739110",
+    "scheduleFor": "2022-11-29 16:34:56.739469",
+    "isCompleted": true,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "7G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "7G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "5"
+  },
+  {
+    "orderNo": 1019,
+    "totalGuest": 1,
+    "tableName": "5H",
+    "time": "2023-12-24 18:36:14.652564",
+    "scheduleFor": "2023-12-24 18:36:14.658908",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 9,
+        "foodName": "Mix Chaumin",
+        "tableName": "5G",
+        "quantity": 2,
+        "price": 967,
+        "note": "",
+        "foodQuantity": "Half",
+        "spicyLevel": "Medium",
+        "addons": ["Egg", "Mushroom", "Kerau"],
+        "isCustomisable": true,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "6"
+  },
+  {
+    "orderNo": 1056,
+    "totalGuest": 1,
+    "tableName": "5G",
+    "time": "2023-12-24 18:36:55.981174",
+    "scheduleFor": "2023-12-24 18:36:55.981319",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 16,
+        "foodName": "Plain Roti",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 20,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": true
+      }
+    ],
+    "addedOrders": [],
+    "id": "7"
+  },
+  {
+    "orderNo": 665,
+    "totalGuest": 1,
+    "tableName": "4G",
+    "time": "2023-12-24 19:21:24.350771",
+    "scheduleFor": "2023-12-24 19:21:24.361140",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 6,
+        "foodName": "Veg Chilli Momo",
+        "tableName": "4G",
+        "quantity": 1,
+        "price": 150,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": true
+      }
+    ],
+    "addedOrders": [],
+    "id": "8"
+  },
+  {
+    "orderNo": 889,
+    "totalGuest": 2,
+    "tableName": "5G",
+    "time": "2023-12-24 20:54:14.594056",
+    "scheduleFor": "2023-12-24 20:54:14.606805",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 7,
+        "foodName": "Chicken Chaumin",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 10,
+        "foodName": "chicken Biryani",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 550,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 11,
+        "foodName": "Veg Biryani",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 400,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": true
+      },
+      {
+        "fid": 13,
+        "foodName": "Chicken Tandoori",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 850,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 14,
+        "foodName": "Chicken sekuwa",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 300,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "9"
+  },
+  {
+    "orderNo": 1033,
+    "totalGuest": 1,
+    "tableName": "3C",
+    "time": "2023-12-25 00:53:05.590814",
+    "scheduleFor": "2023-12-25 00:53:05.603482",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 21,
+        "foodName": "Paneer Curry",
+        "tableName": "3C",
+        "quantity": 7,
+        "price": 300,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": true
+      },
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "3C",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "10"
+  },
+  {
+    "orderNo": 969,
+    "totalGuest": 1,
+    "tableName": "2G",
+    "time": "2023-12-25 23:21:15.504725",
+    "scheduleFor": "2023-12-25 23:21:15.518211",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "2G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "11"
+  },
+  {
+    "orderNo": 1014,
+    "totalGuest": 1,
+    "tableName": "2G",
+    "time": "2023-12-25 23:21:56.868480",
+    "scheduleFor": "2023-12-25 23:21:56.868660",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "2G",
+        "quantity": 5,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "12"
+  },
+  {
+    "orderNo": 642,
+    "totalGuest": 1,
+    "tableName": "2G",
+    "time": "2023-12-25 23:23:20.828851",
+    "scheduleFor": "2023-12-25 23:23:20.829018",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "2G",
+        "quantity": 2,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "2G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "13"
+  },
+  {
+    "orderNo": 667,
+    "totalGuest": 1,
+    "tableName": "2G",
+    "time": "2023-12-25 23:23:39.900197",
+    "scheduleFor": "2023-12-25 23:23:39.900379",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "2G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "14"
+  },
+  {
+    "orderNo": 1076,
+    "totalGuest": 1,
+    "tableName": "5G",
+    "time": "2023-12-26 14:02:18.046958",
+    "scheduleFor": "2023-12-26 14:02:18.059717",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 13,
+        "foodName": "Chicken Tandoori",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 850,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "15"
+  },
+  {
+    "orderNo": 1023,
+    "totalGuest": 1,
+    "tableName": "8G",
+    "time": "2023-12-27 09:34:56.022346",
+    "scheduleFor": "2023-12-27 09:34:56.034027",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 1,
+        "foodName": "Chicken Momo Steam",
+        "tableName": "8G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "16"
+  },
+  {
+    "orderNo": 818,
+    "totalGuest": 1,
+    "tableName": "5G",
+    "time": "2023-12-27 09:35:30.444658",
+    "scheduleFor": "2023-12-27 09:35:30.444862",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 7,
+        "foodName": "Chicken Chaumin",
+        "tableName": "5G",
+        "quantity": 1,
+        "price": 140,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [],
+    "id": "17"
+  },
+  {
+    "orderNo": 677,
+    "totalGuest": 1,
+    "tableName": "8G",
+    "time": "2023-12-27 14:38:00.910463",
+    "scheduleFor": "2023-12-27 14:38:00.919917",
+    "isCompleted": false,
+    "orders": [
+      {
+        "fid": 2,
+        "foodName": "Chicken Momo Fry",
+        "tableName": "8G",
+        "quantity": 1,
+        "price": 170,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      }
+    ],
+    "addedOrders": [
+      {
+        "fid": 3,
+        "foodName": "Chicken Chilli Momo",
+        "tableName": "8G",
+        "quantity": 1,
+        "price": 200,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": false
+      },
+      {
+        "fid": 5,
+        "foodName": "Veg Momo Fry",
+        "tableName": "8G",
+        "quantity": 1,
+        "price": 130,
+        "note": "",
+        "foodQuantity": "",
+        "spicyLevel": "",
+        "addons": [],
+        "isCustomisable": false,
+        "isVeg": true
+      }
+    ],
+    "id": "18"
+  }
+];

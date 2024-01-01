@@ -22,4 +22,7 @@ class Url {
   //custumerInfo
   static String customerinfo =
       "https://658fad9fcbf74b575eca09d9.mockapi.io/customerInfo";
+
+  static String orderHistoryFinal =
+      "https://657fe58b6ae0629a3f53d242.mockapi.io/ttttt";
 }

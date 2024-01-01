@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 
 import '../../controller/order_controller.dart';
 import '../../controller/products_controller.dart';
-import '../../model/order_models.dart';
+
 import '../../model/product_items.dart';
 import '../table/models/btn_selected_model.dart';
 
