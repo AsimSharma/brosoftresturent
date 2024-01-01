@@ -1,4 +1,4 @@
-class History {
+class RemoteOrderModel {
   int orderNo;
   int totalGuest;
   String tableName;
@@ -7,9 +7,9 @@ class History {
   bool isCompleted;
   List<OrderItemsss> orders;
   List<OrderItemsss> addedOrders;
-  String id;
+  String? id;
 
-  History({
+  RemoteOrderModel({
     required this.orderNo,
     required this.totalGuest,
     required this.tableName,
@@ -18,17 +18,17 @@ class History {
     required this.isCompleted,
     required this.orders,
     required this.addedOrders,
-    required this.id,
+    this.id,
   });
 
-  factory History.fromJson(Map<String, dynamic> json) {
+  factory RemoteOrderModel.fromJson(Map<String, dynamic> json) {
     var data = json['orders'] as List;
     List<OrderItemsss> orderdata = data
         .map(
           (item) => OrderItemsss.fromJson(item),
         )
         .toList();
-    return History(
+    return RemoteOrderModel(
         id: json['id'],
         orderNo: json['orderNo'],
         tableName: json['tableName'],

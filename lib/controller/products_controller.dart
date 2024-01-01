@@ -13,6 +13,8 @@ class ProductsController extends GetxController {
   var isLooding = false.obs;
   var quantity = 0.obs;
 
+  var isAddes = false.obs;
+
   getProductsItems() async {
     isLooding = true.obs;
     try {
@@ -52,6 +54,17 @@ class ProductsController extends GetxController {
             productList.refresh();
             update();
           }
+        }
+      }
+    }
+  }
+
+  isAddeui(String id) {
+    for (var product in productList) {
+      for (var productItem in product.productItem) {
+        if (productItem.id == id) {
+          productItem.isAdded = true;
+          isAddes.value = productItem.isAdded;
         }
       }
     }

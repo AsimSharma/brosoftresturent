@@ -13,6 +13,20 @@ class OrDerController extends GetxController {
 
   var tap = false.obs;
 
+  var isAddedui = false.obs;
+
+  // bool isAddedfun(ProductItem productItem) {
+  //   bool hasItem = false;
+  //   for (ProductItem item in addItems) {
+  //     if (item.id == productItem.id) {
+  //       hasItem = true;
+  //     }
+  //     return hasItem;
+  //   }
+
+  //   return true;
+  // }
+
 // kindly ChangeThe Product Modele
   addItemsOnCart(
     ProductItem productItems,
@@ -21,7 +35,6 @@ class OrDerController extends GetxController {
     for (ProductItem item in addItems) {
       if (item.id == productItems.id) {
         hasItem = true;
-        tap = true.obs;
       }
     }
     log("$hasItem");
@@ -29,13 +42,15 @@ class OrDerController extends GetxController {
       var item = addItems.indexWhere((p0) => p0.id == productItems.id);
       log(" this is the index where Items  $item ");
       addItems[item] = ProductItem(
-        id: addItems[item].id,
-        name: addItems[item].name,
-        prices: addItems[item].prices,
-        quantity: addItems[item].quantity + 1,
-        veg: addItems[item].veg,
-        customize: addItems[item].customize,
-      );
+          id: addItems[item].id,
+          name: addItems[item].name,
+          prices: addItems[item].prices,
+          quantity: addItems[item].quantity + 1,
+          veg: addItems[item].veg,
+          customize: addItems[item].customize,
+          isAdded: addItems[item].isAdded = true);
+
+      tap = true.obs;
     } else {
       addItems.add(productItems);
     }
@@ -59,13 +74,13 @@ class OrDerController extends GetxController {
       var item = addItems.indexWhere((p0) => p0.id == productItems.id);
       log(" this is the index where Items  $item ");
       addItems[item] = ProductItem(
-        id: addItems[item].id,
-        name: addItems[item].name,
-        prices: addItems[item].prices,
-        quantity: addItems[item].quantity + 1,
-        veg: addItems[item].veg,
-        customize: addItems[item].customize,
-      );
+          id: addItems[item].id,
+          name: addItems[item].name,
+          prices: addItems[item].prices,
+          quantity: addItems[item].quantity + 1,
+          veg: addItems[item].veg,
+          customize: addItems[item].customize,
+          isAdded: addItems[item].isAdded = true);
     } else {
       log("Product not Found");
     }
@@ -86,15 +101,15 @@ class OrDerController extends GetxController {
       var item = addItems.indexWhere((p0) => p0.id == productItems.id);
       log(" this is the index where Items  $item ");
       addItems[item] = ProductItem(
-        id: addItems[item].id,
-        name: addItems[item].name,
-        prices: addItems[item].prices,
-        quantity: addItems[item].quantity > 0
-            ? addItems[item].quantity - 1
-            : addItems[item].quantity,
-        veg: addItems[item].veg,
-        customize: addItems[item].customize,
-      );
+          id: addItems[item].id,
+          name: addItems[item].name,
+          prices: addItems[item].prices,
+          quantity: addItems[item].quantity > 0
+              ? addItems[item].quantity - 1
+              : addItems[item].quantity,
+          veg: addItems[item].veg,
+          customize: addItems[item].customize,
+          isAdded: addItems[item].isAdded = true);
     } else {
       log("Product not Found");
     }

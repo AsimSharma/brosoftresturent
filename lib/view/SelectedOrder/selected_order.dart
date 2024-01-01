@@ -9,8 +9,8 @@ import 'package:brosoftresturent/view/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
-import '../../controller/order_controller.dart';
 import '../../controller/products_controller.dart';
 
 import '../../model/product_items.dart';
@@ -39,6 +39,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
   bool selectedRadio = false;
   int btnTapIndex = 0;
   final productsController = Get.put(ProductsController());
+  final orderCartCtrl = Get.put(OrDerController());
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
   final orderCartController = Get.put(OrDerController());
 
-  final orderCartCtrl = Get.put(OrderCartCtrl());
+  // final orderCartCtrl = Get.put(OrderCartCtrl());
 
   bool addOrder = false;
 
@@ -75,7 +76,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     var filterProduct = _filteredProducts();
 
     return Scaffold(
-      bottomNavigationBar: bottomCartBar(context),
+      bottomNavigationBar: bottomCartBar(
+          context, widget.tablename, widget.totalGuest, widget.oderNo),
       body: SafeArea(
         child: Obx(
           () => Container(
@@ -123,7 +125,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container bottomCartBar(BuildContext context) {
+  Container bottomCartBar(
+      BuildContext context, String tableName, int totalGuest, int orderNo) {
     return Container(
       height: 0.08.h(context),
       width: 1.0.w(context),
@@ -187,7 +190,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
             onTap: () {
               orderCartController.addItems.isEmpty
                   ? showToast(context, "Add something in cart")
-                  : Get.to(const ConfirmOrderScreen());
+                  : Get.to(ConfirmOrderScreen(
+                      tableName: tableName,
+                      totalGuest: totalGuest,
+                      orderNo: orderNo,
+                    ));
             },
             child: Container(
               height: 0.06.h(context),
@@ -199,7 +206,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 child: Text(
                   "View Order",
                   style: myTextStyle(
-                      textColor, 0.015.toResponsive(context), "Roboto"),
+                      textColor, 0.012.toResponsive(context), "Roboto"),
                 ),
               ),
             ),
@@ -270,7 +277,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                       fontFamily: "Roboto",
                                       fontWeight: FontWeight.w500),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: 0.045.h(context),
                                   child: Row(
                                     children: [
@@ -311,6 +318,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 productsController.quantity == 0
                                     ? InkWell(
                                         onTap: () async {
+                                          productsController
+                                              .isAddeui(productItem.id);
                                           orderCartController.addItemsOnCart(
                                             filterProduct[index1]
                                                 .productItem[index2],
@@ -362,11 +371,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                             children: [
                                               InkWell(
                                                   onTap: () {
-                                                    log("decrement");
-                                                    // productsController
-                                                    //     .decrementQuantity(
-                                                    //         productItem.id);
-
                                                     orderCartController
                                                         .decQuanity(
                                                             filterProduct[
@@ -374,7 +378,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                                     .productItem[
                                                                 index2]);
                                                   },
-                                                  child: Container(
+                                                  child: SizedBox(
                                                     height: 1.0.h(context),
                                                     width: 0.063.w(context),
                                                     child: Image.asset(
@@ -393,9 +397,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                               ),
                                               InkWell(
                                                   onTap: () {
-                                                    // productsController
-                                                    //     .incrementQuantity(
-                                                    //         productItem.id);
                                                     orderCartController
                                                         .increaseQuanity(
                                                             filterProduct[
@@ -403,7 +404,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                                     .productItem[
                                                                 index2]);
                                                   },
-                                                  child: Container(
+                                                  child: SizedBox(
                                                     height: 1.0.h(context),
                                                     width: 0.063.w(context),
                                                     child: Image.asset(

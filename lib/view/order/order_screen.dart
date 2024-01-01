@@ -64,13 +64,15 @@ class _OrderScreenState extends State<OrderScreen> {
                             height: 0.625.h(context),
                             width: 1.0.w(context),
                             child: ListView.builder(
-                                itemCount: remoteOrderCtrl.historyList.length,
+                                itemCount:
+                                    remoteOrderCtrl.remoteOrderList.length,
                                 itemBuilder: (context, index1) {
                                   var orderData =
-                                      remoteOrderCtrl.historyList[index1];
+                                      remoteOrderCtrl.remoteOrderList[index1];
                                   return Visibility(
                                     visible: remoteOrderCtrl
-                                            .historyList[index1].isCompleted ==
+                                            .remoteOrderList[index1]
+                                            .isCompleted ==
                                         false,
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -96,13 +98,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                             child: ListView.builder(
                                                 scrollDirection: Axis.vertical,
                                                 itemCount: remoteOrderCtrl
-                                                    .historyList[index1]
+                                                    .remoteOrderList[index1]
                                                     .orders
                                                     .length,
                                                 itemBuilder: (context, index2) {
                                                   var orderData =
                                                       remoteOrderCtrl
-                                                          .historyList[index1]
+                                                          .remoteOrderList[
+                                                              index1]
                                                           .orders[index2];
                                                   return Container(
                                                     height: 0.1.h(context),
@@ -192,7 +195,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               context,
                                               btnTapIndex,
                                               remoteOrderCtrl
-                                                  .historyList[index1].id)
+                                                  .remoteOrderList[index1].id!)
                                         ],
                                       ),
                                     ),
@@ -203,13 +206,14 @@ class _OrderScreenState extends State<OrderScreen> {
                             height: 0.625.h(context),
                             width: 1.0.w(context),
                             child: ListView.builder(
-                                itemCount: remoteOrderCtrl.historyList.length,
+                                itemCount:
+                                    remoteOrderCtrl.remoteOrderList.length,
                                 itemBuilder: (context, index1) {
                                   var orderData =
-                                      remoteOrderCtrl.historyList[index1];
+                                      remoteOrderCtrl.remoteOrderList[index1];
                                   return Visibility(
                                     visible: remoteOrderCtrl
-                                        .historyList[index1].isCompleted,
+                                        .remoteOrderList[index1].isCompleted,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
@@ -234,13 +238,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                             child: ListView.builder(
                                                 scrollDirection: Axis.vertical,
                                                 itemCount: remoteOrderCtrl
-                                                    .historyList[index1]
+                                                    .remoteOrderList[index1]
                                                     .orders
                                                     .length,
                                                 itemBuilder: (context, index2) {
                                                   var orderData =
                                                       remoteOrderCtrl
-                                                          .historyList[index1]
+                                                          .remoteOrderList[
+                                                              index1]
                                                           .orders[index2];
                                                   return Container(
                                                     height: 0.1.h(context),
@@ -330,7 +335,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               context,
                                               btnTapIndex,
                                               remoteOrderCtrl
-                                                  .historyList[index1].id)
+                                                  .remoteOrderList[index1].id!)
                                         ],
                                       ),
                                     ),
@@ -440,7 +445,8 @@ class _OrderScreenState extends State<OrderScreen> {
               ));
   }
 
-  Container topHeader(BuildContext context, History orderData, int btnIndex) {
+  Container topHeader(
+      BuildContext context, RemoteOrderModel orderData, int btnIndex) {
     return Container(
       height: 0.07.h(context),
       width: 1.0.w(context),

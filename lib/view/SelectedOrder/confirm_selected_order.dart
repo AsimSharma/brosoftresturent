@@ -7,19 +7,29 @@ import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controller/remote_order_controller.dart';
 import 'order_placed_screen.dart';
 
 class ConfirmOrderScreen extends StatelessWidget {
-  const ConfirmOrderScreen({super.key});
+  const ConfirmOrderScreen(
+      {super.key,
+      required this.tableName,
+      required this.totalGuest,
+      required this.orderNo});
+  final String tableName;
+  final int totalGuest;
+  final int orderNo;
 
   @override
   Widget build(BuildContext context) {
     final orderController = Get.find<OrDerController>();
     final productController = Get.find<ProductsController>();
+    final remoteOrderController = Get.put(RemoteOrderCtrl());
     var date = DateTime.now();
     log("ahele bihanko ${date.minute} bajyoo");
     return Scaffold(
-      bottomNavigationBar: bottomCartBar(context),
+      bottomNavigationBar:
+          bottomCartBar(context, tableName, totalGuest, orderNo),
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -34,7 +44,7 @@ class ConfirmOrderScreen extends StatelessWidget {
               SizedBox(
                 height: 0.004.h(context),
               ),
-              textSections(context, "2A", 120, 102),
+              textSections(context, tableName, totalGuest, orderNo),
               const Divider(),
               SizedBox(
                 height: 0.008.h(context),
@@ -379,8 +389,10 @@ class ConfirmOrderScreen extends StatelessWidget {
     );
   }
 
-  Container bottomCartBar(BuildContext context) {
+  Container bottomCartBar(
+      BuildContext context, String tableName, int totalGuest, int orderNo) {
     final orderController = Get.find<OrDerController>();
+    final remoteOrderController = Get.find<RemoteOrderCtrl>();
     return Container(
       height: 0.08.h(context),
       width: 1.0.w(context),
@@ -442,11 +454,19 @@ class ConfirmOrderScreen extends StatelessWidget {
 
           InkWell(
             onTap: () {
+              remoteOrderController.postTORemoteCart(
+                orderNo,
+                totalGuest,
+                tableName,
+                "1m ago",
+                "10m before",
+              );
+
               Get.to(const OrderPlacedSucess());
             },
             child: Container(
               height: 0.06.h(context),
-              width: 0.3.w(context),
+              width: 0.35.w(context),
               decoration: const BoxDecoration(
                   color: primary,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -454,7 +474,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                 child: Text(
                   "confirm Order",
                   style: myTextStyle(
-                      textColor, 0.015.toResponsive(context), "Roboto"),
+                      textColor, 0.012.toResponsive(context), "Roboto"),
                 ),
               ),
             ),
@@ -494,7 +514,7 @@ class ConfirmOrderScreen extends StatelessWidget {
             "Confirm Order",
             style: TextStyle(
                 color: textColor,
-                fontSize: 0.018.toResponsive(context),
+                fontSize: 0.015.toResponsive(context),
                 fontFamily: "Nunito",
                 fontWeight: FontWeight.w900),
           ),

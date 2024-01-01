@@ -29,24 +29,28 @@ class ProductItem {
   int quantity;
   bool veg;
   bool customize;
+  bool isAdded;
 
-  ProductItem({
-    String? id,
-    required this.name,
-    required this.prices,
-    required this.quantity,
-    required this.veg,
-    required this.customize,
-  }) : id = id ?? uuid.v1();
+  ProductItem(
+      {String? id,
+      required this.name,
+      required this.prices,
+      required this.quantity,
+      required this.veg,
+      required this.customize,
+      required this.isAdded})
+      : id = id ?? uuid.v1();
 
   factory ProductItem.fromJson(Map<String, dynamic> json) {
     return ProductItem(
-        id: json['id'],
-        name: json['name'],
-        prices: json['prices'],
-        quantity: json['quantity'],
-        veg: json['veg'],
-        customize: json['customize']);
+      id: json['id'],
+      name: json['name'],
+      prices: json['prices'],
+      quantity: json['quantity'],
+      veg: json['veg'],
+      customize: json['customize'],
+      isAdded: false,
+    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -56,5 +60,6 @@ class ProductItem {
         "quantity": quantity,
         "veg": veg,
         "customize": customize,
+        "isAdded": isAdded
       };
 }
