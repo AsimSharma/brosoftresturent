@@ -65,11 +65,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       remoteOrderCtrl.remoteOrderList[index1];
                                   return Visibility(
                                     key: UniqueKey(),
-                                    visible: remoteOrderCtrl
-                                                .remoteOrderList[index1]
-                                                .isCompleted ==
-                                            false ??
-                                        false,
+                                    visible: orderData.isCompleted == false,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
@@ -121,7 +117,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "${orderData.price ?? 0}",
+                                                              "100",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -139,9 +135,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              orderData
-                                                                      .foodName ??
-                                                                  "No Food is heare ",
+                                                              "No Food is heare ",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -165,7 +159,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "${(orderData.quantity ?? 0) * (orderData.price ?? 0)}",
+                                                              "500",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -191,12 +185,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                           ),
 
                                           addDeleBtns(
-                                              context,
-                                              btnTapIndex,
-                                              remoteOrderCtrl
-                                                      .remoteOrderList[index1]
-                                                      .id ??
-                                                  "120")
+                                              context, btnTapIndex, "120")
                                         ],
                                       ),
                                     ),
@@ -216,8 +205,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       remoteOrderCtrl.remoteOrderList[index1];
                                   return Visibility(
                                     key: UniqueKey(),
-                                    visible: remoteOrderCtrl
-                                        .remoteOrderList[index1].isCompleted,
+                                    visible: orderData.isCompleted == true,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
@@ -269,7 +257,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "${orderData.price ?? 0}",
+                                                              // "${orderData.price ?? 0}",
+                                                              "100",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -287,9 +276,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              orderData
-                                                                      .foodName ??
-                                                                  "No Food is heare ",
+                                                              // orderData
+                                                              //         .foodName ??
+                                                              "No Food is heare ",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -313,7 +302,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "${(orderData.quantity ?? 0) * (orderData.price ?? 0)}",
+                                                              "550",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -339,12 +328,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                           ),
 
                                           addDeleBtns(
-                                              context,
-                                              btnTapIndex,
-                                              remoteOrderCtrl
-                                                      .remoteOrderList[index1]
-                                                      .id ??
-                                                  "120")
+                                              context, btnTapIndex, "120")
                                         ],
                                       ),
                                     ),
