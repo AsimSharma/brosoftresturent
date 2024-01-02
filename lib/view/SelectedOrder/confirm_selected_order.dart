@@ -392,7 +392,7 @@ class ConfirmOrderScreen extends StatelessWidget {
   Container bottomCartBar(
       BuildContext context, String tableName, int totalGuest, int orderNo) {
     final orderController = Get.find<OrDerController>();
-    final remoteOrderController = Get.find<RemoteOrderCtrl>();
+    // final remoteOrderController = Get.find<RemoteOrderCtrl>();
     return Container(
       height: 0.08.h(context),
       width: 1.0.w(context),

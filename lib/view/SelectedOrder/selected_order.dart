@@ -1,5 +1,5 @@
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
-
+import 'package:brosoftresturent/controller/remote_productcontroller.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
@@ -39,6 +39,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
   int btnTapIndex = 0;
   final productsController = Get.put(ProductsController());
   final orderCartCtrl = Get.put(OrDerController());
+  final remoteProductCtrl = Get.put(RemoteProductCtrl());
 
   @override
   void initState() {
@@ -49,6 +50,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
   _init() async {
     await productsController.getProductsItems();
+    remoteProductCtrl.getRemoteProductsItems();
+
     _filteredProducts();
     btnTapIndex = 0;
   }
@@ -58,7 +61,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
   List<Products> _filteredProducts() {
     if (searchValue.isNotEmpty) {
       return productsController.productList
-          .where((product) => product.productName.toLowerCase() == searchValue)
+          .where((product) =>
+              (product.productName.toLowerCase()).contains(searchValue))
           .toList();
     } else {
       if (btnTapIndex == 0) {
@@ -320,8 +324,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 productsController.quantity == 0
                                     ? InkWell(
                                         onTap: () async {
-                                          productsController
-                                              .isAddeui(productItem.id);
+                                          // productsController
+                                          //     .isAddeui(productItem.id);
                                           orderCartController.addItemsOnCart(
                                             filterProduct[index1]
                                                 .productItem[index2],

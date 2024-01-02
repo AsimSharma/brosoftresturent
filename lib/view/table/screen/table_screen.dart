@@ -32,7 +32,8 @@ class _TableScreenState extends State<TableScreen> {
   List<TableModel> filterItems() {
     if (searchValue.isNotEmpty) {
       return tableComtroller.tables
-          .where((product) => searchValue == product.tabletype.toLowerCase())
+          .where((product) =>
+              product.tabletype.toLowerCase().contains(searchValue))
           .toList();
     } else {
       if (btnTapIndex == 0) {

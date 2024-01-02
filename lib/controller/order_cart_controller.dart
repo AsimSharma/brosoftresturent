@@ -55,6 +55,8 @@ class OrDerController extends GetxController {
       addItems.add(productItems);
     }
 
+    update();
+
     for (ProductItem product in addItems) {
       log("   Name: ${product.name}  Quantity:${product.quantity}");
     }

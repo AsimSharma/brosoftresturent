@@ -52,315 +52,303 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
 
                   //orderHistorylistView
-
-                  remoteOrderCtrl.isLoading == true.obs
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                          color: secondaryColors,
-                        ))
-                      : btnTapIndex == 0
-                          ? SizedBox(
-                              height: 0.625.h(context),
-                              width: 1.0.w(context),
-                              child: ListView.builder(
-                                  itemCount:
-                                      remoteOrderCtrl.remoteOrderList.length,
-                                  itemBuilder: (context, index1) {
-                                    var orderData =
-                                        remoteOrderCtrl.remoteOrderList[index1];
-                                    return Visibility(
-                                      key: UniqueKey(),
-                                      visible: remoteOrderCtrl
-                                              .remoteOrderList[index1]
-                                              .isCompleted ==
-                                          false,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(11)),
-                                            border: Border.all(
-                                                color: secondaryColors,
-                                                width: 2.0)),
-                                        margin: EdgeInsets.only(
-                                            top: 0.01.toResponsive(context)),
-                                        child: Column(
-                                          children: [
-                                            //toheader
-                                            topHeader(context, orderData,
-                                                btnTapIndex),
-                                            // OrderSItems listItems
-                                            Container(
-                                              height: 0.25.h(context),
-                                              width: 1.0.w(context),
-                                              // color: Colors.red,
-                                              padding: EdgeInsets.all(
-                                                  0.005.toResponsive(context)),
-                                              child: ListView.builder(
-                                                  physics:
-                                                      const ClampingScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount: remoteOrderCtrl
-                                                      .remoteOrderList[index1]
-                                                      .orders
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index2) {
-                                                    var orderData =
-                                                        remoteOrderCtrl
-                                                            .remoteOrderList[
-                                                                index1]
-                                                            .orders[index2];
-                                                    return Container(
-                                                      height: 0.1.h(context),
-                                                      width: 1.0.w(context),
-                                                      // color: Colors.green,
-                                                      margin: EdgeInsets.only(
-                                                          top: 0.001
-                                                              .toResponsive(
-                                                                  context)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                orderData
-                                                                    .quantity
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        textColor,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 0.013
-                                                                        .toResponsive(
-                                                                            context)),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 0.01
-                                                                    .w(context),
-                                                              ),
-                                                              Text(
-                                                                orderData
-                                                                    .foodName,
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        textColor,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 0.013
-                                                                        .toResponsive(
-                                                                            context)),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Image.asset(
-                                                                  "assets/images/nepalirupees.png"),
-                                                              SizedBox(
-                                                                width: 0.001
-                                                                    .w(context),
-                                                              ),
-                                                              Text(
-                                                                "${orderData.quantity * orderData.price}",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        textColor,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 0.013
-                                                                        .toResponsive(
-                                                                            context)),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
-                                            ),
-
-                                            const Divider(
+                  btnTapIndex == 0
+                      ? Obx(
+                          () => SizedBox(
+                            height: 0.625.h(context),
+                            width: 1.0.w(context),
+                            child: ListView.builder(
+                                itemCount:
+                                    remoteOrderCtrl.remoteOrderList.length,
+                                itemBuilder: (context, index1) {
+                                  var orderData =
+                                      remoteOrderCtrl.remoteOrderList[index1];
+                                  return Visibility(
+                                    key: UniqueKey(),
+                                    visible: remoteOrderCtrl
+                                            .remoteOrderList[index1]
+                                            .isCompleted ==
+                                        false,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(11)),
+                                          border: Border.all(
                                               color: secondaryColors,
-                                            ),
-
-                                            addDeleBtns(
-                                                context,
-                                                btnTapIndex,
-                                                remoteOrderCtrl
+                                              width: 2.0)),
+                                      margin: EdgeInsets.only(
+                                          top: 0.01.toResponsive(context)),
+                                      child: Column(
+                                        children: [
+                                          //toheader
+                                          topHeader(
+                                              context, orderData, btnTapIndex),
+                                          // OrderSItems listItems
+                                          Container(
+                                            height: 0.25.h(context),
+                                            width: 1.0.w(context),
+                                            // color: Colors.red,
+                                            padding: EdgeInsets.all(
+                                                0.005.toResponsive(context)),
+                                            child: ListView.builder(
+                                                physics:
+                                                    const ClampingScrollPhysics(),
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: remoteOrderCtrl
                                                     .remoteOrderList[index1]
-                                                    .id!)
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            )
-                          : SizedBox(
-                              height: 0.625.h(context),
-                              width: 1.0.w(context),
-                              child: ListView.builder(
-                                  itemCount:
-                                      remoteOrderCtrl.remoteOrderList.length,
-                                  itemBuilder: (context, index1) {
-                                    var orderData =
-                                        remoteOrderCtrl.remoteOrderList[index1];
-                                    return Visibility(
-                                      key: UniqueKey(),
-                                      visible: remoteOrderCtrl
-                                          .remoteOrderList[index1].isCompleted,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(11)),
-                                            border: Border.all(
-                                                color: secondaryColors,
-                                                width: 2.0)),
-                                        margin: EdgeInsets.only(
-                                            top: 0.01.toResponsive(context)),
-                                        child: Column(
-                                          children: [
-                                            //toheader
-                                            topHeader(context, orderData,
-                                                btnTapIndex),
-                                            // OrderSItems listItems
-                                            Container(
-                                              height: 0.25.h(context),
-                                              width: 1.0.w(context),
-                                              // color: Colors.red,
-                                              padding: EdgeInsets.all(
-                                                  0.005.toResponsive(context)),
-                                              child: ListView.builder(
-                                                  physics:
-                                                      const ClampingScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount: remoteOrderCtrl
-                                                      .remoteOrderList[index1]
-                                                      .orders
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index2) {
-                                                    var orderData =
-                                                        remoteOrderCtrl
-                                                            .remoteOrderList[
-                                                                index1]
-                                                            .orders[index2];
-                                                    return Container(
-                                                      height: 0.1.h(context),
-                                                      width: 1.0.w(context),
-                                                      // color: Colors.green,
-                                                      margin: EdgeInsets.only(
-                                                          top: 0.001
-                                                              .toResponsive(
-                                                                  context)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                orderData
-                                                                    .quantity
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        textColor,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 0.013
-                                                                        .toResponsive(
-                                                                            context)),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 0.01
-                                                                    .w(context),
-                                                              ),
-                                                              Text(
-                                                                orderData
-                                                                    .foodName,
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        textColor,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 0.013
-                                                                        .toResponsive(
-                                                                            context)),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Image.asset(
-                                                                  "assets/images/nepalirupees.png"),
-                                                              SizedBox(
-                                                                width: 0.001
-                                                                    .w(context),
-                                                              ),
-                                                              Text(
-                                                                "${orderData.quantity * orderData.price}",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        textColor,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 0.013
-                                                                        .toResponsive(
-                                                                            context)),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
-                                            ),
+                                                    .orders
+                                                    .length,
+                                                itemBuilder: (context, index2) {
+                                                  var orderData =
+                                                      remoteOrderCtrl
+                                                          .remoteOrderList[
+                                                              index1]
+                                                          .orders[index2];
+                                                  return Container(
+                                                    height: 0.1.h(context),
+                                                    width: 1.0.w(context),
+                                                    // color: Colors.green,
+                                                    margin: EdgeInsets.only(
+                                                        top: 0.001.toResponsive(
+                                                            context)),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "${orderData.price ?? 0}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      textColor,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 0.013
+                                                                      .toResponsive(
+                                                                          context)),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 0.01
+                                                                  .w(context),
+                                                            ),
+                                                            Text(
+                                                              orderData
+                                                                      .foodName ??
+                                                                  "No Food is heare ",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      textColor,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 0.013
+                                                                      .toResponsive(
+                                                                          context)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Image.asset(
+                                                                "assets/images/nepalirupees.png"),
+                                                            SizedBox(
+                                                              width: 0.001
+                                                                  .w(context),
+                                                            ),
+                                                            Text(
+                                                              "${orderData.quantity ?? 0 * orderData.price ?? 0}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      textColor,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 0.013
+                                                                      .toResponsive(
+                                                                          context)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
 
-                                            const Divider(
+                                          const Divider(
+                                            color: secondaryColors,
+                                          ),
+
+                                          addDeleBtns(
+                                              context,
+                                              btnTapIndex,
+                                              remoteOrderCtrl
+                                                  .remoteOrderList[index1].id!)
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ),
+                        )
+                      : Obx(
+                          () => SizedBox(
+                            height: 0.625.h(context),
+                            width: 1.0.w(context),
+                            child: ListView.builder(
+                                itemCount:
+                                    remoteOrderCtrl.remoteOrderList.length,
+                                itemBuilder: (context, index1) {
+                                  var orderData =
+                                      remoteOrderCtrl.remoteOrderList[index1];
+                                  return Visibility(
+                                    key: UniqueKey(),
+                                    visible: remoteOrderCtrl
+                                        .remoteOrderList[index1].isCompleted,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(11)),
+                                          border: Border.all(
                                               color: secondaryColors,
-                                            ),
-
-                                            addDeleBtns(
-                                                context,
-                                                btnTapIndex,
-                                                remoteOrderCtrl
+                                              width: 2.0)),
+                                      margin: EdgeInsets.only(
+                                          top: 0.01.toResponsive(context)),
+                                      child: Column(
+                                        children: [
+                                          //toheader
+                                          topHeader(
+                                              context, orderData, btnTapIndex),
+                                          // OrderSItems listItems
+                                          Container(
+                                            height: 0.25.h(context),
+                                            width: 1.0.w(context),
+                                            // color: Colors.red,
+                                            padding: EdgeInsets.all(
+                                                0.005.toResponsive(context)),
+                                            child: ListView.builder(
+                                                physics:
+                                                    const ClampingScrollPhysics(),
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: remoteOrderCtrl
                                                     .remoteOrderList[index1]
-                                                    .id!)
-                                          ],
-                                        ),
+                                                    .orders
+                                                    .length,
+                                                itemBuilder: (context, index2) {
+                                                  var orderData =
+                                                      remoteOrderCtrl
+                                                          .remoteOrderList[
+                                                              index1]
+                                                          .orders[index2];
+                                                  return Container(
+                                                    height: 0.1.h(context),
+                                                    width: 1.0.w(context),
+                                                    // color: Colors.green,
+                                                    margin: EdgeInsets.only(
+                                                        top: 0.001.toResponsive(
+                                                            context)),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "${orderData.price ?? 0}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      textColor,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 0.013
+                                                                      .toResponsive(
+                                                                          context)),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 0.01
+                                                                  .w(context),
+                                                            ),
+                                                            Text(
+                                                              orderData
+                                                                      .foodName ??
+                                                                  "No Food is heare ",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      textColor,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 0.013
+                                                                      .toResponsive(
+                                                                          context)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Image.asset(
+                                                                "assets/images/nepalirupees.png"),
+                                                            SizedBox(
+                                                              width: 0.001
+                                                                  .w(context),
+                                                            ),
+                                                            Text(
+                                                              "${orderData.quantity ?? 0 * orderData.price ?? 0}",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      textColor,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 0.013
+                                                                      .toResponsive(
+                                                                          context)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
+
+                                          const Divider(
+                                            color: secondaryColors,
+                                          ),
+
+                                          addDeleBtns(
+                                              context,
+                                              btnTapIndex,
+                                              remoteOrderCtrl
+                                                      .remoteOrderList[index1]
+                                                      .id ??
+                                                  "120")
+                                        ],
                                       ),
-                                    );
-                                  }),
-                            )
+                                    ),
+                                  );
+                                }),
+                          ),
+                        )
                 ],
               ),
             )),
