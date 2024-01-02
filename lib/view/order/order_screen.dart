@@ -164,7 +164,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "${orderData.quantity ?? 0 * orderData.price ?? 0}",
+                                                              "${(orderData.quantity ?? 0) * (orderData.price ?? 0)}",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -310,7 +310,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "${orderData.quantity ?? 0 * orderData.price ?? 0}",
+                                                              "${(orderData.quantity ?? 0) * (orderData.price ?? 0)}",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
