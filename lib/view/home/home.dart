@@ -50,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _pageIndex,
           items: [
             BottomNavigationBarItem(
-                activeIcon: Image.asset("assets/images/profile_dark.png"),
-                icon: Image.asset("assets/images/profile.png"),
+                activeIcon: Image.asset("assets/images/table_dark.png"),
+                icon: Image.asset("assets/images/table.png"),
                 label: "Table"),
             BottomNavigationBarItem(
                 activeIcon: Image.asset("assets/images/order_dark.png"),

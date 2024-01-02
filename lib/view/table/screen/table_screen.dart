@@ -27,14 +27,22 @@ class _TableScreenState extends State<TableScreen> {
   int btnTapIndex = 0;
   final tableComtroller = Get.put(TableController());
 
+  String searchValue = "";
+
   List<TableModel> filterItems() {
-    if (btnTapIndex == 0) {
-      return tableComtroller.tables;
-    } else {
-      var selectedItem = btnlist[btnTapIndex];
+    if (searchValue.isNotEmpty) {
       return tableComtroller.tables
-          .where((product) => selectedItem == product.tabletype)
+          .where((product) => searchValue == product.tabletype.toLowerCase())
           .toList();
+    } else {
+      if (btnTapIndex == 0) {
+        return tableComtroller.tables;
+      } else {
+        var selectedItem = btnlist[btnTapIndex];
+        return tableComtroller.tables
+            .where((product) => selectedItem == product.tabletype)
+            .toList();
+      }
     }
   }
 
@@ -69,39 +77,37 @@ class _TableScreenState extends State<TableScreen> {
           left: 0.01.toResponsive(context),
           right: 0.01.toResponsive(context),
         ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 0.025.h(context),
-            ),
-            SingleChildScrollView(child: logoHeader(context)),
-            SizedBox(
-              height: 0.015.h(context),
-            ),
-            searchBar(context),
-            SizedBox(
-              height: 0.015.h(context),
-            ),
-            selectedBtn(context),
-            SizedBox(
-              height: 0.015.h(context),
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 0.025.h(context),
+              ),
+              SingleChildScrollView(child: logoHeader(context)),
+              SizedBox(
+                height: 0.015.h(context),
+              ),
+              searchBar(context),
+              SizedBox(
+                height: 0.015.h(context),
+              ),
+              selectedBtn(context),
+              SizedBox(
+                height: 0.015.h(context),
+              ),
 
-            //tableItems
-            Obx(() => tableComtroller.isLooding == true.obs
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : llistedTableItems(context, filterTable))
-          ],
+              //tableItems
+              Obx(() => llistedTableItems(context, filterTable))
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Container llistedTableItems(
+  SizedBox llistedTableItems(
       BuildContext context, List<TableModel> filterTable) {
-    return Container(
+    return SizedBox(
       height: 0.62.h(context),
       width: 1.0.w(context),
       child: ListView.builder(
@@ -293,6 +299,12 @@ class _TableScreenState extends State<TableScreen> {
               child: Padding(
                 padding: EdgeInsets.all(0.0037.toResponsive(context)),
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      searchValue = value;
+                      log(" this is our Sarch value $searchValue");
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: "Search by table or category",
                     hintStyle: TextStyle(

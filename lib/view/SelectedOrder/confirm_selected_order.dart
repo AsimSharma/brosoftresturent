@@ -454,14 +454,6 @@ class ConfirmOrderScreen extends StatelessWidget {
 
           InkWell(
             onTap: () {
-              remoteOrderController.postTORemoteCart(
-                orderNo,
-                totalGuest,
-                tableName,
-                "1m ago",
-                "10m before",
-              );
-
               Get.to(const OrderPlacedSucess());
             },
             child: Container(

@@ -9,7 +9,6 @@ import 'package:brosoftresturent/view/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../../controller/products_controller.dart';
 
@@ -54,14 +53,22 @@ class _SelectedOrderState extends State<SelectedOrder> {
     btnTapIndex = 0;
   }
 
+  String searchValue = "";
+
   List<Products> _filteredProducts() {
-    if (btnTapIndex == 0) {
-      return productsController.productList;
-    } else {
-      var selectedCategory = btnlistOrder[btnTapIndex];
+    if (searchValue.isNotEmpty) {
       return productsController.productList
-          .where((product) => product.productName == selectedCategory)
+          .where((product) => product.productName.toLowerCase() == searchValue)
           .toList();
+    } else {
+      if (btnTapIndex == 0) {
+        return productsController.productList;
+      } else {
+        var selectedCategory = btnlistOrder[btnTapIndex];
+        return productsController.productList
+            .where((product) => product.productName == selectedCategory)
+            .toList();
+      }
     }
   }
 
@@ -79,14 +86,14 @@ class _SelectedOrderState extends State<SelectedOrder> {
       bottomNavigationBar: bottomCartBar(
           context, widget.tablename, widget.totalGuest, widget.oderNo),
       body: SafeArea(
-        child: Obx(
-          () => Container(
-            height: 0.92.h(context),
-            width: double.infinity,
-            padding: EdgeInsets.only(
-              left: 0.012.toResponsive(context),
-              right: 0.012.toResponsive(context),
-            ),
+        child: Container(
+          height: 0.92.h(context),
+          width: double.infinity,
+          padding: EdgeInsets.only(
+            left: 0.012.toResponsive(context),
+            right: 0.012.toResponsive(context),
+          ),
+          child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //headerSections
@@ -112,12 +119,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 height: 0.018.h(context),
               ),
               //ui filter
-
-              productsController.isLooding == true.obs
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : listviewProducts(context, filterProduct)
+              Obx(() => listviewProducts(context, filterProduct))
             ]),
           ),
         ),
@@ -495,6 +497,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchValue = value;
+                        });
+                      },
                       decoration: InputDecoration(
                         hintText: "Search by table or category",
                         hintStyle: myTextStyle(
