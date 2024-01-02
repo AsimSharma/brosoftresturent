@@ -66,8 +66,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                   return Visibility(
                                     key: UniqueKey(),
                                     visible: remoteOrderCtrl
-                                            .remoteOrderList[index1]
-                                            .isCompleted ==
+                                                .remoteOrderList[index1]
+                                                .isCompleted ==
+                                            false ??
                                         false,
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -193,7 +194,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                               context,
                                               btnTapIndex,
                                               remoteOrderCtrl
-                                                  .remoteOrderList[index1].id!)
+                                                      .remoteOrderList[index1]
+                                                      .id ??
+                                                  "120")
                                         ],
                                       ),
                                     ),
