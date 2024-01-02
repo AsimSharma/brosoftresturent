@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:brosoftresturent/controller/remote_order_controller.dart';
 import 'package:brosoftresturent/controller/remote_productcontroller.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
@@ -40,6 +42,16 @@ class _MessageScreenState extends State<MessageScreen> {
                   remoteProductsCtrl.getRemoteProductsItems();
                 },
               ),
+            ),
+            SizedBox(
+              height: 0.15.h(context),
+            ),
+            Radio(
+              value: true,
+              groupValue: true,
+              onChanged: (value) {
+                log("Value: $value");
+              },
             )
           ],
         ),

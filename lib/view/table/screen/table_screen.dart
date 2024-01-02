@@ -145,13 +145,25 @@ class _TableScreenState extends State<TableScreen> {
 
                             return GestureDetector(
                               onTap: () {
-                                Get.bottomSheet(bottomSheetNoReserved(
-                                    context,
-                                    tableItems.tableName,
-                                    tableItems.seat,
-                                    index1,
-                                    index2,
-                                    filterTable));
+                                // Get.bottomSheet(bottomSheetNoReserved(
+                                //     context,
+                                //     tableItems.tableName,
+                                //     tableItems.seat,
+                                //     index1,
+                                //     index2,
+                                //     filterTable));
+
+                                showBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return bottomSheetNoReserved(
+                                          context,
+                                          tableItems.tableName,
+                                          tableItems.seat,
+                                          index1,
+                                          index2,
+                                          filterTable);
+                                    });
                               },
                               child: Card(
                                 color: filterTable.reversed == true
@@ -366,250 +378,248 @@ class _TableScreenState extends State<TableScreen> {
       int numberGust, int index1, int index2, List<TableModel> filterTable) {
     var tableItems = filterTable[index1].tableItem[index2];
     return Container(
-      height: 2.0.h(context),
+      height: 0.63.h(context),
       width: 1.0.w(context),
       padding: EdgeInsets.only(
           left: 0.020.toResponsive(context),
           right: 0.020.toResponsive(context)),
       decoration: const BoxDecoration(
-          color: primary,
+          color: btnBghColor,
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(12), topLeft: Radius.circular(12))),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 0.035.h(context),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: InkWell(
-                onTap: () {
-                  tableComtroller.noofseat = 0.obs;
-                  Get.back();
-                },
-                child: Container(
-                  height: 0.06.h(context),
-                  width: 0.03.h(context),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/images/cance_icons.png"))),
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 0.035.h(context),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: InkWell(
+              onTap: () {
+                tableComtroller.noofseat = 0.obs;
+                Get.back();
+              },
+              child: Container(
+                height: 0.06.h(context),
+                width: 0.03.h(context),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/cance_icons.png"))),
               ),
             ),
-            Row(
+          ),
+          Row(
+            children: [
+              Text(
+                "Table   ",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 0.015.toResponsive(context),
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w800),
+              ),
+              SizedBox(
+                width: 0.005.w(context),
+              ),
+              Text(
+                tableName,
+                style: TextStyle(
+                    color: secondaryColors,
+                    fontSize: 0.017.toResponsive(context),
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w900),
+              ),
+            ],
+          ),
+
+          Container(
+            // color: Colors.red,
+            height: 0.08.h(context),
+            width: 1.0.w(context),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Table   ",
+                  "No of Guests:",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 0.015.toResponsive(context),
                       fontFamily: 'Nunito',
                       fontWeight: FontWeight.w800),
                 ),
-                SizedBox(
-                  width: 0.005.w(context),
+
+                Obx(
+                  () => Text(
+                    tableComtroller.noofseat.toString(),
+                    style: TextStyle(
+                        color: secondaryColors,
+                        fontSize: 0.017.toResponsive(context),
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w900),
+                  ),
                 ),
-                Text(
-                  tableName,
-                  style: TextStyle(
-                      color: secondaryColors,
-                      fontSize: 0.017.toResponsive(context),
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w900),
+
+                //btnContainer
+                Container(
+                  height: 0.055.h(context),
+                  width: 0.35.w(context),
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 207, 218, 226),
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              tableComtroller.decreaseSeat(
+                                context,
+                              );
+
+                              // tableComtroller.getTables();
+                            },
+                            child: SizedBox(
+                              height: 0.2.h(context),
+                              width: 0.1.w(context),
+                              child: Image.asset(
+                                  "assets/images/subtract icon.png"),
+                            )),
+                        const VerticalDivider(
+                          color: textColor,
+                          width: 10,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              tableComtroller.increaseSeat(
+                                  context, index1, index2);
+                              // tableComtroller.getTables();
+                            },
+                            child: SizedBox(
+                                height: 0.2.h(context),
+                                width: 0.1.w(context),
+                                child:
+                                    Image.asset("assets/images/Add icon.png"))),
+                      ]),
                 ),
               ],
             ),
+          ),
 
-            Container(
-              // color: Colors.red,
-              height: 0.08.h(context),
-              width: 1.0.w(context),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "No of Guests:",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 0.015.toResponsive(context),
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w800),
-                  ),
+          const Divider(
+            color: secondaryColors,
+            thickness: 2.0,
+          ),
 
-                  Obx(
-                    () => Text(
-                      tableComtroller.noofseat.toString(),
-                      style: TextStyle(
-                          color: secondaryColors,
-                          fontSize: 0.017.toResponsive(context),
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w900),
-                    ),
-                  ),
-
-                  //btnContainer
-                  Container(
-                    height: 0.055.h(context),
-                    width: 0.35.w(context),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 207, 218, 226),
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                tableComtroller.decreaseSeat(
-                                  context,
-                                );
-
-                                // tableComtroller.getTables();
-                              },
-                              child: SizedBox(
-                                height: 0.2.h(context),
-                                width: 0.1.w(context),
-                                child: Image.asset(
-                                    "assets/images/subtract icon.png"),
-                              )),
-                          const VerticalDivider(
-                            color: textColor,
-                            width: 10,
-                          ),
-                          InkWell(
-                              onTap: () {
-                                tableComtroller.increaseSeat(
-                                    context, index1, index2);
-                                // tableComtroller.getTables();
-                              },
-                              child: SizedBox(
-                                  height: 0.2.h(context),
-                                  width: 0.1.w(context),
-                                  child: Image.asset(
-                                      "assets/images/Add icon.png"))),
-                        ]),
-                  ),
-                ],
-              ),
-            ),
-
-            const Divider(
-              color: secondaryColors,
-              thickness: 2.0,
-            ),
-
-            //GeustPersinolinfo
-            Container(
-              height: 0.065.h(context),
-              width: 1.0.w(context),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Guest Personal Info:",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 0.015.toResponsive(context),
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w800),
-                  ),
-                  Container(
-                    height: 0.31.h(context),
-                    width: 0.071.w(context),
-                    decoration: const BoxDecoration(
-                        // color: Colors.red,
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/Barcode.png"))),
-                  ),
-                ],
-              ),
-            ),
-
-            //Inputs
-            Form(
-              child: Column(children: [
+          //GeustPersinolinfo
+          Container(
+            height: 0.065.h(context),
+            width: 1.0.w(context),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Guest Personal Info:",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 0.015.toResponsive(context),
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w800),
+                ),
                 Container(
-                  height: 0.07.h(context),
-                  width: 1.0.w(context),
-                  child: CustomeInputs(
-                      textEditingController: nameController,
-                      hintText: "Name",
-                      textinputTypes: TextInputType.text),
+                  height: 0.31.h(context),
+                  width: 0.071.w(context),
+                  decoration: const BoxDecoration(
+                      // color: Colors.red,
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/Barcode.png"))),
                 ),
-                SizedBox(
-                  height: 0.01.h(context),
-                ),
-                SizedBox(
-                  height: 0.07.h(context),
-                  width: 1.0.w(context),
-                  child: CustomeInputs(
-                      textEditingController: numberController,
-                      hintText: "Number",
-                      textinputTypes: TextInputType.number),
-                ),
-                SizedBox(
-                  height: 0.01.h(context),
-                ),
-                SizedBox(
-                  height: 0.07.h(context),
-                  width: 1.0.w(context),
-                  child: CustomeInputs(
-                      textEditingController: customernoController,
-                      hintText: "Customer No",
-                      textinputTypes: TextInputType.number),
-                ),
-              ]),
+              ],
             ),
-            SizedBox(
-              height: 0.02.h(context),
-            ),
-            //btns
-            SizedBox(
-              height: 0.058.h(context),
-              width: 1.0.w(context),
+          ),
 
-              // padding: EdgeInsets.all(0.005.toResponsive(context)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomBtn(
-                    height: 0.5.h(context),
-                    btnTitle: "Reserved",
-                    onPressed: () {
-                      tableComtroller.changeReserved(tableItems, index1);
-                      // tableComtroller.updateTableinfo(
-                      //     filterTable[index1].id,
-                      //     tableItems,
-                      //     tableItems.reserved == true ? false : true);
-
-                      // Get.back();
-                    },
-                    color: btnSecondaryColor,
-                    width: 0.4.w(context),
-                  ),
-                  CustomBtn(
-                    height: 1.0.h(context),
-                    btnTitle: "Start",
-                    onPressed: () {
-                      Get.back();
-                      tableComtroller.noofseat > 0
-                          ? Get.bottomSheet(orderBottomSheet(context, tableName,
-                              tableComtroller.noofseat.toInt()))
-                          : showToast(context, "guest cannot be Zero");
-                      // tableComtroller.getTables();
-                    },
-                    width: 0.44.w(context),
-                  )
-                ],
+          //Inputs
+          Form(
+            child: Column(children: [
+              Container(
+                height: 0.07.h(context),
+                width: 1.0.w(context),
+                child: CustomeInputs(
+                    textEditingController: nameController,
+                    hintText: "Name",
+                    textinputTypes: TextInputType.text),
               ),
+              SizedBox(
+                height: 0.01.h(context),
+              ),
+              SizedBox(
+                height: 0.07.h(context),
+                width: 1.0.w(context),
+                child: CustomeInputs(
+                    textEditingController: numberController,
+                    hintText: "Number",
+                    textinputTypes: TextInputType.number),
+              ),
+              SizedBox(
+                height: 0.01.h(context),
+              ),
+              SizedBox(
+                height: 0.07.h(context),
+                width: 1.0.w(context),
+                child: CustomeInputs(
+                    textEditingController: customernoController,
+                    hintText: "Customer No",
+                    textinputTypes: TextInputType.number),
+              ),
+            ]),
+          ),
+          SizedBox(
+            height: 0.02.h(context),
+          ),
+          //btns
+          SizedBox(
+            height: 0.058.h(context),
+            width: 1.0.w(context),
+
+            // padding: EdgeInsets.all(0.005.toResponsive(context)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomBtn(
+                  height: 0.5.h(context),
+                  btnTitle: "Reserved",
+                  onPressed: () {
+                    tableComtroller.changeReserved(tableItems, index1);
+                    // tableComtroller.updateTableinfo(
+                    //     filterTable[index1].id,
+                    //     tableItems,
+                    //     tableItems.reserved == true ? false : true);
+
+                    // Get.back();
+                  },
+                  color: btnSecondaryColor,
+                  width: 0.4.w(context),
+                ),
+                CustomBtn(
+                  height: 1.0.h(context),
+                  btnTitle: "Start",
+                  onPressed: () {
+                    Get.back();
+                    tableComtroller.noofseat > 0
+                        ? Get.bottomSheet(orderBottomSheet(context, tableName,
+                            tableComtroller.noofseat.toInt()))
+                        : showToast(context, "guest cannot be Zero");
+                    // tableComtroller.getTables();
+                  },
+                  width: 0.44.w(context),
+                )
+              ],
             ),
-            SizedBox(
-              height: 0.02.h(context),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 0.02.h(context),
+          ),
+        ],
       ),
     );
   }
@@ -703,31 +713,16 @@ class _TableScreenState extends State<TableScreen> {
     required String images,
     required String name,
     required String tableName,
-    required totalGuest,
+    required int totalGuest,
   }) {
     return InkWell(
       onTap: () {
         log("Tapped");
-        // from 1 to 100 included
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => SelectedOrder(
-                tablename: tableName,
-                totalGuest: totalGuest,
-                oderNo: getRandomnumber())));
-        // Get.to(() => SelectedOrder(
-        //     tablename: "tablename", totalGuest: totalGuest, oderNo: 1));
 
-        // Get.to(() => SelectedOrder(
-        //     tablename: tableName,
-        //     totalGuest: totalGuest,
-        //     oderNo: getRandomnumber()));
-
-        // log("Heloo from log bottom choose");
-
-        // Get.offAll(SelectedOrder(
-        //     tablename: tableName,
-        //     totalGuest: totalGuest,
-        //     oderNo: getRandomnumber()));
+        Get.to(() => SelectedOrder(
+            tablename: tableName,
+            totalGuest: totalGuest,
+            oderNo: getRandomnumber()));
       },
       child: Container(
         height: 0.1.h(context),

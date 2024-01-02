@@ -1,5 +1,6 @@
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
 import 'package:brosoftresturent/controller/remote_productcontroller.dart';
+import 'package:brosoftresturent/model/remote_products.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
@@ -12,7 +13,6 @@ import 'package:get/get.dart';
 
 import '../../controller/products_controller.dart';
 
-import '../../model/product_items.dart';
 import '../table/models/btn_selected_model.dart';
 
 import 'dart:developer';
@@ -35,7 +35,10 @@ class SelectedOrder extends StatefulWidget {
 
 class _SelectedOrderState extends State<SelectedOrder> {
   // Declare this variable
+
+  bool switchListTileValue = false;
   bool selectedRadio = false;
+  bool isSelected = false;
   int btnTapIndex = 0;
   final productsController = Get.put(ProductsController());
   final orderCartCtrl = Get.put(OrDerController());
@@ -58,19 +61,19 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
   String searchValue = "";
 
-  List<Products> _filteredProducts() {
+  List<Foods> _filteredProducts() {
     if (searchValue.isNotEmpty) {
-      return productsController.productList
+      return remoteProductCtrl.productList
           .where((product) =>
-              (product.productName.toLowerCase()).contains(searchValue))
+              (product.foodCategories.toLowerCase()).contains(searchValue))
           .toList();
     } else {
       if (btnTapIndex == 0) {
-        return productsController.productList;
+        return remoteProductCtrl.productList;
       } else {
         var selectedCategory = btnlistOrder[btnTapIndex];
-        return productsController.productList
-            .where((product) => product.productName == selectedCategory)
+        return remoteProductCtrl.productList
+            .where((product) => product.foodCategories == selectedCategory)
             .toList();
       }
     }
@@ -225,8 +228,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  SizedBox listviewProducts(
-      BuildContext context, List<Products> filterProduct) {
+  SizedBox listviewProducts(BuildContext context, List<Foods> filterProduct) {
     return SizedBox(
       width: 1.0.w(context),
       height: 0.58.h(context),
@@ -238,7 +240,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                filterProduct[index1].productName,
+                filterProduct[index1].foodCategories,
                 style: myTextStyle(
                     secondaryColors, 0.015.toResponsive(context), "Roboto"),
               ),
@@ -250,175 +252,194 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 width: 1.0.w(context),
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: filterProduct[index1].productItem.length,
+                    itemCount: filterProduct[index1].foodItems.length,
                     itemBuilder: (context, index2) {
-                      var productItem =
-                          filterProduct[index1].productItem[index2];
+                      var productItem = filterProduct[index1].foodItems[index2];
                       var images = imagesList[index2];
-                      return Card(
-                        color: Colors.grey[300],
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              right: 0.0015.toResponsive(context),
-                              left: 0.0015.toResponsive(context)),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset("${images['imageName']}"),
-                                SizedBox(
-                                  height: 0.005.toResponsive(context),
-                                ),
-                                SizedBox(
-                                  height: 0.015.toResponsive(context),
-                                  width: 0.05.w(context),
-                                  child: Image.asset(productItem.veg == false
-                                      ? AppImages.novegImage
-                                      : AppImages.vegImages),
-                                ),
-                                Text(
-                                  productItem.name.capitalize.toString(),
-                                  style: TextStyle(
-                                      color: secondaryColors,
-                                      fontSize: 0.015.toResponsive(context),
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 0.045.h(context),
-                                  child: Row(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                              "assets/images/bluenepali.png"),
-                                          Text(
-                                            productItem.prices
-                                                .toString()
-                                                .capitalize
-                                                .toString(),
-                                            style: TextStyle(
-                                                color: secondaryColors,
-                                                fontSize:
-                                                    0.015.toResponsive(context),
-                                                fontFamily: "Roboto",
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ],
-                                      ),
-                                      productItem.customize == true
-                                          ? TextButton(
-                                              onPressed: () {},
-                                              child: Text(
-                                                "Customiasble",
-                                                style: myTextStyle(
-                                                    Colors.red,
-                                                    0.0125
-                                                        .toResponsive(context),
-                                                    "Roboto"),
-                                              ),
-                                            )
-                                          : const Text("")
-                                    ],
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            productItem.isAdded = !productItem.isAdded;
+                            log("this is our ${productItem.isAdded}");
+                          });
+
+                          productItem.isCustomize == true
+                              ? showBottomSheet(
+                                  context: context,
+                                  builder: (context) =>
+                                      customizeBootom(context))
+                              : "";
+                        },
+                        child: Card(
+                          color: Colors.grey[300],
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                right: 0.0015.toResponsive(context),
+                                left: 0.0015.toResponsive(context)),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.asset("${images['imageName']}"),
+                                  SizedBox(
+                                    height: 0.005.toResponsive(context),
                                   ),
-                                ),
-                                productsController.quantity == 0
-                                    ? InkWell(
-                                        onTap: () async {
-                                          // productsController
-                                          //     .isAddeui(productItem.id);
-                                          orderCartController.addItemsOnCart(
-                                            filterProduct[index1]
-                                                .productItem[index2],
-                                          );
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.only(
-                                                left:
-                                                    0.020.toResponsive(context),
-                                                right: 0.020
-                                                    .toResponsive(context)),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                                border: Border.all(
-                                                    color: secondaryColors,
-                                                    width: 2)),
-                                            margin: EdgeInsets.only(
-                                                left:
-                                                    0.04.toResponsive(context),
-                                                right:
-                                                    0.04.toResponsive(context)),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Add",
-                                              style: myTextStyle(
-                                                  textColor,
-                                                  0.015.toResponsive(context),
-                                                  "Roboto"),
-                                            )),
-                                      )
-                                    : Container(
-                                        margin: EdgeInsets.only(
-                                            left: 0.025.toResponsive(context),
-                                            right: 0.025.toResponsive(context)),
-                                        height: 0.048.h(context),
-                                        width: 0.3.w(context),
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                            color: secondaryColors,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(15))),
-                                        child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              InkWell(
-                                                  onTap: () {
-                                                    orderCartController
-                                                        .decQuanity(
-                                                            filterProduct[
-                                                                        index1]
-                                                                    .productItem[
-                                                                index2]);
-                                                  },
-                                                  child: SizedBox(
-                                                    height: 1.0.h(context),
-                                                    width: 0.063.w(context),
-                                                    child: Image.asset(
-                                                        "assets/images/subwhite.png"),
-                                                  )),
-                                              Text(
-                                                orderCartController
-                                                    .addItems[index1].quantity
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: primary,
-                                                    fontSize: 0.013
-                                                        .toResponsive(context),
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Roboto"),
-                                              ),
-                                              InkWell(
-                                                  onTap: () {
-                                                    orderCartController
-                                                        .increaseQuanity(
-                                                            filterProduct[
-                                                                        index1]
-                                                                    .productItem[
-                                                                index2]);
-                                                  },
-                                                  child: SizedBox(
-                                                    height: 1.0.h(context),
-                                                    width: 0.063.w(context),
-                                                    child: Image.asset(
-                                                        "assets/images/addwhite.png"),
-                                                  )),
-                                            ]),
-                                      )
-                              ]),
+                                  SizedBox(
+                                    height: 0.015.toResponsive(context),
+                                    width: 0.05.w(context),
+                                    child: Image.asset(
+                                        productItem.isVeg == false
+                                            ? AppImages.novegImage
+                                            : AppImages.vegImages),
+                                  ),
+                                  Text(
+                                    productItem.fname.capitalize.toString(),
+                                    style: TextStyle(
+                                        color: secondaryColors,
+                                        fontSize: 0.015.toResponsive(context),
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: 0.045.h(context),
+                                    child: Row(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                                "assets/images/bluenepali.png"),
+                                            Text(
+                                              productItem.prices
+                                                  .toString()
+                                                  .capitalize
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: secondaryColors,
+                                                  fontSize: 0.015
+                                                      .toResponsive(context),
+                                                  fontFamily: "Roboto",
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                        productItem.isCustomize == true
+                                            ? TextButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  "Customiasble",
+                                                  style: myTextStyle(
+                                                      Colors.red,
+                                                      0.0125.toResponsive(
+                                                          context),
+                                                      "Roboto"),
+                                                ),
+                                              )
+                                            : const Text("")
+                                      ],
+                                    ),
+                                  ),
+                                  productItem.isAdded == false
+                                      ? InkWell(
+                                          onTap: () async {
+                                            // productsController
+                                            //     .isAddeui(productItem.id);
+                                            orderCartController.addItemsOnCart(
+                                              filterProduct[index1]
+                                                  .foodItems[index2],
+                                            );
+                                          },
+                                          child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 0.020
+                                                      .toResponsive(context),
+                                                  right: 0.020
+                                                      .toResponsive(context)),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(10)),
+                                                  border: Border.all(
+                                                      color: secondaryColors,
+                                                      width: 2)),
+                                              margin: EdgeInsets.only(
+                                                  left: 0.04
+                                                      .toResponsive(context),
+                                                  right: 0.04
+                                                      .toResponsive(context)),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Add",
+                                                style: myTextStyle(
+                                                    textColor,
+                                                    0.015.toResponsive(context),
+                                                    "Roboto"),
+                                              )),
+                                        )
+                                      : Container(
+                                          margin: EdgeInsets.only(
+                                              left: 0.025.toResponsive(context),
+                                              right:
+                                                  0.025.toResponsive(context)),
+                                          height: 0.048.h(context),
+                                          width: 0.3.w(context),
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: const BoxDecoration(
+                                              color: secondaryColors,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15))),
+                                          child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                InkWell(
+                                                    onTap: () {
+                                                      orderCartController
+                                                          .decQuanity(
+                                                              filterProduct[
+                                                                          index1]
+                                                                      .foodItems[
+                                                                  index2]);
+                                                    },
+                                                    child: SizedBox(
+                                                      height: 1.0.h(context),
+                                                      width: 0.063.w(context),
+                                                      child: Image.asset(
+                                                          "assets/images/subwhite.png"),
+                                                    )),
+                                                Text(
+                                                  orderCartController
+                                                      .addItems[index1].quantity
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: primary,
+                                                      fontSize: 0.013
+                                                          .toResponsive(
+                                                              context),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontFamily: "Roboto"),
+                                                ),
+                                                InkWell(
+                                                    onTap: () {
+                                                      orderCartController
+                                                          .increaseQuanity(
+                                                              filterProduct[
+                                                                          index1]
+                                                                      .foodItems[
+                                                                  index2]);
+                                                    },
+                                                    child: SizedBox(
+                                                      height: 1.0.h(context),
+                                                      width: 0.063.w(context),
+                                                      child: Image.asset(
+                                                          "assets/images/addwhite.png"),
+                                                    )),
+                                              ]),
+                                        )
+                                ]),
+                          ),
                         ),
                       );
                     }),
@@ -426,6 +447,172 @@ class _SelectedOrderState extends State<SelectedOrder> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  Container customizeBootom(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      height: 0.85.h(context),
+      width: 1.0.w(context),
+      child: Stack(children: [
+        Positioned(
+          left: 0.40.w(context),
+          child: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(
+                Icons.cancel,
+                color: Colors.black,
+                size: 0.042.h(context),
+              )),
+        ),
+        Positioned(
+            top: 0.070.h(context),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 249, 234, 233),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(0.030.toResponsive(context)),
+                      topLeft: Radius.circular(0.030.toResponsive(context)))),
+              padding: EdgeInsets.only(
+                left: 0.011.toResponsive(context),
+                right: 0.011.toResponsive(context),
+              ),
+              height: 0.8.h(context),
+              width: 1.0.w(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 0.01.h(context),
+                  ),
+                  Container(
+                      height: 0.28.h(context),
+                      width: 1.0.w(context),
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                  "assets/images/customizedimages.png")),
+                          borderRadius: BorderRadius.only(
+                              topRight:
+                                  Radius.circular(0.010.toResponsive(context)),
+                              topLeft: Radius.circular(
+                                  0.010.toResponsive(context))))),
+                  SizedBox(
+                    height: 0.02.h(context),
+                  ),
+                  Row(
+                    children: [
+                      Image.asset("assets/images/Non-veg Tag.png"),
+                      SizedBox(
+                        width: 0.02.w(context),
+                      ),
+                      Text(
+                        "Miso Ramen",
+                        style: TextStyle(
+                            color: textColor,
+                            fontSize: 0.016.toResponsive(context),
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w800),
+                      ),
+                      SizedBox(
+                        height: 0.02.h(context),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 0.005.h(context),
+                  ),
+                  Text(
+                    "Set the new password for your account so you can login and access all the features.",
+                    style: TextStyle(
+                        fontFamily: "Nunito",
+                        color: textColor,
+                        fontSize: 0.0145.toResponsive(context),
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 0.012.h(context),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2),
+                    child: Divider(
+                      color: secondaryColors,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 0.01.h(context),
+                  ),
+                  Text(
+                    "Choose one (1/1)*",
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.w800),
+                  ),
+                  chooseOne(context),
+                  // chooseOne(context),
+                  Text(
+                    "Add On",
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            )),
+      ]),
+    );
+  }
+
+  Container chooseOne(BuildContext context) {
+    return Container(
+      height: 0.051.h(context),
+      width: 1.0.w(context),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Half",
+            style: TextStyle(
+                color: textColor,
+                fontSize: 0.016.toResponsive(context),
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.w500),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/nepalirupees.png"),
+              Text("200"),
+              Radio(
+                value: true,
+                groupValue: true,
+                onChanged: (value) {
+                  log("Value: $value");
+                },
+
+                // child: Radio(
+                //     value: switchListTileValue,
+                //     groupValue: switchListTileValue,
+                //     toggleable: true,
+                //     onChanged: (value) {
+                //       log("$switchListTileValue  $value");
+                //       // setState(() {
+                //       //   switchListTileValue = value!;
+                //       // });
+                //     }),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

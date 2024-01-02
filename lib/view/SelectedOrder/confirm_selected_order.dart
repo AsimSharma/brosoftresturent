@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
-import 'package:brosoftresturent/controller/products_controller.dart';
+
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/remote_order_controller.dart';
+import '../../controller/remote_productcontroller.dart';
 import 'order_placed_screen.dart';
 
 class ConfirmOrderScreen extends StatelessWidget {
@@ -23,7 +24,7 @@ class ConfirmOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderController = Get.find<OrDerController>();
-    final productController = Get.find<ProductsController>();
+    final productController = Get.find<RemoteProductCtrl>();
     final remoteOrderController = Get.put(RemoteOrderCtrl());
     var date = DateTime.now();
     log("ahele bihanko ${date.minute} bajyoo");
@@ -159,7 +160,7 @@ class ConfirmOrderScreen extends StatelessWidget {
   }
 
   SizedBox confirmOrderList(BuildContext context,
-      OrDerController orderController, ProductsController productController) {
+      OrDerController orderController, RemoteProductCtrl productController) {
     return SizedBox(
       height: 0.45.h(context),
       width: 1.0.w(context),
@@ -199,7 +200,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                                 width: 0.04.w(context),
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: AssetImage(data.veg != true
+                                        image: AssetImage(data.isVeg != true
                                             ? "assets/images/Non-veg Icon.png"
                                             : "assets/images/Veg Icon.png"))),
                               ),
@@ -207,7 +208,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                                 width: 0.01.w(context),
                               ),
                               Text(
-                                data.name,
+                                data.fname,
                                 style: TextStyle(
                                     color: textColor,
                                     fontFamily: "RobotoRegular",
@@ -458,7 +459,7 @@ class ConfirmOrderScreen extends StatelessWidget {
             },
             child: Container(
               height: 0.06.h(context),
-              width: 0.35.w(context),
+              width: 0.3.w(context),
               decoration: const BoxDecoration(
                   color: primary,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
