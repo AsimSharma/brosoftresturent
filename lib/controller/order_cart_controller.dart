@@ -193,7 +193,7 @@ class OrDerController extends GetxController {
   }
 
   //
-  increaseQuantity(Order order) {
+  increaseCartQuantity(Order order) {
     bool hasItems = false;
     for (Order item in addItems) {
       if (item.fid == order.fid) {
@@ -221,7 +221,7 @@ class OrDerController extends GetxController {
   }
 
   //decrease
-  decraseQuantity(Order order) {
+  decraseCartQuantity(Order order) {
     bool hasItems = false;
     for (Order item in addItems) {
       if (item.fid == order.fid) {

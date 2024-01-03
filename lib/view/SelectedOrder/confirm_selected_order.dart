@@ -234,7 +234,8 @@ class ConfirmOrderScreen extends StatelessWidget {
                                   InkWell(
                                       onTap: () {
                                         // productController
-                                        orderController.decraseQuantity(data);
+                                        orderController
+                                            .decraseCartQuantity(data);
                                       },
                                       child: SizedBox(
                                         height: 0.045.h(context),
@@ -252,7 +253,8 @@ class ConfirmOrderScreen extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        orderController.increaseQuantity(data);
+                                        orderController
+                                            .increaseCartQuantity(data);
                                         log("addd'");
                                       },
                                       child: SizedBox(

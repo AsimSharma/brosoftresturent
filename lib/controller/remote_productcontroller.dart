@@ -27,34 +27,28 @@ class RemoteProductCtrl extends GetxController {
     } finally {
       isLooding = false.obs;
     }
+
+    update();
+    productList.refresh();
   }
 
   upDateIsAdded(
     Foods foods,
     FoodItems foodsItem,
   ) {
-    // bool hasItems = false;
-    // for (Foods item in productList) {
-    //   if (item.id == foods.id) {
-    //     for (FoodItems iteem in item.foodItems) {
-    //       if (iteem.fid == foodsItem.fid) {
-    //         hasItems = true;
-    //       }
-    //     }
-    //   }
-    // }
-    // log("HasItems : $hasItems");
-
     var index1 = productList.indexWhere((p0) => p0.id == foods.id);
     var index2 = productList[index1]
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
     log("$index1 $index2");
-    update();
+
     productList[index1].foodItems[index2].isAdded = true;
+
+    update();
+    productList.refresh();
   }
 
-  increaseQuantity(
+  increaseFoodQuantity(
     Foods foods,
     FoodItems foodsItem,
   ) {
@@ -63,8 +57,30 @@ class RemoteProductCtrl extends GetxController {
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
     log("$index1 $index2");
-    update();
+
     productList[index1].foodItems[index2].totalQuantity++;
+    update();
+    productList.refresh();
+  }
+
+  decreaseFoodQuantity(
+    Foods foods,
+    FoodItems foodsItem,
+  ) {
+    var index1 = productList.indexWhere((p0) => p0.id == foods.id);
+    var index2 = productList[index1]
+        .foodItems
+        .indexWhere((element) => element.fid == foodsItem.fid);
+    log("$index1 $index2");
+
+    if (productList[index1].foodItems[index2].totalQuantity > 0) {
+      productList[index1].foodItems[index2].totalQuantity--;
+    } else {
+      productList[index1].foodItems[index2].totalQuantity = 0;
+    }
+
+    update();
+    productList.refresh();
   }
 
   //
