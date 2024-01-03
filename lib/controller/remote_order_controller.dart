@@ -6,11 +6,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/remote_order_models.dart';
-import 'order_cart_controller.dart';
 
 class RemoteOrderCtrl extends GetxController {
   var remoteOrderList = <RemoteOrderModel>[].obs;
-  final ordercontroller = Get.find<OrDerController>();
+  // final ordercontroller = Get.find<OrDerController>();
 
   var isLoading = false.obs;
 
@@ -52,28 +51,34 @@ class RemoteOrderCtrl extends GetxController {
 
 //post
   postTORemoteCart(int orderNo, int totalGuest, String tableName, String time,
-      String scheduleFor) async {
+      String scheduleFor, List<Order> ordersItems) async {
+    log("I am from remote postToCart");
     RemoteOrderModel newRemoteOrder = RemoteOrderModel(
+      id: "1",
       orderNo: orderNo,
       totalGuest: totalGuest,
       tableName: tableName,
-      time: time,
-      scheduleFor: scheduleFor,
+      time: DateTime.now(),
+      scheduleFor: DateTime.now(),
       isCompleted: false,
-      orders: [],
+      orders: ordersItems,
       addedOrders: [],
     );
     try {
-      var uri = Uri.parse(Url.orderHistoryFinal);
-      var data = jsonEncode(newRemoteOrder.tojason());
+      var uri = Uri.parse(Url.remoteOrderPost);
+      var data = jsonEncode(newRemoteOrder.toJson());
+      log("Data : $data");
 
       http.Response res = await http.post(
         uri,
         body: data,
       );
+      log(data.toString());
       log(res.body.toString());
     } catch (err) {
       log(err.toString());
     }
+
+    update();
   }
 }

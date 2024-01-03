@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class RemoteProductCtrl extends GetxController {
   var productList = <Foods>[].obs;
+  var quantity = 0.obs;
 
   var isLooding = false.obs;
   getRemoteProductsItems() async {
@@ -23,6 +24,19 @@ class RemoteProductCtrl extends GetxController {
       log(err.toString());
     } finally {
       isLooding = false.obs;
+    }
+  }
+
+  incrementQuantity(int fid) {
+    for (var product in productList) {
+      for (var item in product.foodItems) {
+        if (item.fid == fid) {
+          item.quantity++;
+          quantity.value = item.quantity;
+          productList.refresh();
+          update();
+        }
+      }
     }
   }
 }

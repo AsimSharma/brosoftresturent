@@ -1,4 +1,4 @@
-import 'package:brosoftresturent/model/ordercartmodel.dart';
+import 'package:brosoftresturent/model/remote_order_models.dart';
 
 import 'package:brosoftresturent/model/remote_products.dart';
 
@@ -7,59 +7,58 @@ import 'dart:developer';
 
 // import "package:http/http.dart" as http;
 
+//this is our cart
 class OrDerController extends GetxController {
   var isLooding = false.obs;
-  var ordercart = <OrderCart>[].obs;
-  var addItems = <FoodItems>[].obs;
-
-  var tap = false.obs;
-
-  var isAddedui = false.obs;
-
-  // bool isAddedfun(ProductItem productItem) {
-  //   bool hasItem = false;
-  //   for (ProductItem item in addItems) {
-  //     if (item.id == productItem.id) {
-  //       hasItem = true;
-  //     }
-  //     return hasItem;
-  //   }
-
-  //   return true;
-  // }
+  RxList<Order> addItems = <Order>[].obs;
 
 // kindly ChangeThe Product Modele
-  addItemsOnCart(
-    FoodItems productItems,
-  ) {
+  addItemsOnCart(FoodItems foodItems, String tableName) {
     bool hasItem = false;
-    for (FoodItems item in addItems) {
-      if (item.fid == productItems.fid) {
+    for (Order item in addItems) {
+      if (item.fid == foodItems.fid) {
         hasItem = true;
       }
     }
     log("$hasItem");
     if (hasItem) {
-      var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
+      var item = addItems.indexWhere((p0) => p0.fid == foodItems.fid);
       log(" this is the index where Items  $item ");
-      addItems[item] = FoodItems(
+      addItems[item] = Order(
           fid: addItems[item].fid,
-          fname: addItems[item].fname,
-          prices: addItems[item].prices,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
           quantity: addItems[item].quantity + 1,
-          isVeg: addItems[item].isVeg,
-          isCustomize: addItems[item].isCustomize,
-          isAdded: addItems[item].isAdded = true);
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg);
 
-      tap = true.obs;
+      //update
     } else {
-      addItems.add(productItems);
+      Order newOrdersItemss = Order(
+          fid: foodItems.fid,
+          foodName: foodItems.fname,
+          tableName: tableName,
+          quantity: foodItems.quantity,
+          price: foodItems.prices,
+          note: "",
+          foodQuantity: "",
+          spicyLevel: "",
+          addons: [""],
+          isCustomisable: foodItems.isCustomize,
+          isVeg: foodItems.isVeg);
+
+      addItems.add(newOrdersItemss);
     }
 
     update();
 
-    for (FoodItems product in addItems) {
-      log("   Name: ${product.fname}  Quantity:${product.quantity}");
+    for (Order product in addItems) {
+      log("   Name: ${product.foodName}  Quantity:${product.quantity}");
     }
   }
 
@@ -67,7 +66,7 @@ class OrDerController extends GetxController {
     FoodItems productItems,
   ) {
     bool hasItem = false;
-    for (FoodItems item in addItems) {
+    for (Order item in addItems) {
       if (item.fid == productItems.fid) {
         hasItem = true;
       }
@@ -76,14 +75,18 @@ class OrDerController extends GetxController {
     if (hasItem) {
       var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
       log(" this is the index where Items  $item ");
-      addItems[item] = FoodItems(
+      addItems[item] = Order(
           fid: addItems[item].fid,
-          fname: addItems[item].fname,
-          prices: addItems[item].prices,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
           quantity: addItems[item].quantity + 1,
-          isVeg: addItems[item].isVeg,
-          isCustomize: addItems[item].isCustomize,
-          isAdded: addItems[item].isAdded = true);
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg);
     } else {
       log("Product not Found");
     }
@@ -94,7 +97,7 @@ class OrDerController extends GetxController {
     FoodItems productItems,
   ) {
     bool hasItem = false;
-    for (FoodItems item in addItems) {
+    for (Order item in addItems) {
       if (item.fid == productItems.fid) {
         hasItem = true;
       }
@@ -103,16 +106,18 @@ class OrDerController extends GetxController {
     if (hasItem) {
       var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
       log(" this is the index where Items  $item ");
-      addItems[item] = FoodItems(
+      addItems[item] = Order(
           fid: addItems[item].fid,
-          fname: addItems[item].fname,
-          prices: addItems[item].prices,
-          quantity: addItems[item].quantity > 0
-              ? addItems[item].quantity - 1
-              : addItems[item].quantity,
-          isVeg: addItems[item].isVeg,
-          isCustomize: addItems[item].isCustomize,
-          isAdded: addItems[item].isAdded = true);
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
+          quantity: addItems[item].quantity - 1,
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg);
     } else {
       log("Product not Found");
     }
@@ -122,7 +127,7 @@ class OrDerController extends GetxController {
 
   int getTotalItems() {
     int total = 0;
-    for (FoodItems item in addItems) {
+    for (Order item in addItems) {
       total += item.quantity;
     }
     update();
@@ -132,18 +137,31 @@ class OrDerController extends GetxController {
   double calculateTotalPrices() {
     double totalPrices = 0.0;
 
-    for (FoodItems item in addItems) {
-      totalPrices += item.prices * item.quantity;
+    for (Order item in addItems) {
+      totalPrices += item.price * item.quantity;
       update();
     }
     update();
     return totalPrices;
   }
 
+  //getIndivisualPrices
+  double calculateIndivisualPrices(Order order) {
+    double indivisualPrices = 0.0;
+
+    for (Order item in addItems) {
+      if (item.fid == order.fid) {
+        indivisualPrices += item.price * item.quantity;
+        update();
+      }
+    }
+    return indivisualPrices;
+  }
+
   clearCart() {
-    addItems = <FoodItems>[].obs;
+    addItems = <Order>[].obs;
     update();
-    log(ordercart.length.toString());
+    log(addItems.length.toString());
   }
 
   double grandTotalPrices() {
@@ -172,5 +190,61 @@ class OrDerController extends GetxController {
     double vattaxCalc = totalPrices * 13 / 100;
     update();
     return vattaxCalc;
+  }
+
+  //
+  increaseQuantity(Order order) {
+    bool hasItems = false;
+    for (Order item in addItems) {
+      if (item.fid == order.fid) {
+        hasItems = true;
+      }
+    }
+    log("$hasItems");
+
+    if (hasItems) {
+      var item = addItems.indexWhere((p0) => p0.fid == order.fid);
+      addItems[item] = Order(
+          fid: addItems[item].fid,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
+          quantity: addItems[item].quantity + 1,
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg);
+    }
+    update();
+  }
+
+  //decrease
+  decraseQuantity(Order order) {
+    bool hasItems = false;
+    for (Order item in addItems) {
+      if (item.fid == order.fid) {
+        hasItems = true;
+      }
+    }
+    log("$hasItems");
+
+    if (hasItems) {
+      var item = addItems.indexWhere((p0) => p0.fid == order.fid);
+      addItems[item] = Order(
+          fid: addItems[item].fid,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
+          quantity: addItems[item].quantity - 1,
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg);
+    }
+    update();
   }
 }

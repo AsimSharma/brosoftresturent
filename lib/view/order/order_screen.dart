@@ -1,5 +1,5 @@
 import 'package:brosoftresturent/controller/remote_order_controller.dart';
-import 'package:brosoftresturent/model/remote_order_models.dart';
+
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +21,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   void initState() {
+    btnTapIndex = 0;
     remoteOrderCtrl.getHistoryOrders();
     super.initState();
   }
@@ -65,7 +66,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                       remoteOrderCtrl.remoteOrderList[index1];
                                   return Visibility(
                                     key: UniqueKey(),
-                                    visible: orderData.isCompleted == false,
+                                    visible:
+                                        orderData.isCompleted == false ?? false,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
@@ -78,8 +80,160 @@ class _OrderScreenState extends State<OrderScreen> {
                                       child: Column(
                                         children: [
                                           //toheader
-                                          topHeader(
-                                              context, orderData, btnTapIndex),
+                                          // topHeader(context, btnTapIndex),
+
+                                          Container(
+                                            height: 0.07.h(context),
+                                            width: 1.0.w(context),
+                                            padding: EdgeInsets.all(
+                                                0.015.toResponsive(context)),
+                                            decoration: BoxDecoration(
+                                                color: btnTapIndex == 0
+                                                    ? secondaryColors
+                                                    : btnBghColor,
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        topRight:
+                                                            Radius.circular(11),
+                                                        topLeft:
+                                                            Radius.circular(
+                                                                11))),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  //left
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "Table",
+                                                        style: TextStyle(
+                                                            color:
+                                                                btnTapIndex == 0
+                                                                    ? primary
+                                                                    : textColor,
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 0.013
+                                                                .toResponsive(
+                                                                    context)),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 0.01.w(context),
+                                                      ),
+                                                      Text(
+                                                          orderData.tableName ??
+                                                              "",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  btnTapIndex ==
+                                                                          0
+                                                                      ? primary
+                                                                      : textColor,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 0.013
+                                                                  .toResponsive(
+                                                                      context))),
+                                                      SizedBox(
+                                                        width: 0.01.w(context),
+                                                      ),
+                                                      Image.asset(
+                                                          "assets/images/vectro7.png"),
+                                                      SizedBox(
+                                                        width: 0.01.w(context),
+                                                      ),
+                                                      Text(
+                                                        "5Items",
+                                                        style: TextStyle(
+                                                            color:
+                                                                btnTapIndex == 0
+                                                                    ? primary
+                                                                    : textColor,
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 0.012
+                                                                .toResponsive(
+                                                                    context)),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  //Right
+
+                                                  Row(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "Order",
+                                                            style: TextStyle(
+                                                                color: btnTapIndex ==
+                                                                        0
+                                                                    ? primary
+                                                                    : textColor,
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 0.013
+                                                                    .toResponsive(
+                                                                        context)),
+                                                          ),
+                                                          Text(
+                                                            "520",
+                                                            style: TextStyle(
+                                                                color: btnTapIndex ==
+                                                                        0
+                                                                    ? primary
+                                                                    : textColor,
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 0.013
+                                                                    .toResponsive(
+                                                                        context)),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        width: 0.008.w(context),
+                                                      ),
+                                                      Image.asset(
+                                                          "assets/images/vectro7.png"),
+                                                      SizedBox(
+                                                        width: 0.008.w(context),
+                                                      ),
+                                                      Text(
+                                                        "1m ago",
+                                                        style: TextStyle(
+                                                            color:
+                                                                btnTapIndex == 0
+                                                                    ? primary
+                                                                    : textColor,
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 0.013
+                                                                .toResponsive(
+                                                                    context)),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ]),
+                                          ),
+
                                           // OrderSItems listItems
                                           Container(
                                             height: 0.25.h(context),
@@ -205,7 +359,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                       remoteOrderCtrl.remoteOrderList[index1];
                                   return Visibility(
                                     key: UniqueKey(),
-                                    visible: orderData.isCompleted == true,
+                                    visible:
+                                        orderData.isCompleted == true ?? true,
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
@@ -218,8 +373,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       child: Column(
                                         children: [
                                           //toheader
-                                          topHeader(
-                                              context, orderData, btnTapIndex),
+                                          topHeader(context, btnTapIndex),
                                           // OrderSItems listItems
                                           Container(
                                             height: 0.25.h(context),
@@ -233,9 +387,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.vertical,
                                                 itemCount: remoteOrderCtrl
-                                                    .remoteOrderList[index1]
-                                                    .orders
-                                                    .length,
+                                                        .remoteOrderList[index1]
+                                                        .orders
+                                                        .length ??
+                                                    1,
                                                 itemBuilder: (context, index2) {
                                                   var orderData =
                                                       remoteOrderCtrl
@@ -335,7 +490,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                   );
                                 }),
                           ),
-                        )
+                        ),
                 ],
               ),
             )),
@@ -440,8 +595,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ));
   }
 
-  Container topHeader(
-      BuildContext context, RemoteOrderModel orderData, int btnIndex) {
+  Container topHeader(BuildContext context, int btnIndex) {
     return Container(
       height: 0.07.h(context),
       width: 1.0.w(context),
@@ -465,7 +619,7 @@ class _OrderScreenState extends State<OrderScreen> {
             SizedBox(
               width: 0.008.w(context),
             ),
-            Text(orderData.tableName,
+            Text("table21",
                 style: TextStyle(
                     color: btnTapIndex == 0 ? primary : textColor,
                     fontFamily: "Roboto",
@@ -503,7 +657,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       fontSize: 0.013.toResponsive(context)),
                 ),
                 Text(
-                  orderData.orderNo.toString(),
+                  "520",
                   style: TextStyle(
                       color: btnTapIndex == 0 ? primary : textColor,
                       fontFamily: "Roboto",

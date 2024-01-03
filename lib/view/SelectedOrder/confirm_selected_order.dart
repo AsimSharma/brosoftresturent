@@ -54,8 +54,9 @@ class ConfirmOrderScreen extends StatelessWidget {
               SizedBox(
                 height: 0.008.h(context),
               ),
-              confirmOrderList(context, orderController, productController),
-              grandTotaL(context, orderController)
+              Obx(() => confirmOrderList(
+                  context, orderController, productController)),
+              Obx(() => grandTotaL(context, orderController))
             ],
           ),
         ),
@@ -208,7 +209,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                                 width: 0.01.w(context),
                               ),
                               Text(
-                                data.fname,
+                                data.foodName,
                                 style: TextStyle(
                                     color: textColor,
                                     fontFamily: "RobotoRegular",
@@ -233,10 +234,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                                   InkWell(
                                       onTap: () {
                                         // productController
-                                        //     .decrementQuantity(data.id);
-                                        // log("sub'");
-
-                                        orderController.decQuanity(data);
+                                        orderController.decraseQuantity(data);
                                       },
                                       child: SizedBox(
                                         height: 0.045.h(context),
@@ -254,10 +252,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                        // productController
-                                        //     .incrementQuantity(data.id);
-
-                                        orderController.increaseQuanity(data);
+                                        orderController.increaseQuantity(data);
                                         log("addd'");
                                       },
                                       child: SizedBox(
@@ -317,7 +312,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                                 ),
                                 Text(
                                   orderController
-                                      .calculateTotalPrices()
+                                      .calculateIndivisualPrices(data)
                                       .toString(),
                                   style: TextStyle(
                                       color: const Color.fromARGB(
@@ -391,7 +386,7 @@ class ConfirmOrderScreen extends StatelessWidget {
   }
 
   Container bottomCartBar(
-      BuildContext context, String tableName, int totalGuest, int orderNo) {
+      BuildContext context, String tableName, int totalGuest, int) {
     final orderController = Get.find<OrDerController>();
     // final remoteOrderController = Get.find<RemoteOrderCtrl>();
     return Container(
@@ -455,7 +450,11 @@ class ConfirmOrderScreen extends StatelessWidget {
 
           InkWell(
             onTap: () {
-              Get.to(const OrderPlacedSucess());
+              Get.to(() => OrderPlacedSucess(
+                    orderNo: orderNo,
+                    totalGuest: totalGuest,
+                    tableName: tableName,
+                  ));
             },
             child: Container(
               height: 0.06.h(context),

@@ -20,9 +20,14 @@ class Url {
 
 //RemoteOrder
   static String orderHistoryFinal =
-      "https://657fe58b6ae0629a3f53d242.mockapi.io/ttttt";
+      "https://657fe58b6ae0629a3f53d242.mockapi.io/ttttt/";
 
 //RemoteProductsUrl
   static String remoteProductsUrl =
       "https://657fe58b6ae0629a3f53d242.mockapi.io/productsItems";
+
+//forRemoteOrderPost
+
+  static String remoteOrderPost =
+      "https://657fdd5d6ae0629a3f53bfa1.mockapi.io/api/v1/posremoteCart";
 }

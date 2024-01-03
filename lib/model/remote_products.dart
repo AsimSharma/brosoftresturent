@@ -1,3 +1,4 @@
+//RemoteProductModels
 class Foods {
   String foodCategories;
   String id;
@@ -22,7 +23,7 @@ class Foods {
 }
 
 class FoodItems {
-  String fid;
+  int fid;
   String fname;
   int prices;
   int quantity;

@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/products_controller.dart';
-
 import '../table/models/btn_selected_model.dart';
 
 import 'dart:developer';
@@ -126,7 +125,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 height: 0.018.h(context),
               ),
               //ui filter
-              Obx(() => listviewProducts(context, filterProduct))
+              Obx(() => listviewProducts(
+                    context,
+                    widget.tablename,
+                    filterProduct,
+                  ))
             ]),
           ),
         ),
@@ -228,7 +231,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  SizedBox listviewProducts(BuildContext context, List<Foods> filterProduct) {
+  SizedBox listviewProducts(
+      BuildContext context, String tableName, List<Foods> filterProduct) {
     return SizedBox(
       width: 1.0.w(context),
       height: 0.58.h(context),
@@ -337,15 +341,15 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                       ],
                                     ),
                                   ),
-                                  productItem.isAdded == false
+                                  remoteProductCtrl.quantity == 0.obs
                                       ? InkWell(
                                           onTap: () async {
-                                            // productsController
-                                            //     .isAddeui(productItem.id);
+                                            // remoteProductCtrl.incrementQuantity(
+                                            //     productItem.fid);
                                             orderCartController.addItemsOnCart(
-                                              filterProduct[index1]
-                                                  .foodItems[index2],
-                                            );
+                                                filterProduct[index1]
+                                                    .foodItems[index2],
+                                                tableName);
                                           },
                                           child: Container(
                                               padding: EdgeInsets.only(

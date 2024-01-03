@@ -1,17 +1,30 @@
+import 'dart:developer';
+
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
+import 'package:brosoftresturent/controller/remote_order_controller.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
-import 'package:brosoftresturent/view/home/home.dart';
+
 import 'package:brosoftresturent/view/widgets/custome_btns.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../home/home.dart';
+
 class OrderPlacedSucess extends StatelessWidget {
-  const OrderPlacedSucess({super.key});
+  const OrderPlacedSucess(
+      {super.key,
+      required this.orderNo,
+      required this.totalGuest,
+      required this.tableName});
+
+  final int orderNo, totalGuest;
+  final String tableName;
 
   @override
   Widget build(BuildContext context) {
     final orderController = Get.find<OrDerController>();
+    final remoteOrderControler = Get.put(RemoteOrderCtrl());
     return Scaffold(
       backgroundColor: btnBghColor,
       body: SafeArea(
@@ -53,14 +66,14 @@ class OrderPlacedSucess extends StatelessWidget {
                 style: TextStyle(
                     color: secondaryColors,
                     fontWeight: FontWeight.w800,
-                    fontSize: 0.015.toResponsive(context),
+                    fontSize: 0.014.toResponsive(context),
                     fontFamily: "RobotoRegular"),
               ),
               SizedBox(
                 height: 0.008.h(context),
               ),
               Text(
-                "YOUR ORDER ID: 130",
+                "YOUR ORDER ID: $orderNo",
                 style: TextStyle(
                     color: textColor,
                     fontWeight: FontWeight.w500,
@@ -73,8 +86,19 @@ class OrderPlacedSucess extends StatelessWidget {
               CustomBtn(
                 btnTitle: "Done",
                 onPressed: () {
+                  log("added: ${orderController.addItems}");
+                  log(" OrderNO: $orderNo         TotalGuest $totalGuest    TableName $tableName");
+                  remoteOrderControler.postTORemoteCart(
+                    orderNo,
+                    totalGuest,
+                    tableName,
+                    "1mago",
+                    "10m before",
+                    orderController.addItems,
+                  );
+
+                  Get.to(() => const HomeScreen());
                   orderController.clearCart();
-                  Get.to(const HomeScreen());
                 },
                 height: 0.065.h(context),
                 width: 0.55.w(context),
