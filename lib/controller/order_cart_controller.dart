@@ -5,14 +5,11 @@ import 'package:brosoftresturent/model/remote_products.dart';
 import 'package:get/get.dart';
 import 'dart:developer';
 
-// import "package:http/http.dart" as http;
-
 //this is our cart
 class OrDerController extends GetxController {
   var isLooding = false.obs;
   RxList<Order> addItems = <Order>[].obs;
 
-// kindly ChangeThe Product Modele
   addItemsOnCart(FoodItems foodItems, String tableName) {
     bool hasItem = false;
     for (Order item in addItems) {
@@ -62,7 +59,7 @@ class OrDerController extends GetxController {
     }
   }
 
-  increaseQuanity(
+  increaseFoodQuanity(
     FoodItems productItems,
   ) {
     bool hasItem = false;
@@ -93,7 +90,7 @@ class OrDerController extends GetxController {
     update();
   }
 
-  decQuanity(
+  decFoodQuanity(
     FoodItems productItems,
   ) {
     bool hasItem = false;

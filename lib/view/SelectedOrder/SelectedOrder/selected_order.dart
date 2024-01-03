@@ -11,10 +11,12 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../controller/products_controller.dart';
-import '../table/models/btn_selected_model.dart';
+import '../../../controller/products_controller.dart';
+import '../../table/models/btn_selected_model.dart';
 
 import 'dart:developer';
+
+import 'widgets/bottom_navigation_cart.dart';
 
 class SelectedOrder extends StatefulWidget {
   const SelectedOrder({
@@ -79,8 +81,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
   final orderCartController = Get.put(OrDerController());
 
-  // final orderCartCtrl = Get.put(OrderCartCtrl());
-
   bool addOrder = false;
 
   @override
@@ -88,8 +88,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
     var filterProduct = _filteredProducts();
 
     return Scaffold(
-      bottomNavigationBar: bottomCartBar(
-          context, widget.tablename, widget.totalGuest, widget.oderNo),
+      bottomNavigationBar: BottoNavigations(
+          orderCartController: orderCartController, widget: widget),
       body: SafeArea(
         child: Container(
           height: 0.92.h(context),
@@ -132,100 +132,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
             ]),
           ),
         ),
-      ),
-    );
-  }
-
-  Container bottomCartBar(
-      BuildContext context, String tableName, int totalGuest, int orderNo) {
-    return Container(
-      height: 0.08.h(context),
-      width: 1.0.w(context),
-      margin: EdgeInsets.all(0.002.toResponsive(context)),
-      decoration: const BoxDecoration(
-          color: secondaryColors,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            width: 0.05.w(context),
-          ),
-          //itemsrs
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Obx(
-                    () => Text(
-                      orderCartController.getTotalItems().toString(),
-                      style: myTextStyle(
-                          primary, 0.015.toResponsive(context), "Roboto"),
-                    ),
-                  ),
-                  Text(
-                    " items",
-                    style: myTextStyle(
-                        primary, 0.015.toResponsive(context), "Roboto"),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 0.05.w(context),
-              ),
-              Image.asset("assets/images/vectro7.png"),
-              SizedBox(
-                width: 0.05.w(context),
-              ),
-              Row(
-                children: [
-                  Image.asset("assets/images/nepalirs (1).png"),
-                  Obx(
-                    () => Text(
-                      orderCartController.calculateTotalPrices().toString(),
-                      style: myTextStyle(
-                          primary, 0.015.toResponsive(context), "Roboto"),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 0.09.w(context),
-          ),
-
-          InkWell(
-            onTap: () {
-              orderCartController.addItems.isEmpty
-                  ? showToast(context, "Add something in cart")
-                  : Get.to(ConfirmOrderScreen(
-                      tableName: tableName,
-                      totalGuest: totalGuest,
-                      orderNo: orderNo,
-                    ));
-            },
-            child: Container(
-              height: 0.06.h(context),
-              width: 0.3.w(context),
-              decoration: const BoxDecoration(
-                  color: primary,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Center(
-                child: Text(
-                  "View Order",
-                  style: myTextStyle(
-                      textColor, 0.012.toResponsive(context), "Roboto"),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 0.026.w(context),
-          ),
-        ],
       ),
     );
   }
@@ -412,7 +318,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                                     index2]);
 
                                                         orderCartController
-                                                            .decQuanity(
+                                                            .decFoodQuanity(
                                                           filterProduct[index1]
                                                                   .foodItems[
                                                               index2],
@@ -448,7 +354,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                                         .foodItems[
                                                                     index2]);
                                                         orderCartController
-                                                            .increaseQuanity(
+                                                            .increaseFoodQuanity(
                                                           filterProduct[index1]
                                                                   .foodItems[
                                                               index2],
@@ -720,8 +626,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
                       },
                       decoration: InputDecoration(
                         hintText: "Search by table or category",
-                        hintStyle: myTextStyle(
-                            textColor, 0.011.toResponsive(context), "Roboto"),
+                        hintStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 0.012.toResponsive(context),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Nunito"),
                         border: InputBorder.none,
                       ),
                       keyboardType: TextInputType.text,
@@ -842,17 +751,12 @@ class _SelectedOrderState extends State<SelectedOrder> {
               Get.back();
             },
             child: Container(
-              color: Colors.red,
-              height: 0.04.h(context),
-              width: 0.05.w(context),
-              child: Container(
-                height: 0.08.h(context),
-                width: 0.01.w(context),
-                decoration: const BoxDecoration(
-                    color: Colors.green,
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/Back Icon.png"))),
-              ),
+              height: 0.3.h(context),
+              width: 0.08.w(context),
+              decoration: const BoxDecoration(
+                  // color: Colors.green,
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/Back Icon.png"))),
             ),
           ),
           Text(
