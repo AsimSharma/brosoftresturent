@@ -41,15 +41,15 @@ class TableController extends GetxController {
     }
   }
 
-  changeReserved(TableItem tableItem, int index) {
-    for (TableItem item in tables[index].tableItem) {
-      log(item.toString());
-      item.reserved = !item.reserved;
-      log(item.reserved.toString());
-      tables.refresh();
-      update();
-    }
-  }
+  // changeReserved(TableModel tableModels,TableItem,) {
+  //   for (TableItem item in tables[index].tableItem) {
+  //     log(item.toString());
+  //     item.reserved = !item.reserved;
+  //     log(item.reserved.toString());
+  //     tables.refresh();
+  //     update();
+  //   }
+  // }
 
   getTables() async {
     isLooding = false.obs;

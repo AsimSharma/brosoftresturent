@@ -30,6 +30,7 @@ class FoodItems {
   bool isCustomize;
   bool isVeg;
   bool isAdded;
+  int totalQuantity;
 
   FoodItems({
     required this.fid,
@@ -39,18 +40,19 @@ class FoodItems {
     required this.isCustomize,
     required this.isVeg,
     required this.isAdded,
+    required this.totalQuantity,
   });
 
   factory FoodItems.fromJson(Map<String, dynamic> json) {
     return FoodItems(
-      fid: json['fid'],
-      fname: json['fname'],
-      prices: json['prices'],
-      quantity: json['quantity'],
-      isVeg: json['isVeg'],
-      isCustomize: json['isCustomize'],
-      isAdded: json['isAdded'],
-    );
+        fid: json['fid'],
+        fname: json['fname'],
+        prices: json['prices'],
+        quantity: json['quantity'],
+        isVeg: json['isVeg'],
+        isCustomize: json['isCustomize'],
+        isAdded: false,
+        totalQuantity: 1);
   }
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +62,7 @@ class FoodItems {
         "quantity": quantity,
         "isVeg": isVeg,
         "isCustomize": isCustomize,
-        "isAdded": isAdded
+        "isAdded": isAdded,
+        "totalQuantity": totalQuantity
       };
 }

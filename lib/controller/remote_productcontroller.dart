@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 class RemoteProductCtrl extends GetxController {
   var productList = <Foods>[].obs;
   var quantity = 0.obs;
+  var isAdded = false.obs;
 
   var isLooding = false.obs;
   getRemoteProductsItems() async {
@@ -18,6 +19,7 @@ class RemoteProductCtrl extends GetxController {
       var url = Uri.parse(Url.remoteProductsUrl);
       var response = await http.get(url);
       List data = jsonDecode(response.body);
+      productList = <Foods>[].obs;
       productList.addAll(data.map((items) => Foods.fromJson(items)).toList());
       log(data.toString());
     } catch (err) {
@@ -27,16 +29,43 @@ class RemoteProductCtrl extends GetxController {
     }
   }
 
-  incrementQuantity(int fid) {
-    for (var product in productList) {
-      for (var item in product.foodItems) {
-        if (item.fid == fid) {
-          item.quantity++;
-          quantity.value = item.quantity;
-          productList.refresh();
-          update();
-        }
-      }
-    }
+  upDateIsAdded(
+    Foods foods,
+    FoodItems foodsItem,
+  ) {
+    // bool hasItems = false;
+    // for (Foods item in productList) {
+    //   if (item.id == foods.id) {
+    //     for (FoodItems iteem in item.foodItems) {
+    //       if (iteem.fid == foodsItem.fid) {
+    //         hasItems = true;
+    //       }
+    //     }
+    //   }
+    // }
+    // log("HasItems : $hasItems");
+
+    var index1 = productList.indexWhere((p0) => p0.id == foods.id);
+    var index2 = productList[index1]
+        .foodItems
+        .indexWhere((element) => element.fid == foodsItem.fid);
+    log("$index1 $index2");
+    update();
+    productList[index1].foodItems[index2].isAdded = true;
   }
+
+  increaseQuantity(
+    Foods foods,
+    FoodItems foodsItem,
+  ) {
+    var index1 = productList.indexWhere((p0) => p0.id == foods.id);
+    var index2 = productList[index1]
+        .foodItems
+        .indexWhere((element) => element.fid == foodsItem.fid);
+    log("$index1 $index2");
+    update();
+    productList[index1].foodItems[index2].totalQuantity++;
+  }
+
+  //
 }

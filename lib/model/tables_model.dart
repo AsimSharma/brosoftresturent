@@ -42,7 +42,7 @@ class TableItem {
   factory TableItem.fromJson(Map<String, dynamic> json) {
     return TableItem(
         tableName: json['tableName'],
-        reserved: json['reserved'],
+        reserved: false,
         seat: json['seat'],
         tid: json['tid']);
   }
