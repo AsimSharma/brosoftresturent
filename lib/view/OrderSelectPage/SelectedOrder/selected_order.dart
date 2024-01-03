@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
 import 'package:brosoftresturent/controller/remote_productcontroller.dart';
 import 'package:brosoftresturent/model/remote_products.dart';
@@ -5,18 +7,13 @@ import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
-import 'package:brosoftresturent/view/SelectedOrder/confirm_selected_order.dart';
-import 'package:brosoftresturent/view/widgets/toast_message.dart';
-import 'package:flutter/material.dart';
+import '../../table/models/btn_selected_model.dart';
+import 'widgets/bottom_navigation_cart.dart';
 
 import 'package:get/get.dart';
-
-import '../../../controller/products_controller.dart';
-import '../../table/models/btn_selected_model.dart';
-
 import 'dart:developer';
 
-import 'widgets/bottom_navigation_cart.dart';
+import '../widgets/header_app_bar.dart';
 
 class SelectedOrder extends StatefulWidget {
   const SelectedOrder({
@@ -35,31 +32,26 @@ class SelectedOrder extends StatefulWidget {
 }
 
 class _SelectedOrderState extends State<SelectedOrder> {
-  // Declare this variable
-
   bool switchListTileValue = false;
   bool selectedRadio = false;
-  bool isSelected = false;
+  String searchValue = "";
   int btnTapIndex = 0;
-  final productsController = Get.put(ProductsController());
-  final orderCartCtrl = Get.put(OrDerController());
+
+  final orderCartController = Get.put(OrDerController());
+
   final remoteProductCtrl = Get.put(RemoteProductCtrl());
 
   @override
   void initState() {
-    Get.put(ProductsController());
     _init();
     super.initState();
   }
 
   _init() async {
-    // await productsController.getProductsItems();
     remoteProductCtrl.getRemoteProductsItems();
     _filteredProducts();
     btnTapIndex = 0;
   }
-
-  String searchValue = "";
 
   List<Foods> _filteredProducts() {
     if (searchValue.isNotEmpty) {
@@ -78,10 +70,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
       }
     }
   }
-
-  final orderCartController = Get.put(OrDerController());
-
-  bool addOrder = false;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +90,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //headerSections
-              hederSections(context),
+              const HeadeAppBar(
+                titleName: "Selected Order",
+              ),
               SizedBox(
                 height: 0.004.h(context),
               ),
@@ -157,7 +147,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 height: 0.0125.h(context),
               ),
               SizedBox(
-                height: 0.35.h(context),
+                height: 0.38.h(context),
                 width: 1.0.w(context),
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -165,212 +155,203 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     itemBuilder: (context, index2) {
                       var productItem = filterProduct[index1].foodItems[index2];
                       var images = imagesList[index2];
-                      return InkWell(
-                        onTap: () {
-                          productItem.isCustomize == true
-                              ? showBottomSheet(
-                                  context: context,
-                                  builder: (context) =>
-                                      customizeBootom(context))
-                              : "";
-                        },
-                        child: Card(
-                          color: Colors.grey[300],
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                right: 0.0015.toResponsive(context),
-                                left: 0.0015.toResponsive(context)),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset("${images['imageName']}"),
-                                  SizedBox(
-                                    height: 0.005.toResponsive(context),
-                                  ),
-                                  SizedBox(
-                                    height: 0.015.toResponsive(context),
-                                    width: 0.05.w(context),
-                                    child: Image.asset(
-                                        productItem.isVeg == false
-                                            ? AppImages.novegImage
-                                            : AppImages.vegImages),
-                                  ),
-                                  Text(
-                                    productItem.fname.capitalize.toString(),
-                                    style: TextStyle(
-                                        color: secondaryColors,
-                                        fontSize: 0.015.toResponsive(context),
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: 0.045.h(context),
-                                    child: Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                                "assets/images/bluenepali.png"),
-                                            Text(
-                                              productItem.prices
-                                                  .toString()
-                                                  .capitalize
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: secondaryColors,
-                                                  fontSize: 0.015
-                                                      .toResponsive(context),
-                                                  fontFamily: "Roboto",
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
-                                        ),
-                                        productItem.isCustomize == true
-                                            ? TextButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  "Customiasble",
-                                                  style: myTextStyle(
-                                                      Colors.red,
-                                                      0.0125.toResponsive(
-                                                          context),
-                                                      "Roboto"),
-                                                ),
-                                              )
-                                            : const Text("")
-                                      ],
-                                    ),
-                                  ),
-                                  productItem.totalQuantity == 0
-                                      ? InkWell(
-                                          onTap: () async {
-                                            orderCartController.addItemsOnCart(
-                                                filterProduct[index1]
-                                                    .foodItems[index2],
-                                                tableName);
-
-                                            remoteProductCtrl
-                                                .increaseFoodQuantity(
-                                                    filterProduct[index1],
-                                                    filterProduct[index1]
-                                                        .foodItems[index2]);
-                                          },
-                                          child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 0.020
-                                                      .toResponsive(context),
-                                                  right: 0.020
-                                                      .toResponsive(context)),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  border: Border.all(
-                                                      color: secondaryColors,
-                                                      width: 2)),
-                                              margin: EdgeInsets.only(
-                                                  left: 0.04
-                                                      .toResponsive(context),
-                                                  right: 0.04
-                                                      .toResponsive(context)),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Add",
-                                                style: myTextStyle(
-                                                    textColor,
+                      return Card(
+                        color: Colors.grey[300],
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 0.0015.toResponsive(context),
+                              left: 0.0015.toResponsive(context)),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset("${images['imageName']}"),
+                                SizedBox(
+                                  height: 0.005.toResponsive(context),
+                                ),
+                                SizedBox(
+                                  height: 0.015.toResponsive(context),
+                                  width: 0.05.w(context),
+                                  child: Image.asset(productItem.isVeg == false
+                                      ? AppImages.novegImage
+                                      : AppImages.vegImages),
+                                ),
+                                Text(
+                                  productItem.fname.capitalize.toString(),
+                                  style: TextStyle(
+                                      color: secondaryColors,
+                                      fontSize: 0.015.toResponsive(context),
+                                      fontFamily: "Roboto",
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 0.045.h(context),
+                                  child: Row(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.asset(
+                                              "assets/images/bluenepali.png"),
+                                          Text(
+                                            productItem.prices
+                                                .toString()
+                                                .capitalize
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: secondaryColors,
+                                                fontSize:
                                                     0.015.toResponsive(context),
+                                                fontFamily: "Roboto",
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                      productItem.isCustomize == true
+                                          ? TextButton(
+                                              onPressed: () {
+                                                productItem.isCustomize == true
+                                                    ? showBottomSheet(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            customizeBootom(
+                                                                context))
+                                                    : "";
+                                              },
+                                              child: Text(
+                                                "Customiasble",
+                                                style: myTextStyle(
+                                                    Colors.red,
+                                                    0.0125
+                                                        .toResponsive(context),
                                                     "Roboto"),
-                                              )),
-                                        )
-                                      : Visibility(
-                                          // visible: orderCartController
-                                          //         .addItems[index1].quantity >
-                                          //     0,
-                                          child: Container(
+                                              ),
+                                            )
+                                          : const Text("")
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 0.01.h(context),
+                                ),
+                                productItem.totalQuantity == 0
+                                    ? InkWell(
+                                        onTap: () async {
+                                          orderCartController.addItemsOnCart(
+                                              filterProduct[index1]
+                                                  .foodItems[index2],
+                                              tableName);
+
+                                          remoteProductCtrl
+                                              .increaseFoodQuantity(
+                                                  filterProduct[index1],
+                                                  filterProduct[index1]
+                                                      .foodItems[index2]);
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.only(
+                                                left:
+                                                    0.020.toResponsive(context),
+                                                right: 0.020
+                                                    .toResponsive(context)),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                border: Border.all(
+                                                    color: secondaryColors,
+                                                    width: 2)),
                                             margin: EdgeInsets.only(
                                                 left:
-                                                    0.025.toResponsive(context),
-                                                right: 0.025
-                                                    .toResponsive(context)),
-                                            height: 0.048.h(context),
-                                            width: 0.3.w(context),
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: const BoxDecoration(
-                                                color: secondaryColors,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(15))),
-                                            child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  InkWell(
-                                                      onTap: () {
-                                                        remoteProductCtrl
-                                                            .decreaseFoodQuantity(
-                                                                filterProduct[
-                                                                    index1],
-                                                                filterProduct[
-                                                                            index1]
-                                                                        .foodItems[
-                                                                    index2]);
+                                                    0.04.toResponsive(context),
+                                                right:
+                                                    0.04.toResponsive(context)),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Add",
+                                              style: myTextStyle(
+                                                  textColor,
+                                                  0.015.toResponsive(context),
+                                                  "Roboto"),
+                                            )),
+                                      )
+                                    : Container(
+                                        margin: EdgeInsets.only(
+                                            left: 0.025.toResponsive(context),
+                                            right: 0.025.toResponsive(context)),
+                                        height: 0.05.h(context),
+                                        width: 0.3.w(context),
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: const BoxDecoration(
+                                            color: secondaryColors,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                  onTap: () {
+                                                    remoteProductCtrl
+                                                        .decreaseFoodQuantity(
+                                                            filterProduct[
+                                                                index1],
+                                                            filterProduct[
+                                                                        index1]
+                                                                    .foodItems[
+                                                                index2]);
 
-                                                        orderCartController
-                                                            .decFoodQuanity(
-                                                          filterProduct[index1]
-                                                                  .foodItems[
-                                                              index2],
-                                                        );
-                                                      },
-                                                      child: SizedBox(
-                                                        height: 1.0.h(context),
-                                                        width: 0.063.w(context),
-                                                        child: Image.asset(
-                                                            "assets/images/subwhite.png"),
-                                                      )),
-                                                  Text(
-                                                    productItem.totalQuantity
-                                                            .toString() ??
-                                                        "1",
-                                                    style: TextStyle(
-                                                        color: primary,
-                                                        fontSize: 0.013
-                                                            .toResponsive(
-                                                                context),
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontFamily: "Roboto"),
-                                                  ),
-                                                  InkWell(
-                                                      onTap: () {
-                                                        remoteProductCtrl
-                                                            .increaseFoodQuantity(
-                                                                filterProduct[
-                                                                    index1],
-                                                                filterProduct[
-                                                                            index1]
-                                                                        .foodItems[
-                                                                    index2]);
-                                                        orderCartController
-                                                            .increaseFoodQuanity(
-                                                          filterProduct[index1]
-                                                                  .foodItems[
-                                                              index2],
-                                                        );
-                                                      },
-                                                      child: SizedBox(
-                                                        height: 1.0.h(context),
-                                                        width: 0.063.w(context),
-                                                        child: Image.asset(
-                                                            "assets/images/addwhite.png"),
-                                                      )),
-                                                ]),
-                                          ),
-                                        )
-                                ]),
-                          ),
+                                                    orderCartController
+                                                        .decFoodQuanity(
+                                                      filterProduct[index1]
+                                                          .foodItems[index2],
+                                                    );
+                                                  },
+                                                  child: SizedBox(
+                                                    height: 1.0.h(context),
+                                                    width: 0.073.w(context),
+                                                    child: Image.asset(
+                                                        "assets/images/subwhite.png"),
+                                                  )),
+                                              Text(
+                                                productItem.totalQuantity
+                                                        .toString() ??
+                                                    "1",
+                                                style: TextStyle(
+                                                    color: primary,
+                                                    fontSize: 0.013
+                                                        .toResponsive(context),
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "Roboto"),
+                                              ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    remoteProductCtrl
+                                                        .increaseFoodQuantity(
+                                                            filterProduct[
+                                                                index1],
+                                                            filterProduct[
+                                                                        index1]
+                                                                    .foodItems[
+                                                                index2]);
+                                                    orderCartController
+                                                        .increaseFoodQuanity(
+                                                      filterProduct[index1]
+                                                          .foodItems[index2],
+                                                    );
+                                                  },
+                                                  child: SizedBox(
+                                                    height: 1.0.h(context),
+                                                    width: 0.073.w(context),
+                                                    child: Image.asset(
+                                                        "assets/images/addwhite.png"),
+                                                  )),
+                                            ]),
+                                      ),
+                                SizedBox(
+                                  height: 0.015.h(context),
+                                )
+                              ]),
                         ),
                       );
                     }),
@@ -731,49 +712,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
               )
             ],
           )
-        ],
-      ),
-    );
-  }
-
-  Container hederSections(BuildContext context) {
-    return Container(
-      // color: Colors.red,
-      padding: EdgeInsets.only(top: 0.001.toResponsive(context)),
-      color: primary,
-      height: 0.06.h(context),
-      width: 1.0.w(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Container(
-              height: 0.3.h(context),
-              width: 0.08.w(context),
-              decoration: const BoxDecoration(
-                  // color: Colors.green,
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/Back Icon.png"))),
-            ),
-          ),
-          Text(
-            "Selected Order",
-            style: TextStyle(
-                color: textColor,
-                fontSize: 0.018.toResponsive(context),
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w900),
-          ),
-          Container(
-            height: 0.06.h(context),
-            width: 0.06.w(context),
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/notification.png"))),
-          ),
         ],
       ),
     );

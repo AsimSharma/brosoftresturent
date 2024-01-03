@@ -7,8 +7,8 @@ import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/remote_order_controller.dart';
 import '../../controller/remote_productcontroller.dart';
+import 'widgets/header_app_bar.dart';
 import 'order_placed_screen.dart';
 
 class ConfirmOrderScreen extends StatelessWidget {
@@ -25,9 +25,10 @@ class ConfirmOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final orderController = Get.find<OrDerController>();
     final productController = Get.find<RemoteProductCtrl>();
-    final remoteOrderController = Get.put(RemoteOrderCtrl());
+
     var date = DateTime.now();
     log("ahele bihanko ${date.minute} bajyoo");
+
     return Scaffold(
       bottomNavigationBar:
           bottomCartBar(context, tableName, totalGuest, orderNo),
@@ -41,7 +42,9 @@ class ConfirmOrderScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              headerSection(context),
+              const HeadeAppBar(
+                titleName: "Confirm Order",
+              ),
               SizedBox(
                 height: 0.004.h(context),
               ),

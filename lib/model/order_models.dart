@@ -1,6 +1,3 @@
-//this is order cart models
-//final
-
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();

@@ -1,7 +1,7 @@
 import 'package:brosoftresturent/model/tables_model.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 
-import 'package:brosoftresturent/view/SelectedOrder/SelectedOrder/selected_order.dart';
+import 'package:brosoftresturent/view/OrderSelectPage/SelectedOrder/selected_order.dart';
 import 'package:brosoftresturent/view/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

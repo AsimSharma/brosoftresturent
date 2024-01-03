@@ -1,4 +1,3 @@
-//RemoteProductModels
 class Foods {
   String foodCategories;
   String id;
@@ -52,7 +51,7 @@ class FoodItems {
         isVeg: json['isVeg'],
         isCustomize: json['isCustomize'],
         isAdded: false,
-        totalQuantity: 1);
+        totalQuantity: 0);
   }
 
   Map<String, dynamic> toJson() => {

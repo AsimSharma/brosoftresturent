@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final remoteOrderModel = remoteOrderModelFromJson(jsonString);
-
 import 'dart:convert';
 
 List<RemoteOrderModel> remoteOrderModelFromJson(String str) =>
