@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import '../../controller/remote_productcontroller.dart';
 import 'widgets/header_app_bar.dart';
 import 'order_placed_screen.dart';
+import 'widgets/table_order_info.dart';
 
 class ConfirmOrderScreen extends StatelessWidget {
   const ConfirmOrderScreen(
@@ -25,9 +26,6 @@ class ConfirmOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final orderController = Get.find<OrDerController>();
     final productController = Get.find<RemoteProductCtrl>();
-
-    var date = DateTime.now();
-    log("ahele bihanko ${date.minute} bajyoo");
 
     return Scaffold(
       bottomNavigationBar:
@@ -48,7 +46,10 @@ class ConfirmOrderScreen extends StatelessWidget {
               SizedBox(
                 height: 0.004.h(context),
               ),
-              textSections(context, tableName, totalGuest, orderNo),
+              TableOrderInfo(
+                  tableName: tableName,
+                  totalGuest: totalGuest,
+                  orderNo: orderNo),
               const Divider(),
               SizedBox(
                 height: 0.008.h(context),
@@ -72,60 +73,90 @@ class ConfirmOrderScreen extends StatelessWidget {
       height: 0.17.h(context),
       width: 1.0.w(context),
       padding: const EdgeInsets.all(10),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        //left
-        InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: Container(
-            height: 0.06.h(context),
-            padding: EdgeInsets.all(0.010.toResponsive(context)),
-            decoration: const BoxDecoration(
-                color: btnBghColor,
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-            child: Row(children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                  border: Border.all(color: const Color(0xFF000000), width: 2),
-                ),
-                child: const Icon(
-                  Icons.add_rounded,
-                  color: secondaryColors,
-                  size: 15,
-                ),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //left
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 0.06.h(context),
+                padding: EdgeInsets.all(0.010.toResponsive(context)),
+                decoration: const BoxDecoration(
+                    color: btnBghColor,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                child: Row(children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(50)),
+                      border:
+                          Border.all(color: const Color(0xFF000000), width: 2),
+                    ),
+                    child: const Icon(
+                      Icons.add_rounded,
+                      color: secondaryColors,
+                      size: 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 0.016.w(context),
+                  ),
+                  Text(
+                    "Add More Item",
+                    style: TextStyle(
+                        color: textColor,
+                        fontFamily: "RobotoRegular",
+                        fontWeight: FontWeight.w900,
+                        fontSize: 0.014.toResponsive(context)),
+                  )
+                ]),
               ),
-              SizedBox(
-                width: 0.016.w(context),
-              ),
-              Text(
-                "Add More Item",
-                style: TextStyle(
-                    color: textColor,
-                    fontFamily: "RobotoRegular",
-                    fontWeight: FontWeight.w900,
-                    fontSize: 0.014.toResponsive(context)),
-              )
-            ]),
-          ),
-        ),
-        //right
-        Container(
-          // width: 0.6.w(context),
-          height: 1.0.h(context),
-          child: Column(children: [
-            textData(context, "Total", orderController.calculateTotalPrices(),
-                secondaryColors, "nepalirupees.png", "Roboto", FontWeight.w500),
-            textData(context, "Service Tax", orderController.getServicTax(),
-                Colors.grey, "nepalirupees.png", "Roboto", FontWeight.w400),
-            textData(context, "Vat 13%", orderController.getVatTax(),
-                Colors.grey, "nepalirupees.png", "Roboto", FontWeight.w400),
-            textData(context, "Grand Total", orderController.grandTotalPrices(),
-                secondaryColors, "paisanilo.png", "Roboto", FontWeight.w900),
+            ),
+            //right
+            Container(
+              // width: 0.6.w(context),
+              height: 1.0.h(context),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textData(
+                        context,
+                        "Total",
+                        orderController.calculateTotalPrices(),
+                        secondaryColors,
+                        "nepalirupees.png",
+                        "Roboto",
+                        FontWeight.w500),
+                    textData(
+                        context,
+                        "Service Tax",
+                        orderController.getServicTax(),
+                        Colors.grey,
+                        "nepalirupees.png",
+                        "Roboto",
+                        FontWeight.w400),
+                    textData(
+                        context,
+                        "Vat 13%",
+                        orderController.getVatTax(),
+                        Colors.grey,
+                        "nepalirupees.png",
+                        "Roboto",
+                        FontWeight.w400),
+                    textData(
+                        context,
+                        "Grand Total",
+                        orderController.grandTotalPrices(),
+                        secondaryColors,
+                        "paisanilo.png",
+                        "Roboto",
+                        FontWeight.w900),
+                  ]),
+            )
           ]),
-        )
-      ]),
     );
   }
 
@@ -475,117 +506,6 @@ class ConfirmOrderScreen extends StatelessWidget {
                 ),
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Container headerSection(BuildContext context) {
-    return Container(
-      // color: Colors.red,
-      padding: EdgeInsets.only(top: 0.001.toResponsive(context)),
-      color: primary,
-      height: 0.06.h(context),
-      width: 1.0.w(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: SizedBox(
-              height: 0.05.h(context),
-              width: 0.03.w(context),
-              child: Container(
-                height: 0.025.h(context),
-                width: 0.02.w(context),
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/Back Icon.png"))),
-              ),
-            ),
-          ),
-          Text(
-            "Confirm Order",
-            style: TextStyle(
-                color: textColor,
-                fontSize: 0.015.toResponsive(context),
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w900),
-          ),
-          Container(
-            height: 0.06.h(context),
-            width: 0.06.w(context),
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/notification.png"))),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container textSections(BuildContext context, String tableName,
-      int guestNumber, int orderNumber) {
-    return Container(
-      height: 0.05.h(context),
-      margin: EdgeInsets.only(left: 0.0015.toResponsive(context)),
-      width: 1.0.w(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Text(
-                "Table ",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-              Text(
-                tableName,
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.015.toResponsive(context),
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                "Guest ",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-              Text(
-                guestNumber.toString(),
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.015.toResponsive(context),
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w600),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                "Order No",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-              Text(
-                orderNumber.toString(),
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.015.toResponsive(context),
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w600),
-              )
-            ],
           )
         ],
       ),

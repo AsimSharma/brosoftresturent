@@ -8,6 +8,7 @@ import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
 import '../../table/models/btn_selected_model.dart';
+import '../widgets/table_order_info.dart';
 import 'widgets/bottom_navigation_cart.dart';
 
 import 'package:get/get.dart';
@@ -96,8 +97,13 @@ class _SelectedOrderState extends State<SelectedOrder> {
               SizedBox(
                 height: 0.004.h(context),
               ),
-              textSections(
-                  context, widget.tablename, widget.totalGuest, widget.oderNo),
+
+              TableOrderInfo(
+                tableName: widget.tablename,
+                totalGuest: widget.totalGuest,
+                orderNo: widget.oderNo,
+              ),
+
               const Divider(),
               SizedBox(
                 height: 0.008.h(context),
@@ -646,71 +652,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 },
               ),
             ]),
-          )
-        ],
-      ),
-    );
-  }
-
-  Container textSections(
-      BuildContext context, String tableName, int guestNumber, int oderNo) {
-    return Container(
-      height: 0.05.h(context),
-      margin: EdgeInsets.only(left: 0.0015.toResponsive(context)),
-      width: 1.0.w(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Text(
-                "Table ",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-              Text(
-                tableName,
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.015.toResponsive(context),
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                "Guest ",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-              Text(
-                guestNumber.toString(),
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.015.toResponsive(context),
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w600),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                "Order No",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-              Text(
-                oderNo.toString(),
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.015.toResponsive(context),
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w600),
-              )
-            ],
           )
         ],
       ),
