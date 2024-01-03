@@ -1,5 +1,6 @@
 import 'package:brosoftresturent/controller/remote_order_controller.dart';
 
+import 'package:brosoftresturent/model/remote_order_models.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,9 +27,22 @@ class _OrderScreenState extends State<OrderScreen> {
     super.initState();
   }
 
+  String selectedValue = "";
+
+  List<RemoteOrderModel> filterList() {
+    if (selectedValue.isNotEmpty) {
+      return remoteOrderCtrl.remoteOrderList
+          .where((p0) => p0.orderNo.toString().contains(selectedValue))
+          .toList();
+    } else {
+      return remoteOrderCtrl.remoteOrderList;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final orderController = Get.put(OrDerController());
+    final filterValue = filterList();
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -59,11 +73,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             height: 0.625.h(context),
                             width: 1.0.w(context),
                             child: ListView.builder(
-                                itemCount:
-                                    remoteOrderCtrl.remoteOrderList.length,
+                                itemCount: filterValue.length,
                                 itemBuilder: (context, index1) {
-                                  var orderData =
-                                      remoteOrderCtrl.remoteOrderList[index1];
+                                  var orderData = filterValue[index1];
                                   return Visibility(
                                     key: UniqueKey(),
                                     visible:
@@ -80,159 +92,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                       child: Column(
                                         children: [
                                           //toheader
-                                          // topHeader(context, btnTapIndex),
-
-                                          Container(
-                                            height: 0.07.h(context),
-                                            width: 1.0.w(context),
-                                            padding: EdgeInsets.all(
-                                                0.015.toResponsive(context)),
-                                            decoration: BoxDecoration(
-                                                color: btnTapIndex == 0
-                                                    ? secondaryColors
-                                                    : btnBghColor,
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topRight:
-                                                            Radius.circular(11),
-                                                        topLeft:
-                                                            Radius.circular(
-                                                                11))),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  //left
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Table",
-                                                        style: TextStyle(
-                                                            color:
-                                                                btnTapIndex == 0
-                                                                    ? primary
-                                                                    : textColor,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 0.013
-                                                                .toResponsive(
-                                                                    context)),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 0.01.w(context),
-                                                      ),
-                                                      Text(
-                                                          orderData.tableName ??
-                                                              "",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  btnTapIndex ==
-                                                                          0
-                                                                      ? primary
-                                                                      : textColor,
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 0.013
-                                                                  .toResponsive(
-                                                                      context))),
-                                                      SizedBox(
-                                                        width: 0.01.w(context),
-                                                      ),
-                                                      Image.asset(
-                                                          "assets/images/vectro7.png"),
-                                                      SizedBox(
-                                                        width: 0.01.w(context),
-                                                      ),
-                                                      Text(
-                                                        "5Items",
-                                                        style: TextStyle(
-                                                            color:
-                                                                btnTapIndex == 0
-                                                                    ? primary
-                                                                    : textColor,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 0.012
-                                                                .toResponsive(
-                                                                    context)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  //Right
-
-                                                  Row(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            "Order",
-                                                            style: TextStyle(
-                                                                color: btnTapIndex ==
-                                                                        0
-                                                                    ? primary
-                                                                    : textColor,
-                                                                fontFamily:
-                                                                    "Roboto",
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 0.013
-                                                                    .toResponsive(
-                                                                        context)),
-                                                          ),
-                                                          Text(
-                                                            "520",
-                                                            style: TextStyle(
-                                                                color: btnTapIndex ==
-                                                                        0
-                                                                    ? primary
-                                                                    : textColor,
-                                                                fontFamily:
-                                                                    "Roboto",
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 0.013
-                                                                    .toResponsive(
-                                                                        context)),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        width: 0.008.w(context),
-                                                      ),
-                                                      Image.asset(
-                                                          "assets/images/vectro7.png"),
-                                                      SizedBox(
-                                                        width: 0.008.w(context),
-                                                      ),
-                                                      Text(
-                                                        "1m ago",
-                                                        style: TextStyle(
-                                                            color:
-                                                                btnTapIndex == 0
-                                                                    ? primary
-                                                                    : textColor,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 0.013
-                                                                .toResponsive(
-                                                                    context)),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ]),
-                                          ),
+                                          topHeader(
+                                              context, btnTapIndex, orderData),
 
                                           // OrderSItems listItems
                                           Container(
@@ -246,15 +107,12 @@ class _OrderScreenState extends State<OrderScreen> {
                                                     const ClampingScrollPhysics(),
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.vertical,
-                                                itemCount: remoteOrderCtrl
-                                                    .remoteOrderList[index1]
+                                                itemCount: filterValue[index1]
                                                     .orders
                                                     .length,
                                                 itemBuilder: (context, index2) {
-                                                  var orderData =
-                                                      remoteOrderCtrl
-                                                          .remoteOrderList[
-                                                              index1]
+                                                  var listData =
+                                                      filterValue[index1]
                                                           .orders[index2];
                                                   return Container(
                                                     height: 0.1.h(context),
@@ -271,7 +129,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "100",
+                                                              listData.quantity
+                                                                      .toString() ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -289,7 +149,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "No Food is heare ",
+                                                              listData.foodName ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -313,7 +174,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "500",
+                                                              listData.price
+                                                                      .toString() ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -352,11 +215,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             height: 0.625.h(context),
                             width: 1.0.w(context),
                             child: ListView.builder(
-                                itemCount:
-                                    remoteOrderCtrl.remoteOrderList.length,
+                                itemCount: filterValue.length,
                                 itemBuilder: (context, index1) {
-                                  var orderData =
-                                      remoteOrderCtrl.remoteOrderList[index1];
+                                  var orderData = filterValue[index1];
                                   return Visibility(
                                     key: UniqueKey(),
                                     visible:
@@ -366,14 +227,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(11)),
                                           border: Border.all(
-                                              color: secondaryColors,
-                                              width: 2.0)),
+                                              color: textColor, width: 2.0)),
                                       margin: EdgeInsets.only(
                                           top: 0.01.toResponsive(context)),
                                       child: Column(
                                         children: [
                                           //toheader
-                                          topHeader(context, btnTapIndex),
+                                          topHeader(
+                                              context, btnTapIndex, orderData),
                                           // OrderSItems listItems
                                           Container(
                                             height: 0.25.h(context),
@@ -386,16 +247,13 @@ class _OrderScreenState extends State<OrderScreen> {
                                                     const ClampingScrollPhysics(),
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.vertical,
-                                                itemCount: remoteOrderCtrl
-                                                        .remoteOrderList[index1]
+                                                itemCount: filterValue[index1]
                                                         .orders
                                                         .length ??
                                                     1,
                                                 itemBuilder: (context, index2) {
-                                                  var orderData =
-                                                      remoteOrderCtrl
-                                                          .remoteOrderList[
-                                                              index1]
+                                                  var listdata =
+                                                      filterValue[index1]
                                                           .orders[index2];
                                                   return Container(
                                                     height: 0.1.h(context),
@@ -412,8 +270,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              // "${orderData.price ?? 0}",
-                                                              "100",
+                                                              listdata.quantity
+                                                                      .toString() ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -431,9 +290,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              // orderData
-                                                              //         .foodName ??
-                                                              "No Food is heare ",
+                                                              listdata.foodName ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -457,7 +315,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                                                   .w(context),
                                                             ),
                                                             Text(
-                                                              "550",
+                                                              listdata.price
+                                                                      .toString() ??
+                                                                  "",
                                                               style: TextStyle(
                                                                   color:
                                                                       textColor,
@@ -508,6 +368,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 //left
                 Row(
                   children: [
+                    SizedBox(width: 0.012.w(context)),
                     Container(
                         height: 0.06.h(context),
                         width: 0.03.h(context),
@@ -515,7 +376,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             image: DecorationImage(
                                 image: AssetImage(
                                     "assets/images/cance_icons.png")))),
-                    SizedBox(width: 0.005.w(context)),
+                    SizedBox(width: 0.012.w(context)),
                     InkWell(
                       onTap: () {
                         // remoteOrderCtrl.isLoading == true.obs
@@ -552,7 +413,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         size: 15,
                       ),
                     ),
-                    SizedBox(width: 0.005.w(context)),
+                    SizedBox(width: 0.012.w(context)),
                     InkWell(
                       onTap: () {
                         // Get.to(() => const SelectedOrder(
@@ -576,7 +437,8 @@ class _OrderScreenState extends State<OrderScreen> {
                             fontWeight: FontWeight.w500,
                             fontSize: 0.015.toResponsive(context)),
                       ),
-                    )
+                    ),
+                    SizedBox(width: 0.012.w(context)),
                   ],
                 )
               ])
@@ -595,7 +457,8 @@ class _OrderScreenState extends State<OrderScreen> {
               ));
   }
 
-  Container topHeader(BuildContext context, int btnIndex) {
+  Container topHeader(
+      BuildContext context, int btnIndex, RemoteOrderModel orderData) {
     return Container(
       height: 0.07.h(context),
       width: 1.0.w(context),
@@ -617,20 +480,21 @@ class _OrderScreenState extends State<OrderScreen> {
                   fontSize: 0.013.toResponsive(context)),
             ),
             SizedBox(
-              width: 0.008.w(context),
+              width: 0.025.w(context),
             ),
-            Text("table21",
+            Text(orderData.tableName ?? "",
                 style: TextStyle(
                     color: btnTapIndex == 0 ? primary : textColor,
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.w500,
                     fontSize: 0.013.toResponsive(context))),
             SizedBox(
-              width: 0.008.w(context),
+              width: 0.02.w(context),
             ),
-            Image.asset("assets/images/vectro7.png"),
+            Image.asset(
+                "assets/images/${btnTapIndex == 0 ? "vectro7.png" : "Vector 13.png"}"),
             SizedBox(
-              width: 0.008.w(context),
+              width: 0.02.w(context),
             ),
             Text(
               "5Items",
@@ -649,15 +513,18 @@ class _OrderScreenState extends State<OrderScreen> {
             Row(
               children: [
                 Text(
-                  "Order",
+                  "OrderNo",
                   style: TextStyle(
                       color: btnTapIndex == 0 ? primary : textColor,
                       fontFamily: "Roboto",
                       fontWeight: FontWeight.w500,
                       fontSize: 0.013.toResponsive(context)),
                 ),
+                SizedBox(
+                  width: 0.02.w(context),
+                ),
                 Text(
-                  "520",
+                  orderData.orderNo.toString() ?? "",
                   style: TextStyle(
                       color: btnTapIndex == 0 ? primary : textColor,
                       fontFamily: "Roboto",
@@ -667,11 +534,12 @@ class _OrderScreenState extends State<OrderScreen> {
               ],
             ),
             SizedBox(
-              width: 0.008.w(context),
+              width: 0.02.w(context),
             ),
-            Image.asset("assets/images/vectro7.png"),
+            Image.asset(
+                "assets/images/${btnTapIndex == 0 ? "vectro7.png" : "Vector 13.png"}"),
             SizedBox(
-              width: 0.008.w(context),
+              width: 0.02.w(context),
             ),
             Text(
               "1m ago",
@@ -818,6 +686,11 @@ class _OrderScreenState extends State<OrderScreen> {
               child: Padding(
                 padding: EdgeInsets.all(0.0037.toResponsive(context)),
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: "Search by order number",
                     hintStyle: TextStyle(
