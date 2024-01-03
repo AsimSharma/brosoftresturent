@@ -25,7 +25,7 @@ class TableScreen extends StatefulWidget {
 
 class _TableScreenState extends State<TableScreen> {
   int btnTapIndex = 0;
-  final tableComtroller = Get.put(TableController());
+  final tableController = Get.put(TableController());
 
   String searchValue = "";
 
@@ -33,16 +33,16 @@ class _TableScreenState extends State<TableScreen> {
 
   List<TableModel> filterItems() {
     if (searchValue.isNotEmpty) {
-      return tableComtroller.tables
+      return tableController.tables
           .where((product) =>
               product.tabletype.toLowerCase().contains(searchValue))
           .toList();
     } else {
       if (btnTapIndex == 0) {
-        return tableComtroller.tables;
+        return tableController.tables;
       } else {
         var selectedItem = btnlist[btnTapIndex];
-        return tableComtroller.tables
+        return tableController.tables
             .where((product) => selectedItem == product.tabletype)
             .toList();
       }
@@ -52,7 +52,7 @@ class _TableScreenState extends State<TableScreen> {
   @override
   void initState() {
     btnTapIndex = 0;
-    tableComtroller.getTables();
+    tableController.getTables();
     super.initState();
   }
 
@@ -98,8 +98,7 @@ class _TableScreenState extends State<TableScreen> {
               SizedBox(
                 height: 0.015.h(context),
               ),
-
-              //tableItems
+              // llistedTableItems(context, filterTable)
               Obx(() => llistedTableItems(context, filterTable))
             ],
           ),
@@ -143,18 +142,8 @@ class _TableScreenState extends State<TableScreen> {
                             var tableItems =
                                 filterTable[index1].tableItem[index2];
 
-                            log(filterTable.reversed.toString());
-
                             return GestureDetector(
                               onTap: () {
-                                // Get.bottomSheet(bottomSheetNoReserved(
-                                //     context,
-                                //     tableItems.tableName,
-                                //     tableItems.seat,
-                                //     index1,
-                                //     index2,
-                                //     filterTable));
-
                                 showBottomSheet(
                                     context: context,
                                     builder: (context) {
@@ -168,7 +157,7 @@ class _TableScreenState extends State<TableScreen> {
                                     });
                               },
                               child: Card(
-                                color: isReserved == true
+                                color: tableItems.reserved == true
                                     ? reservedColor
                                     : primary,
                                 margin: EdgeInsets.all(
@@ -317,7 +306,6 @@ class _TableScreenState extends State<TableScreen> {
                   onChanged: (value) {
                     setState(() {
                       searchValue = value;
-                      log(" this is our Sarch value $searchValue");
                     });
                   },
                   decoration: InputDecoration(
@@ -379,6 +367,7 @@ class _TableScreenState extends State<TableScreen> {
   Container bottomSheetNoReserved(BuildContext context, String tableName,
       int numberGust, int index1, int index2, List<TableModel> filterTable) {
     var tableItems = filterTable[index1].tableItem[index2];
+    var tablemodel = filterTable[index1];
     return Container(
       height: 0.63.h(context),
       width: 1.0.w(context),
@@ -400,7 +389,7 @@ class _TableScreenState extends State<TableScreen> {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  tableComtroller.noofseat = 0.obs;
+                  tableController.noofseat = 0.obs;
                   Get.back();
                 },
                 child: Container(
@@ -451,10 +440,9 @@ class _TableScreenState extends State<TableScreen> {
                         fontFamily: 'Nunito',
                         fontWeight: FontWeight.w800),
                   ),
-
                   Obx(
                     () => Text(
-                      tableComtroller.noofseat.toString(),
+                      tableController.noofseat.toString(),
                       style: TextStyle(
                           color: secondaryColors,
                           fontSize: 0.017.toResponsive(context),
@@ -476,11 +464,11 @@ class _TableScreenState extends State<TableScreen> {
                         children: [
                           InkWell(
                               onTap: () {
-                                tableComtroller.decreaseSeat(
+                                tableController.decreaseSeat(
                                   context,
                                 );
 
-                                // tableComtroller.getTables();
+                                // tableController.getTables();
                               },
                               child: SizedBox(
                                 height: 0.2.h(context),
@@ -494,9 +482,9 @@ class _TableScreenState extends State<TableScreen> {
                           ),
                           InkWell(
                               onTap: () {
-                                tableComtroller.increaseSeat(
+                                tableController.increaseSeat(
                                     context, index1, index2);
-                                // tableComtroller.getTables();
+                                // tableController.getTables();
                               },
                               child: SizedBox(
                                   height: 0.2.h(context),
@@ -544,7 +532,7 @@ class _TableScreenState extends State<TableScreen> {
             //Inputs
             Form(
               child: Column(children: [
-                Container(
+                SizedBox(
                   height: 0.07.h(context),
                   width: 1.0.w(context),
                   child: CustomeInputs(
@@ -590,20 +578,16 @@ class _TableScreenState extends State<TableScreen> {
                 children: [
                   CustomBtn(
                     height: 0.5.h(context),
-                    btnTitle: "Reserved",
+                    btnTitle:
+                        tableItems.reserved == true ? "UnReserved" : "Reserved",
                     onPressed: () {
-                      setState(() {
-                        isReserved = !isReserved;
-                      });
-                      // tableComtroller.changeReserved(tableItems, index1);
-                      // // tableComtroller.updateTableinfo(
-                      // //     filterTable[index1].id,
-                      // //     tableItems,
-                      // //     tableItems.reserved == true ? false : true);
+                      tableController.changeReserved(tablemodel, tableItems);
 
                       Get.back();
                     },
-                    color: btnSecondaryColor,
+                    color: tableItems.reserved == true
+                        ? Colors.orange
+                        : btnSecondaryColor,
                     width: 0.4.w(context),
                   ),
                   CustomBtn(
@@ -611,12 +595,12 @@ class _TableScreenState extends State<TableScreen> {
                     btnTitle: "Start",
                     onPressed: () {
                       Get.back();
-                      tableComtroller.noofseat > 0
+                      tableController.noofseat > 0
                           ? showBottomSheet(
                               context: context,
                               builder: (context) {
                                 return orderBottomSheet(context, tableName,
-                                    tableComtroller.noofseat.toInt());
+                                    tableController.noofseat.toInt());
                               })
                           : showToast(context, "guest cannot be Zero");
                     },
@@ -731,8 +715,6 @@ class _TableScreenState extends State<TableScreen> {
   }) {
     return InkWell(
       onTap: () {
-        log("Tapped");
-
         Get.to(() => SelectedOrder(
             tablename: tableName,
             totalGuest: totalGuest,

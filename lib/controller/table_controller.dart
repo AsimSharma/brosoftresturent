@@ -41,15 +41,22 @@ class TableController extends GetxController {
     }
   }
 
-  // changeReserved(TableModel tableModels,TableItem,) {
-  //   for (TableItem item in tables[index].tableItem) {
-  //     log(item.toString());
-  //     item.reserved = !item.reserved;
-  //     log(item.reserved.toString());
-  //     tables.refresh();
-  //     update();
-  //   }
-  // }
+  changeReserved(TableModel tableModels, TableItem tableItem) {
+    var index1 = tables.indexWhere((p0) => p0.id == tableModels.id);
+    var index2 =
+        tables[index1].tableItem.indexWhere((p1) => p1.tid == tableItem.tid);
+    if (tables[index1].tableItem[index2].reserved == false) {
+      tables[index1].tableItem[index2].reserved = true;
+      tables.refresh();
+      update();
+    } else {
+      tables[index1].tableItem[index2].reserved = false;
+      tables.refresh();
+      update();
+    }
+    tables.refresh();
+    update();
+  }
 
   getTables() async {
     isLooding = false.obs;
@@ -66,6 +73,7 @@ class TableController extends GetxController {
     } finally {
       isLooding = false.obs;
     }
+    update();
   }
 
 //postInfo

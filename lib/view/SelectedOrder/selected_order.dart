@@ -850,13 +850,15 @@ class _SelectedOrderState extends State<SelectedOrder> {
             onTap: () {
               Get.back();
             },
-            child: SizedBox(
-              height: 0.05.h(context),
+            child: Container(
+              color: Colors.red,
+              height: 0.04.h(context),
               width: 0.05.w(context),
               child: Container(
-                height: 0.025.h(context),
-                width: 0.02.w(context),
+                height: 0.08.h(context),
+                width: 0.01.w(context),
                 decoration: const BoxDecoration(
+                    color: Colors.green,
                     image: DecorationImage(
                         image: AssetImage("assets/images/Back Icon.png"))),
               ),
@@ -866,9 +868,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
             "Selected Order",
             style: TextStyle(
                 color: textColor,
-                fontSize: 0.016.toResponsive(context),
-                fontFamily: "Roboto",
-                fontWeight: FontWeight.w400),
+                fontSize: 0.018.toResponsive(context),
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.w900),
           ),
           Container(
             height: 0.06.h(context),
