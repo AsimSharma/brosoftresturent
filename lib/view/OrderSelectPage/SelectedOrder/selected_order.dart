@@ -9,6 +9,7 @@ import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
 import '../../table/models/btn_selected_model.dart';
 import '../widgets/table_order_info.dart';
+import 'models/spicylevel_btn.dart';
 import 'widgets/bottom_navigation_cart.dart';
 import '../widgets/header_app_bar.dart';
 
@@ -36,6 +37,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
   bool selectedRadio = false;
   String searchValue = "";
   int btnTapIndex = 0;
+
+  int btnTapIndexForSpicy = 0;
 
   final orderCartController = Get.put(OrDerController());
   final remoteProductCtrl = Get.put(RemoteProductCtrl());
@@ -179,13 +182,14 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                     productItem.isCustomize == true
                                         ? showModalBottomSheet(
                                             context: context,
+                                            isScrollControlled: true,
                                             builder: (context) =>
-                                                FractionallySizedBox(
-                                                    heightFactor:
-                                                        0.0033.h(context),
-                                                    child:
-                                                        cusTomizedButtomSheet(
-                                                            context)))
+                                                StatefulBuilder(builder:
+                                                    (BuildContext context,
+                                                        StateSetter setState) {
+                                                  return cusTomizedButtomSheet(
+                                                      context, setState);
+                                                }))
                                         : "";
                                   },
                                   child: Hero(
@@ -383,305 +387,401 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container cusTomizedButtomSheet(BuildContext context) {
+  Container cusTomizedButtomSheet(BuildContext context, StateSetter setState) {
     return Container(
-      height: 2.0.h(context),
+      height: 0.97.h(context),
       width: 1.0.w(context),
       child: Stack(children: [
         Positioned(
-          left: 0.40.w(context),
-          child: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(
-                Icons.cancel,
-                color: Colors.black,
-                size: 0.042.h(context),
-              )),
-        ),
-        Positioned(
-            top: 0.070.h(context),
+            bottom: 0.112.h(context),
+            left: 0.005.toResponsive(context),
+            right: 0.005.toResponsive(context),
             child: Container(
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 249, 234, 233),
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(0.030.toResponsive(context)),
-                      topLeft: Radius.circular(0.030.toResponsive(context)))),
-              padding: EdgeInsets.only(
-                left: 0.011.toResponsive(context),
-                right: 0.011.toResponsive(context),
-              ),
-              height: 0.8.h(context),
               width: 1.0.w(context),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              height: 0.07.h(context),
+              decoration: const BoxDecoration(
+                  color: secondaryColors,
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 0.1.h(context),
+                      width: 0.2.w(context),
+                      margin: EdgeInsets.all(0.010.toResponsive(context)),
+                      decoration: const BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: const Center(child: Text("Add")),
+                    ),
+
+                    //prices
+                    Container(
+                      height: 0.1.h(context),
+                      width: 0.2.w(context),
+                      margin: EdgeInsets.all(0.010.toResponsive(context)),
+                      child: Center(
+                          child: Row(
+                        children: [
+                          Image.asset("assets/images/nepalirs (1).png"),
+                          SizedBox(
+                            width: 0.0025.w(context),
+                          ),
+                          Text(
+                            "0",
+                            style: TextStyle(
+                              color: primary,
+                              fontSize: 0.017.toResponsive(context),
+                              fontWeight: FontWeight.w800,
+                              fontFamily: "Roboto",
+                            ),
+                          ),
+                        ],
+                      )),
+                    ),
+                    Container(
+                      height: 0.1.h(context),
+                      width: 0.25.w(context),
+                      margin: EdgeInsets.all(0.010.toResponsive(context)),
+                      decoration: const BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: const Center(child: Text("Add Order")),
+                    )
+                  ]),
+            )),
+        Container(
+          padding: EdgeInsets.only(
+            left: 0.009.toResponsive(context),
+            right: 0.009.toResponsive(context),
+          ),
+          height: 1.0.h(context),
+          width: 1.0.w(context),
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Center(
+              child: IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Colors.black,
+                    size: 0.038.h(context),
+                  )),
+            ),
+
+            SizedBox(
+              height: 0.005.h(context),
+            ),
+            Container(
+                height: 0.28.h(context),
+                width: 1.0.w(context),
+                decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        fit: BoxFit.cover,
+                        image:
+                            AssetImage("assets/images/customizedimages.png")),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(0.010.toResponsive(context)),
+                        topLeft:
+                            Radius.circular(0.010.toResponsive(context))))),
+            SizedBox(
+              height: 0.02.h(context),
+            ),
+            Row(
+              children: [
+                Image.asset("assets/images/Non-veg Tag.png"),
+                SizedBox(
+                  width: 0.02.w(context),
+                ),
+                Text(
+                  "Miso Ramen",
+                  style: TextStyle(
+                      color: textColor,
+                      fontSize: 0.016.toResponsive(context),
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w800),
+                ),
+                SizedBox(
+                  height: 0.02.h(context),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 0.005.h(context),
+            ),
+            Text(
+              "Set the new password for your account so you can login and access all the features.",
+              style: TextStyle(
+                  fontFamily: "Nunito",
+                  color: textColor,
+                  fontSize: 0.0145.toResponsive(context),
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 0.012.h(context),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2),
+              child: Divider(
+                color: secondaryColors,
+              ),
+            ),
+            SizedBox(
+              height: 0.01.h(context),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Choose one (1/1)*",
+                style: TextStyle(
+                    color: textColor,
+                    fontSize: 0.016.toResponsive(context),
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+
+            //Half radio
+            SizedBox(
+              height: 0.051.h(context),
+              width: 1.0.w(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 0.01.h(context),
-                  ),
-                  Container(
-                      height: 0.28.h(context),
-                      width: 1.0.w(context),
-                      decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                  "assets/images/customizedimages.png")),
-                          borderRadius: BorderRadius.only(
-                              topRight:
-                                  Radius.circular(0.010.toResponsive(context)),
-                              topLeft: Radius.circular(
-                                  0.010.toResponsive(context))))),
-                  SizedBox(
-                    height: 0.02.h(context),
-                  ),
-                  Row(
-                    children: [
-                      Image.asset("assets/images/Non-veg Tag.png"),
-                      SizedBox(
-                        width: 0.02.w(context),
-                      ),
-                      Text(
-                        "Miso Ramen",
-                        style: TextStyle(
-                            color: textColor,
-                            fontSize: 0.016.toResponsive(context),
-                            fontFamily: "Roboto",
-                            fontWeight: FontWeight.w800),
-                      ),
-                      SizedBox(
-                        height: 0.02.h(context),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 0.005.h(context),
-                  ),
                   Text(
-                    "Set the new password for your account so you can login and access all the features.",
+                    "Half",
                     style: TextStyle(
-                        fontFamily: "Nunito",
                         color: textColor,
-                        fontSize: 0.0145.toResponsive(context),
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Nunito",
                         fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(
-                    height: 0.012.h(context),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2),
-                    child: Divider(
-                      color: secondaryColors,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0.01.h(context),
-                  ),
-                  Text(
-                    "Choose one (1/1)*",
-                    style: TextStyle(
-                        color: textColor,
-                        fontSize: 0.016.toResponsive(context),
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w800),
-                  ),
-
-                  //Half radio
-                  SizedBox(
-                    height: 0.051.h(context),
-                    width: 1.0.w(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Half",
-                          style: TextStyle(
-                              color: textColor,
-                              fontSize: 0.016.toResponsive(context),
-                              fontFamily: "Nunito",
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/images/nepalirupees.png"),
-                            Text(
-                              "200",
-                              style: myTextStyle(secondaryColors,
-                                  0.015.toResponsive(context), "Roboto"),
-                            ),
-                            Radio<String>(
-                              value: 'Half',
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                });
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-
-                  //full chiiseOn
-                  SizedBox(
-                    height: 0.051.h(context),
-                    width: 1.0.w(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Full",
-                          style: TextStyle(
-                              color: textColor,
-                              fontSize: 0.016.toResponsive(context),
-                              fontFamily: "Nunito",
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/images/nepalirupees.png"),
-                            Text(
-                              "200",
-                              style: myTextStyle(secondaryColors,
-                                  0.015.toResponsive(context), "Roboto"),
-                            ),
-                            Radio<String>(
-                              value: 'full',
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                });
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-
-                  Text(
-                    "Add On",
-                    style: TextStyle(
-                        color: textColor,
-                        fontSize: 0.016.toResponsive(context),
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w800),
-                  ),
-
-                  //Eggg
-                  SizedBox(
-                    height: 0.051.h(context),
-                    width: 1.0.w(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Egg",
-                          style: TextStyle(
-                              color: textColor,
-                              fontSize: 0.016.toResponsive(context),
-                              fontFamily: "Nunito",
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/images/nepalirupees.png"),
-                            Text(
-                              "50",
-                              style: myTextStyle(secondaryColors,
-                                  0.015.toResponsive(context), "Roboto"),
-                            ),
-                            Radio<String>(
-                              value: 'Egg',
-                              groupValue: addOnselected,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                });
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 0.051.h(context),
-                    width: 1.0.w(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Mushroom",
-                          style: TextStyle(
-                              color: textColor,
-                              fontSize: 0.016.toResponsive(context),
-                              fontFamily: "Nunito",
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset("assets/images/nepalirupees.png"),
-                            Text(
-                              "100",
-                              style: myTextStyle(secondaryColors,
-                                  0.015.toResponsive(context), "Roboto"),
-                            ),
-                            Radio<String>(
-                              value: 'Mushroom',
-                              groupValue: addOnselected,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                });
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-
-                  //SpicyLevel
-
-                  SizedBox(
-                    height: 0.015.h(context),
-                  ),
-                  Text(
-                    "Spicy Level",
-                    style: TextStyle(
-                        color: textColor,
-                        fontSize: 0.016.toResponsive(context),
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w800),
-                  ),
-
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ...List.generate(
-                          3,
-                          (index) => Container(
-                                height: 0.005.h(context),
-                                width: 0.2.w(context),
-                                margin: EdgeInsets.only(
-                                    left: 0.01.toResponsive(context)),
-                                color: Colors.red,
-                                child: Text("No Spicy"),
-                              ))
+                      Image.asset("assets/images/nepalirupees.png"),
+                      Text(
+                        "200",
+                        style: myTextStyle(secondaryColors,
+                            0.015.toResponsive(context), "Roboto"),
+                      ),
+                      Radio<String>(
+                        value: 'Half',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                          });
+                        },
+                      ),
                     ],
                   )
                 ],
               ),
-            )),
+            ),
+
+            //full chiiseOn
+            SizedBox(
+              height: 0.051.h(context),
+              width: 1.0.w(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Full",
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/nepalirupees.png"),
+                      Text(
+                        "200",
+                        style: myTextStyle(secondaryColors,
+                            0.015.toResponsive(context), "Roboto"),
+                      ),
+                      Radio<String>(
+                        value: 'full',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Add On",
+                style: TextStyle(
+                    color: textColor,
+                    fontSize: 0.016.toResponsive(context),
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+
+            //Eggg
+            SizedBox(
+              height: 0.051.h(context),
+              width: 1.0.w(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Egg",
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/nepalirupees.png"),
+                      Text(
+                        "50",
+                        style: myTextStyle(secondaryColors,
+                            0.015.toResponsive(context), "Roboto"),
+                      ),
+                      Radio<String>(
+                        value: 'Egg',
+                        groupValue: addOnselected,
+                        onChanged: (value) {
+                          setState(() {
+                            addOnselected = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 0.051.h(context),
+              width: 1.0.w(context),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Mushroom",
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/nepalirupees.png"),
+                      Text(
+                        "100",
+                        style: myTextStyle(secondaryColors,
+                            0.015.toResponsive(context), "Roboto"),
+                      ),
+                      Radio<String>(
+                        value: 'Mushroom',
+                        groupValue: addOnselected,
+                        onChanged: (value) {
+                          setState(() {
+                            addOnselected = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 0.06.h(context),
+              width: 1.0.w(context),
+            ),
+            //SpicyLevel
+
+            SizedBox(
+              height: 0.025.h(context),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Spicy Level",
+                style: TextStyle(
+                    color: textColor,
+                    fontSize: 0.016.toResponsive(context),
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+            SizedBox(
+              height: 0.005.h(context),
+            ),
+
+            SizedBox(
+              height: 0.055.h(context),
+              width: 1.0.w(context),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: spicylevelbtn.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(
+                        () {
+                          btnTapIndexForSpicy = index;
+                          log("$btnTapIndexForSpicy");
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 0.035.h(context),
+                      width: 0.3.w(context),
+                      margin: EdgeInsets.only(
+                          left: index == 0
+                              ? 0.0.toResponsive(context)
+                              : 0.01.toResponsive(context)),
+                      decoration: BoxDecoration(
+                          color: btnTapIndexForSpicy == index
+                              ? Colors.orange
+                              : primary,
+                          border: Border.all(
+                              color: btnTapIndexForSpicy == index
+                                  ? Colors.orange
+                                  : primary,
+                              width: 1.0),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8))),
+                      child: Center(
+                          child: Text(
+                        spicylevelbtn[index],
+                        style: TextStyle(
+                            color: btnTapIndexForSpicy == index
+                                ? primary
+                                : textColor),
+                      )),
+                    ),
+                  );
+                },
+              ),
+            )
+          ]),
+        ),
       ]),
     );
   }
