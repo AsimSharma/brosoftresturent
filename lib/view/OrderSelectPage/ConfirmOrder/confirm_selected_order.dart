@@ -51,6 +51,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 titleName: "Confirm Order",
                 onPressed: () {
                   Get.to(() => const HomeScreen());
+                  orderController.clearCart();
                 },
               ),
               SizedBox(

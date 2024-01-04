@@ -10,11 +10,10 @@ import 'package:brosoftresturent/view/table/models/images.dart';
 import '../../table/models/btn_selected_model.dart';
 import '../widgets/table_order_info.dart';
 import 'widgets/bottom_navigation_cart.dart';
+import '../widgets/header_app_bar.dart';
 
 import 'package:get/get.dart';
 import 'dart:developer';
-
-import '../widgets/header_app_bar.dart';
 
 class SelectedOrder extends StatefulWidget {
   const SelectedOrder({
@@ -39,8 +38,10 @@ class _SelectedOrderState extends State<SelectedOrder> {
   int btnTapIndex = 0;
 
   final orderCartController = Get.put(OrDerController());
-
   final remoteProductCtrl = Get.put(RemoteProductCtrl());
+
+  String selectedOption = 'Half';
+  String addOnselected = 'Egg';
 
   @override
   void initState() {
@@ -173,7 +174,25 @@ class _SelectedOrderState extends State<SelectedOrder> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.asset("${images['imageName']}"),
+                                InkWell(
+                                  onTap: () {
+                                    productItem.isCustomize == true
+                                        ? showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) =>
+                                                FractionallySizedBox(
+                                                    heightFactor:
+                                                        0.0033.h(context),
+                                                    child:
+                                                        cusTomizedButtomSheet(
+                                                            context)))
+                                        : "";
+                                  },
+                                  child: Hero(
+                                      tag: productItem.fid,
+                                      child: Image.asset(
+                                          "${images['imageName']}")),
+                                ),
                                 SizedBox(
                                   height: 0.005.toResponsive(context),
                                 ),
@@ -216,15 +235,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                       ),
                                       productItem.isCustomize == true
                                           ? TextButton(
-                                              onPressed: () {
-                                                productItem.isCustomize == true
-                                                    ? showBottomSheet(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            customizeBootom(
-                                                                context))
-                                                    : "";
-                                              },
+                                              onPressed: () {},
                                               child: Text(
                                                 "Customiasble",
                                                 style: myTextStyle(
@@ -372,10 +383,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container customizeBootom(BuildContext context) {
+  Container cusTomizedButtomSheet(BuildContext context) {
     return Container(
-      color: Colors.transparent,
-      height: 0.85.h(context),
+      height: 2.0.h(context),
       width: 1.0.w(context),
       child: Stack(children: [
         Positioned(
@@ -476,8 +486,85 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         fontFamily: "Roboto",
                         fontWeight: FontWeight.w800),
                   ),
-                  chooseOne(context),
-                  // chooseOne(context),
+
+                  //Half radio
+                  SizedBox(
+                    height: 0.051.h(context),
+                    width: 1.0.w(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Half",
+                          style: TextStyle(
+                              color: textColor,
+                              fontSize: 0.016.toResponsive(context),
+                              fontFamily: "Nunito",
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/images/nepalirupees.png"),
+                            Text(
+                              "200",
+                              style: myTextStyle(secondaryColors,
+                                  0.015.toResponsive(context), "Roboto"),
+                            ),
+                            Radio<String>(
+                              value: 'Half',
+                              groupValue: selectedOption,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedOption = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+
+                  //full chiiseOn
+                  SizedBox(
+                    height: 0.051.h(context),
+                    width: 1.0.w(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Full",
+                          style: TextStyle(
+                              color: textColor,
+                              fontSize: 0.016.toResponsive(context),
+                              fontFamily: "Nunito",
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/images/nepalirupees.png"),
+                            Text(
+                              "200",
+                              style: myTextStyle(secondaryColors,
+                                  0.015.toResponsive(context), "Roboto"),
+                            ),
+                            Radio<String>(
+                              value: 'full',
+                              groupValue: selectedOption,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedOption = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+
                   Text(
                     "Add On",
                     style: TextStyle(
@@ -486,55 +573,116 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         fontFamily: "Roboto",
                         fontWeight: FontWeight.w800),
                   ),
+
+                  //Eggg
+                  SizedBox(
+                    height: 0.051.h(context),
+                    width: 1.0.w(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Egg",
+                          style: TextStyle(
+                              color: textColor,
+                              fontSize: 0.016.toResponsive(context),
+                              fontFamily: "Nunito",
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/images/nepalirupees.png"),
+                            Text(
+                              "50",
+                              style: myTextStyle(secondaryColors,
+                                  0.015.toResponsive(context), "Roboto"),
+                            ),
+                            Radio<String>(
+                              value: 'Egg',
+                              groupValue: addOnselected,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedOption = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: 0.051.h(context),
+                    width: 1.0.w(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Mushroom",
+                          style: TextStyle(
+                              color: textColor,
+                              fontSize: 0.016.toResponsive(context),
+                              fontFamily: "Nunito",
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/images/nepalirupees.png"),
+                            Text(
+                              "100",
+                              style: myTextStyle(secondaryColors,
+                                  0.015.toResponsive(context), "Roboto"),
+                            ),
+                            Radio<String>(
+                              value: 'Mushroom',
+                              groupValue: addOnselected,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedOption = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+
+                  //SpicyLevel
+
+                  SizedBox(
+                    height: 0.015.h(context),
+                  ),
+                  Text(
+                    "Spicy Level",
+                    style: TextStyle(
+                        color: textColor,
+                        fontSize: 0.016.toResponsive(context),
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.w800),
+                  ),
+
+                  Row(
+                    children: [
+                      ...List.generate(
+                          3,
+                          (index) => Container(
+                                height: 0.005.h(context),
+                                width: 0.2.w(context),
+                                margin: EdgeInsets.only(
+                                    left: 0.01.toResponsive(context)),
+                                color: Colors.red,
+                                child: Text("No Spicy"),
+                              ))
+                    ],
+                  )
                 ],
               ),
             )),
       ]),
-    );
-  }
-
-  Container chooseOne(BuildContext context) {
-    return Container(
-      height: 0.051.h(context),
-      width: 1.0.w(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Half",
-            style: TextStyle(
-                color: textColor,
-                fontSize: 0.016.toResponsive(context),
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w500),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset("assets/images/nepalirupees.png"),
-              Text("200"),
-              Radio(
-                value: true,
-                groupValue: true,
-                onChanged: (value) {
-                  log("Value: $value");
-                },
-
-                // child: Radio(
-                //     value: switchListTileValue,
-                //     groupValue: switchListTileValue,
-                //     toggleable: true,
-                //     onChanged: (value) {
-                //       log("$switchListTileValue  $value");
-                //       // setState(() {
-                //       //   switchListTileValue = value!;
-                //       // });
-                //     }),
-              )
-            ],
-          )
-        ],
-      ),
     );
   }
 

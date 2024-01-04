@@ -144,16 +144,19 @@ class _TableScreenState extends State<TableScreen> {
 
                             return GestureDetector(
                               onTap: () {
-                                showBottomSheet(
+                                showModalBottomSheet(
                                     context: context,
                                     builder: (context) {
-                                      return bottomSheetNoReserved(
-                                          context,
-                                          tableItems.tableName,
-                                          tableItems.seat,
-                                          index1,
-                                          index2,
-                                          filterTable);
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.0018.h(context),
+                                        child: bottomSheetNoReserved(
+                                            context,
+                                            tableItems.tableName,
+                                            tableItems.seat,
+                                            index1,
+                                            index2,
+                                            filterTable),
+                                      );
                                     });
                               },
                               child: Card(
@@ -596,11 +599,18 @@ class _TableScreenState extends State<TableScreen> {
                     onPressed: () {
                       Get.back();
                       tableController.noofseat > 0
-                          ? showBottomSheet(
+                          ? showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
                               context: context,
                               builder: (context) {
-                                return orderBottomSheet(context, tableName,
-                                    tableController.noofseat.toInt());
+                                return FractionallySizedBox(
+                                  alignment: Alignment.center,
+                                  heightFactor: 0.004.h(context),
+                                  child: Center(
+                                    child: orderBottomSheet(context, tableName,
+                                        tableController.noofseat.toInt()),
+                                  ),
+                                );
                               })
                           : showToast(context, "guest cannot be Zero");
                     },
@@ -618,90 +628,87 @@ class _TableScreenState extends State<TableScreen> {
     );
   }
 
-  Center orderBottomSheet(
+  Container orderBottomSheet(
     BuildContext context,
     String tableName,
     int totalGuest,
   ) {
-    return Center(
-      child: Container(
-        height: 0.4.h(context),
-        width: 1.0.toResponsive(context),
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        decoration: const BoxDecoration(
-            color: btnBghColor,
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Choose Related Order",
-                  style: TextStyle(
-                      color: secondaryColors,
-                      fontSize: 0.017.toResponsive(context),
-                      fontWeight: FontWeight.w800,
-                      fontFamily: "Nunito"),
+    return Container(
+      height: 0.4.h(context),
+      width: 1.0.toResponsive(context),
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      decoration: const BoxDecoration(
+          color: btnBghColor,
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Choose Related Order",
+                style: TextStyle(
+                    color: secondaryColors,
+                    fontSize: 0.017.toResponsive(context),
+                    fontWeight: FontWeight.w800,
+                    fontFamily: "Nunito"),
+              ),
+              InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  height: 0.060.h(context),
+                  width: 0.060.w(context),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/cance_icons.png"))),
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    height: 0.060.h(context),
-                    width: 0.060.w(context),
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image:
-                                AssetImage("assets/images/cance_icons.png"))),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          SizedBox(
+            width: 1.0.w(context),
+            height: 0.55.w(context),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      choseReletedContainer(context,
+                          images: imageListcro[0]['imageName'] ?? "",
+                          name: imageListcro[0]['name'] ?? "",
+                          tableName: tableName,
+                          totalGuest: totalGuest),
+                      SizedBox(
+                        width: 0.013.toResponsive(context),
+                      ),
+                      choseReletedContainer(context,
+                          images: imageListcro[1]['imageName'] ?? "",
+                          name: imageListcro[1]['name'] ?? "",
+                          tableName: tableName,
+                          totalGuest: totalGuest),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              width: 1.0.w(context),
-              height: 0.55.w(context),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        choseReletedContainer(context,
-                            images: imageListcro[0]['imageName'] ?? "",
-                            name: imageListcro[0]['name'] ?? "",
-                            tableName: tableName,
-                            totalGuest: totalGuest),
-                        SizedBox(
-                          width: 0.013.toResponsive(context),
-                        ),
-                        choseReletedContainer(context,
-                            images: imageListcro[1]['imageName'] ?? "",
-                            name: imageListcro[1]['name'] ?? "",
-                            tableName: tableName,
-                            totalGuest: totalGuest),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 0.015.h(context),
-                    ),
-                    choseReletedContainer(context,
-                        images: imageListcro[2]['imageName'] ?? "",
-                        name: imageListcro[2]['name'] ?? "",
-                        tableName: tableName,
-                        totalGuest: totalGuest),
-                  ]),
-            )
-          ],
-        ),
+                  SizedBox(
+                    height: 0.015.h(context),
+                  ),
+                  choseReletedContainer(context,
+                      images: imageListcro[2]['imageName'] ?? "",
+                      name: imageListcro[2]['name'] ?? "",
+                      tableName: tableName,
+                      totalGuest: totalGuest),
+                ]),
+          )
+        ],
       ),
     );
   }
