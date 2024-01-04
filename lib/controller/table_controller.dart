@@ -20,7 +20,6 @@ class TableController extends GetxController {
   var noofseat = 0.obs;
   var isLooding = false.obs;
   // var reserved = false.obs;
-
   increaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
     var currentTable = tables[tableIndex1].tableItem[tableIndex2];
     if (noofseat < currentTable.seat) {

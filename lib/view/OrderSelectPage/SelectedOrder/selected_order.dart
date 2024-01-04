@@ -91,8 +91,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //headerSections
-              const HeadeAppBar(
+              HeadeAppBar(
                 titleName: "Selected Order",
+                onPressed: () {
+                  Get.back();
+                },
               ),
               SizedBox(
                 height: 0.004.h(context),

@@ -4,15 +4,16 @@ import 'package:brosoftresturent/controller/order_cart_controller.dart';
 
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
+import 'package:brosoftresturent/view/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/remote_productcontroller.dart';
-import 'widgets/header_app_bar.dart';
-import 'order_placed_screen.dart';
-import 'widgets/table_order_info.dart';
+import '../../../controller/remote_productcontroller.dart';
+import '../widgets/header_app_bar.dart';
+import '../order_placed_screen.dart';
+import '../widgets/table_order_info.dart';
 
-class ConfirmOrderScreen extends StatelessWidget {
+class ConfirmOrderScreen extends StatefulWidget {
   const ConfirmOrderScreen(
       {super.key,
       required this.tableName,
@@ -23,13 +24,19 @@ class ConfirmOrderScreen extends StatelessWidget {
   final int orderNo;
 
   @override
-  Widget build(BuildContext context) {
-    final orderController = Get.find<OrDerController>();
-    final productController = Get.find<RemoteProductCtrl>();
+  State<ConfirmOrderScreen> createState() => _ConfirmOrderScreenState();
+}
 
+class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
+  final orderController = Get.find<OrDerController>();
+  final productController = Get.find<RemoteProductCtrl>();
+  String noteText = "";
+  bool addNote = false;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar:
-          bottomCartBar(context, tableName, totalGuest, orderNo),
+      bottomNavigationBar: bottomCartBar(
+          context, widget.tableName, widget.totalGuest, widget.orderNo),
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -40,16 +47,19 @@ class ConfirmOrderScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const HeadeAppBar(
+              HeadeAppBar(
                 titleName: "Confirm Order",
+                onPressed: () {
+                  Get.to(() => const HomeScreen());
+                },
               ),
               SizedBox(
                 height: 0.004.h(context),
               ),
               TableOrderInfo(
-                  tableName: tableName,
-                  totalGuest: totalGuest,
-                  orderNo: orderNo),
+                  tableName: widget.tableName,
+                  totalGuest: widget.totalGuest,
+                  orderNo: widget.orderNo),
               const Divider(),
               SizedBox(
                 height: 0.008.h(context),
@@ -116,7 +126,7 @@ class ConfirmOrderScreen extends StatelessWidget {
               ),
             ),
             //right
-            Container(
+            SizedBox(
               // width: 0.6.w(context),
               height: 1.0.h(context),
               child: Column(
@@ -204,13 +214,13 @@ class ConfirmOrderScreen extends StatelessWidget {
           itemCount: orderController.addItems.length,
           itemBuilder: ((context, index) {
             var data = orderController.addItems[index];
-            log(data.quantity.toString());
+
             return Visibility(
               visible: data.quantity > 0,
               child: Container(
                 margin: EdgeInsets.only(top: 0.005.toResponsive(context)),
                 padding: EdgeInsets.all(0.005.toResponsive(context)),
-                height: 0.14.h(context),
+                height: 0.15.h(context),
                 width: 0.5.w(context),
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 245, 239, 238),
@@ -289,7 +299,6 @@ class ConfirmOrderScreen extends StatelessWidget {
                                       onTap: () {
                                         orderController
                                             .increaseCartQuantity(data);
-                                        log("addd'");
                                       },
                                       child: SizedBox(
                                         height: 0.045.h(context),
@@ -309,35 +318,109 @@ class ConfirmOrderScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(50)),
-                                    border: Border.all(
-                                        color: const Color(0xFF000000),
-                                        width: 2),
+                            //checkedCondations
+
+                            data.isAdded == false
+                                ? InkWell(
+                                    onTap: () {
+                                      orderController.isAddedNote(data);
+                                      log("is Added ${data.isAdded}");
+                                    },
+                                    child: Container(
+                                      height: 0.05.h(context),
+                                      width: 0.35.w(context),
+                                      // color: Colors.red,
+                                      padding: EdgeInsets.all(
+                                          0.008.toResponsive(context)),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(50)),
+                                              border: Border.all(
+                                                  color:
+                                                      const Color(0xFF000000),
+                                                  width: 2),
+                                            ),
+                                            child: const Icon(
+                                              Icons.add_rounded,
+                                              color: secondaryColors,
+                                              size: 15,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 0.01.w(context),
+                                          ),
+                                          Text(
+                                            "Add note",
+                                            style: TextStyle(
+                                                color: secondaryColors,
+                                                fontFamily: "Nunito",
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: 0.014
+                                                    .toResponsive(context)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : SingleChildScrollView(
+                                    child: Container(
+                                      height: 0.05.h(context),
+                                      width: 0.55.w(context),
+                                      decoration: BoxDecoration(
+                                          color: btnBghColor,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(8)),
+                                          border: Border.all(
+                                            color: secondaryColors,
+                                            width: 1.0,
+                                          )),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 0.8.h(context),
+                                            width: 0.41.w(context),
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                hintText: data.note ?? "",
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                                enabledBorder: InputBorder.none,
+                                                errorBorder: InputBorder.none,
+                                                contentPadding:
+                                                    const EdgeInsets.only(
+                                                        left: 15,
+                                                        bottom: 11,
+                                                        top: 11,
+                                                        right: 15),
+                                                disabledBorder:
+                                                    InputBorder.none,
+                                              ),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  noteText = value;
+                                                  log(" your Note: $noteText");
+                                                  orderController.updateNote(
+                                                      noteText, data);
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                orderController
+                                                    .isAddedNote(data);
+                                                log("is Added ${data.isAdded}");
+                                              },
+                                              icon: const Icon(
+                                                  Icons.cancel_outlined))
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  child: const Icon(
-                                    Icons.add_rounded,
-                                    color: secondaryColors,
-                                    size: 15,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 0.01.w(context),
-                                ),
-                                Text(
-                                  "Add note",
-                                  style: TextStyle(
-                                      color: secondaryColors,
-                                      fontFamily: "Nunito",
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 0.014.toResponsive(context)),
-                                ),
-                              ],
-                            ),
                             Row(
                               children: [
                                 SizedBox(
@@ -487,7 +570,7 @@ class ConfirmOrderScreen extends StatelessWidget {
           InkWell(
             onTap: () {
               Get.to(() => OrderPlacedSucess(
-                    orderNo: orderNo,
+                    orderNo: widget.orderNo,
                     totalGuest: totalGuest,
                     tableName: tableName,
                   ));

@@ -69,34 +69,35 @@ class Order {
   List<String> addons;
   bool isCustomisable;
   bool isVeg;
+  bool isAdded;
 
-  Order({
-    required this.fid,
-    required this.foodName,
-    required this.tableName,
-    required this.quantity,
-    required this.price,
-    required this.note,
-    required this.foodQuantity,
-    required this.spicyLevel,
-    required this.addons,
-    required this.isCustomisable,
-    required this.isVeg,
-  });
+  Order(
+      {required this.fid,
+      required this.foodName,
+      required this.tableName,
+      required this.quantity,
+      required this.price,
+      required this.note,
+      required this.foodQuantity,
+      required this.spicyLevel,
+      required this.addons,
+      required this.isCustomisable,
+      required this.isVeg,
+      this.isAdded = false});
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-        fid: json["fid"],
-        foodName: json["foodName"],
-        tableName: json["tableName"],
-        quantity: json["quantity"],
-        price: json["price"],
-        note: json["note"],
-        foodQuantity: json["foodQuantity"],
-        spicyLevel: json["spicyLevel"],
-        addons: List<String>.from(json["addons"].map((x) => x)),
-        isCustomisable: json["isCustomisable"],
-        isVeg: json["isVeg"],
-      );
+      fid: json["fid"],
+      foodName: json["foodName"],
+      tableName: json["tableName"],
+      quantity: json["quantity"],
+      price: json["price"],
+      note: json["note"],
+      foodQuantity: json["foodQuantity"],
+      spicyLevel: json["spicyLevel"],
+      addons: List<String>.from(json["addons"].map((x) => x)),
+      isCustomisable: json["isCustomisable"],
+      isVeg: json["isVeg"],
+      isAdded: false);
 
   Map<String, dynamic> toJson() => {
         "fid": fid,

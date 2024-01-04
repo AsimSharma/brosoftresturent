@@ -1,6 +1,5 @@
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../utils/app_style.dart';
 
@@ -8,9 +7,11 @@ class HeadeAppBar extends StatelessWidget {
   const HeadeAppBar({
     super.key,
     required this.titleName,
+    required this.onPressed,
   });
 
   final String titleName;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,7 @@ class HeadeAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {
-              Get.back();
-            },
+            onTap: onPressed,
             child: SizedBox(
               height: 0.05.h(context),
               width: 0.03.w(context),

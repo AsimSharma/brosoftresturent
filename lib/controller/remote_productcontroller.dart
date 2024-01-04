@@ -19,7 +19,7 @@ class RemoteProductCtrl extends GetxController {
       var url = Uri.parse(Url.remoteProductsUrl);
       var response = await http.get(url);
       List data = jsonDecode(response.body);
-      // productList = <Foods>[].obs;
+      productList = <Foods>[].obs;
       productList.addAll(data.map((items) => Foods.fromJson(items)).toList());
       log(data.toString());
     } catch (err) {

@@ -17,7 +17,7 @@ class OrDerController extends GetxController {
         hasItem = true;
       }
     }
-    log("$hasItem");
+
     if (hasItem) {
       var item = addItems.indexWhere((p0) => p0.fid == foodItems.fid);
       log(" this is the index where Items  $item ");
@@ -53,10 +53,6 @@ class OrDerController extends GetxController {
     }
 
     update();
-
-    for (Order product in addItems) {
-      log("   Name: ${product.foodName}  Quantity:${product.quantity}");
-    }
   }
 
   increaseFoodQuanity(
@@ -169,7 +165,6 @@ class OrDerController extends GetxController {
 
     double grandTotalPrices = totalPrices + serviceTax + vaTax;
 
-    log(totalPrices.toString());
     update();
     return grandTotalPrices.roundToDouble();
   }
@@ -197,7 +192,6 @@ class OrDerController extends GetxController {
         hasItems = true;
       }
     }
-    log("$hasItems");
 
     if (hasItems) {
       var item = addItems.indexWhere((p0) => p0.fid == order.fid);
@@ -225,7 +219,6 @@ class OrDerController extends GetxController {
         hasItems = true;
       }
     }
-    log("$hasItems");
 
     if (hasItems) {
       var item = addItems.indexWhere((p0) => p0.fid == order.fid);
@@ -243,5 +236,36 @@ class OrDerController extends GetxController {
           isVeg: addItems[item].isVeg);
     }
     update();
+  }
+
+  //addNote
+
+  isAddedNote(Order order) {
+    bool hasItem = false;
+    for (Order item in addItems) {
+      if (item.fid == order.fid) {
+        hasItem = true;
+      }
+    }
+    log("HasItem $hasItem");
+    var index = addItems.indexWhere((p0) => p0.fid == order.fid);
+    if (addItems[index].isAdded == false) {
+      addItems[index].isAdded = true;
+    } else {
+      addItems[index].isAdded = false;
+    }
+
+    update();
+    addItems.refresh();
+
+    // var index = addItems.indexWhere((p0) => p0.fid == order.fid);
+  }
+
+  updateNote(String noteText, Order order) {
+    var index = addItems.indexWhere((p0) => p0.fid == order.fid);
+    addItems[index].note = noteText;
+
+    update();
+    addItems.refresh();
   }
 }

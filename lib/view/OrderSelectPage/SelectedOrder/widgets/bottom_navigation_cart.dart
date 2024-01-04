@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../controller/order_cart_controller.dart';
 import '../../../../utils/app_style.dart';
 import '../../../widgets/toast_message.dart';
-import '../../confirm_selected_order.dart';
+import '../../ConfirmOrder/confirm_selected_order.dart';
 import '../selected_order.dart';
 
 class BottoNavigations extends StatelessWidget {
@@ -83,11 +83,11 @@ class BottoNavigations extends StatelessWidget {
             onTap: () {
               orderCartController.addItems.isEmpty
                   ? showToast(context, "Add something in cart")
-                  : Get.to(ConfirmOrderScreen(
-                      tableName: widget.tablename,
-                      totalGuest: widget.totalGuest,
-                      orderNo: widget.oderNo,
-                    ));
+                  : Get.to(() => ConfirmOrderScreen(
+                        tableName: widget.tablename,
+                        totalGuest: widget.totalGuest,
+                        orderNo: widget.oderNo,
+                      ));
             },
             child: Container(
               height: 0.06.h(context),
