@@ -61,16 +61,19 @@ class TableController extends GetxController {
     isLooding = false.obs;
 
     try {
-      isLooding = true.obs;
+      isLooding.value = true;
       var url = Uri.parse(Url.tableinfo);
       var response = await http.get(url);
       List data = jsonDecode(response.body);
-      tables.addAll(data.map((items) => TableModel.fromJson(items)).toList());
+
+      tables.value = <TableModel>[].obs;
+
+      tables
+          .assignAll(data.map((items) => TableModel.fromJson(items)).toList());
+      isLooding.value = true;
       log(data.toString());
     } catch (err) {
       log(err.toString());
-    } finally {
-      isLooding = false.obs;
     }
     update();
   }

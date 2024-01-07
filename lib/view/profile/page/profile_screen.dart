@@ -1,10 +1,13 @@
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import 'models/profile_list_tile.dart';
+import '../models/profile_list_tile.dart';
 
 import 'dart:developer';
+
+import 'personal_informations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -43,11 +46,33 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 0.02.h(context),
               ),
-              myListTile(context, 0),
-              myListTile(context, 1),
-              myListTile(context, 2),
-              myListTile(context, 3),
-              myListTile(context, 4),
+              ProfileMenu(
+                title: profileListTile[0]['name'],
+                iconsImages: profileListTile[0]['imageName'],
+                onPresed: () {
+                  Get.to(() => const PersonalInfo());
+                },
+              ),
+              ProfileMenu(
+                title: profileListTile[1]['name'],
+                iconsImages: profileListTile[1]['imageName'],
+                onPresed: () {},
+              ),
+              ProfileMenu(
+                title: profileListTile[2]['name'],
+                iconsImages: profileListTile[2]['imageName'],
+                onPresed: () {},
+              ),
+              ProfileMenu(
+                title: profileListTile[3]['name'],
+                iconsImages: profileListTile[3]['imageName'],
+                onPresed: () {},
+              ),
+              ProfileMenu(
+                title: profileListTile[4]['name'],
+                iconsImages: profileListTile[4]['imageName'],
+                onPresed: () {},
+              ),
               SizedBox(
                 height: 0.02.h(context),
               ),
@@ -86,35 +111,9 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Container myListTile(
-    BuildContext context,
-    int index,
-  ) {
-    return Container(
-      padding: EdgeInsetsDirectional.only(bottom: 0.010.toResponsive(context)),
-      margin: EdgeInsetsDirectional.only(top: 0.007.toResponsive(context)),
-      height: 0.07.h(context),
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          border: Border.all(width: 0.1, color: secondaryColors)),
-      child: ListTile(
-        leading: Image.asset(profileListTile[index]['imageName']),
-        title: Text(
-          profileListTile[index]['name'],
-          style: TextStyle(
-            color: textColor,
-            fontFamily: "Nunito",
-            fontWeight: FontWeight.w800,
-            fontSize: 0.016.toResponsive(context),
-          ),
-        ),
-      ),
-    );
-  }
-
   SizedBox profileHeader(BuildContext context) {
     return SizedBox(
-      height: 0.185.h(context),
+      height: 0.17.h(context),
       width: 1.0.w(context),
       child: Stack(
         children: [
@@ -162,6 +161,47 @@ class ProfileScreen extends StatelessWidget {
             onPressed: () {},
             icon: Image.asset("assets/images/notification.png"))
       ],
+    );
+  }
+}
+
+class ProfileMenu extends StatelessWidget {
+  const ProfileMenu({
+    super.key,
+    required this.title,
+    required this.iconsImages,
+    required this.onPresed,
+  });
+
+  final String title;
+  final String iconsImages;
+  final VoidCallback onPresed;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPresed,
+      child: Container(
+        padding:
+            EdgeInsetsDirectional.only(bottom: 0.010.toResponsive(context)),
+        margin: EdgeInsetsDirectional.only(top: 0.007.toResponsive(context)),
+        height: 0.07.h(context),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            border: Border.all(width: 0.1, color: secondaryColors)),
+        child: ListTile(
+          leading: Image.asset(iconsImages),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: textColor,
+              fontFamily: "Nunito",
+              fontWeight: FontWeight.w800,
+              fontSize: 0.016.toResponsive(context),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

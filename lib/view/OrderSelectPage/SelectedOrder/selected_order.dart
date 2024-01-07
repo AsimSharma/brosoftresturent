@@ -56,6 +56,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
     remoteProductCtrl.getRemoteProductsItems();
     _filteredProducts();
     btnTapIndex = 0;
+    remoteProductCtrl.initilizedtotalQuantiry();
   }
 
   List<Foods> _filteredProducts() {
@@ -98,6 +99,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
               HeadeAppBar(
                 titleName: "Selected Order",
                 onPressed: () {
+                  orderCartController.clearCart();
                   Get.back();
                 },
               ),

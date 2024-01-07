@@ -1,7 +1,7 @@
 import 'package:brosoftresturent/utils/routes.dart';
 import 'package:brosoftresturent/view/message/message_screen.dart';
 import 'package:brosoftresturent/view/order/order_screen.dart';
-import 'package:brosoftresturent/view/profile/profile_screen.dart';
+import 'package:brosoftresturent/view/profile/page/profile_screen.dart';
 
 import 'package:brosoftresturent/view/table/screen/table_screen.dart';
 

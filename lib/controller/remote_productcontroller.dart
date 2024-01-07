@@ -12,6 +12,12 @@ class RemoteProductCtrl extends GetxController {
   var quantity = 0.obs;
   var isAdded = false.obs;
 
+  @override
+  void onInit() {
+    initilizedtotalQuantiry();
+    super.onInit();
+  }
+
   var isLooding = false.obs;
   getRemoteProductsItems() async {
     isLooding = true.obs;
@@ -81,6 +87,17 @@ class RemoteProductCtrl extends GetxController {
 
     update();
     productList.refresh();
+  }
+
+  initilizedtotalQuantiry() {
+    for (Foods item in productList) {
+      for (FoodItems iteem in item.foodItems) {
+        iteem.totalQuantity = 0;
+
+        log("initial Quantity : ${iteem.totalQuantity}");
+      }
+    }
+    update();
   }
 
   //

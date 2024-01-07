@@ -99,7 +99,13 @@ class _TableScreenState extends State<TableScreen> {
                 height: 0.015.h(context),
               ),
               // llistedTableItems(context, filterTable)
-              Obx(() => llistedTableItems(context, filterTable))
+              Obx(() => tableController.isLooding == false.obs
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: secondaryColors,
+                      ),
+                    )
+                  : llistedTableItems(context, filterTable))
             ],
           ),
         ),
@@ -174,7 +180,7 @@ class _TableScreenState extends State<TableScreen> {
                                         style: TextStyle(
                                             color: secondaryColors,
                                             fontSize:
-                                                0.017.toResponsive(context),
+                                                0.023.toResponsive(context),
                                             fontWeight: FontWeight.w900,
                                             fontFamily: "Roboto"),
                                       )),
@@ -196,14 +202,14 @@ class _TableScreenState extends State<TableScreen> {
                                             "${tableItems.seat} ",
                                             style: myTextStyle(
                                                 secondaryColors,
-                                                0.015.toResponsive(context),
+                                                0.017.toResponsive(context),
                                                 "Roboto"),
                                           ),
                                           Text(
                                             "people",
                                             style: myTextStyle(
                                                 textColor,
-                                                0.011.toResponsive(context),
+                                                0.013.toResponsive(context),
                                                 "Nunito"),
                                           )
                                         ],
@@ -722,6 +728,7 @@ class _TableScreenState extends State<TableScreen> {
   }) {
     return InkWell(
       onTap: () {
+        Get.back();
         Get.to(() => SelectedOrder(
             tablename: tableName,
             totalGuest: totalGuest,

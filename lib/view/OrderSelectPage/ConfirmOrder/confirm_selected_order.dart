@@ -45,34 +45,36 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             left: 0.012.toResponsive(context),
             right: 0.012.toResponsive(context),
           ),
-          child: Column(
-            children: [
-              HeadeAppBar(
-                titleName: "Confirm Order",
-                onPressed: () {
-                  Get.to(() => const HomeScreen());
-                  orderController.clearCart();
-                },
-              ),
-              SizedBox(
-                height: 0.004.h(context),
-              ),
-              TableOrderInfo(
-                  tableName: widget.tableName,
-                  totalGuest: widget.totalGuest,
-                  orderNo: widget.orderNo),
-              const Divider(),
-              SizedBox(
-                height: 0.008.h(context),
-              ),
-              orderInfo(context),
-              SizedBox(
-                height: 0.008.h(context),
-              ),
-              Obx(() => confirmOrderList(
-                  context, orderController, productController)),
-              Obx(() => grandTotaL(context, orderController))
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                HeadeAppBar(
+                  titleName: "Confirm Order",
+                  onPressed: () {
+                    Get.to(() => const HomeScreen());
+                    orderController.clearCart();
+                  },
+                ),
+                SizedBox(
+                  height: 0.004.h(context),
+                ),
+                TableOrderInfo(
+                    tableName: widget.tableName,
+                    totalGuest: widget.totalGuest,
+                    orderNo: widget.orderNo),
+                const Divider(),
+                SizedBox(
+                  height: 0.008.h(context),
+                ),
+                orderInfo(context),
+                SizedBox(
+                  height: 0.008.h(context),
+                ),
+                Obx(() => confirmOrderList(
+                    context, orderController, productController)),
+                Obx(() => grandTotaL(context, orderController))
+              ],
+            ),
           ),
         ),
       ),
@@ -367,59 +369,55 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                       ),
                                     ),
                                   )
-                                : SingleChildScrollView(
-                                    child: Container(
-                                      height: 0.05.h(context),
-                                      width: 0.55.w(context),
-                                      decoration: BoxDecoration(
-                                          color: btnBghColor,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(8)),
-                                          border: Border.all(
-                                            color: secondaryColors,
-                                            width: 1.0,
-                                          )),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            height: 0.8.h(context),
-                                            width: 0.41.w(context),
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                hintText: data.note ?? "",
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                contentPadding:
-                                                    const EdgeInsets.only(
-                                                        left: 15,
-                                                        bottom: 11,
-                                                        top: 11,
-                                                        right: 15),
-                                                disabledBorder:
-                                                    InputBorder.none,
-                                              ),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  noteText = value;
-                                                  log(" your Note: $noteText");
-                                                  orderController.updateNote(
-                                                      noteText, data);
-                                                });
-                                              },
+                                : Container(
+                                    height: 0.05.h(context),
+                                    width: 0.55.w(context),
+                                    decoration: BoxDecoration(
+                                        color: btnBghColor,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8)),
+                                        border: Border.all(
+                                          color: secondaryColors,
+                                          width: 1.0,
+                                        )),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 0.8.h(context),
+                                          width: 0.41.w(context),
+                                          child: TextField(
+                                            decoration: InputDecoration(
+                                              hintText: data.note ?? "",
+                                              border: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              enabledBorder: InputBorder.none,
+                                              errorBorder: InputBorder.none,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 15,
+                                                      bottom: 11,
+                                                      top: 11,
+                                                      right: 15),
+                                              disabledBorder: InputBorder.none,
                                             ),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                noteText = value;
+                                                log(" your Note: $noteText");
+                                                orderController.updateNote(
+                                                    noteText, data);
+                                              });
+                                            },
                                           ),
-                                          IconButton(
-                                              onPressed: () {
-                                                orderController
-                                                    .isAddedNote(data);
-                                                log("is Added ${data.isAdded}");
-                                              },
-                                              icon: const Icon(
-                                                  Icons.cancel_outlined))
-                                        ],
-                                      ),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              orderController.isAddedNote(data);
+                                              log("is Added ${data.isAdded}");
+                                            },
+                                            icon: const Icon(
+                                                Icons.cancel_outlined))
+                                      ],
                                     ),
                                   ),
                             Row(
