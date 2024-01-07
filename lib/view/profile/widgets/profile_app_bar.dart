@@ -55,14 +55,26 @@ class ProfileAppBar extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: 0.06.h(context),
-                  width: 0.07.w(context),
+                  height: 0.1.h(context),
+                  width: 0.1.w(context),
                   decoration: const BoxDecoration(
-                      color: Colors.red,
                       image: DecorationImage(
                           image: AssetImage("assets/images/notification.png"))),
                 ),
-                Positioned(child: Container())
+                Positioned(
+                    top: 2,
+                    left: 20,
+                    child: Container(
+                      padding: EdgeInsets.all(0.0030.toResponsive(context)),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                      child: const Text(
+                        "1",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ))
               ],
             ),
           ),

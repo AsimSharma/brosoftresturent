@@ -7,6 +7,7 @@ import '../models/profile_list_tile.dart';
 
 import 'dart:developer';
 
+import 'notifacton_page.dart';
 import 'personal_informations.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -61,7 +62,9 @@ class ProfileScreen extends StatelessWidget {
               ProfileMenu(
                 title: profileListTile[2]['name'],
                 iconsImages: profileListTile[2]['imageName'],
-                onPresed: () {},
+                onPresed: () {
+                  Get.to(const Notifactions());
+                },
               ),
               ProfileMenu(
                 title: profileListTile[3]['name'],

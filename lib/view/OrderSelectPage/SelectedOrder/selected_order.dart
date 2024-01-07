@@ -8,7 +8,7 @@ import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
 import '../../table/models/btn_selected_model.dart';
-import '../ConfirmOrder/confirm_selected_order.dart';
+
 import '../widgets/table_order_info.dart';
 import 'models/spicylevel_btn.dart';
 import 'widgets/bottom_navigation_cart.dart';
@@ -191,12 +191,14 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                 StatefulBuilder(builder:
                                                     (BuildContext context,
                                                         StateSetter setState) {
-                                              return cusTomizedButtomSheet(
-                                                  context,
-                                                  setState,
-                                                  filterProduct[index1],
-                                                  fooditems,
-                                                  tableName);
+                                              return Obx(
+                                                () => cusTomizedButtomSheet(
+                                                    context,
+                                                    setState,
+                                                    filterProduct[index1],
+                                                    fooditems,
+                                                    tableName),
+                                              );
                                             }),
                                           )
                                         : "";

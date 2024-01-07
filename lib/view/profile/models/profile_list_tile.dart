@@ -8,3 +8,10 @@ final List<Map<dynamic, dynamic>> profileListTile = [
   {"imageName": "assets/images/Security Icon.png", "name": "Security"},
   {"imageName": "assets/images/Logout Icon.png", "name": "LogOut"},
 ];
+
+final profilenotifactionBtnList = [
+  "All Notification",
+  "Meals",
+  "Beverages",
+  "Dessert",
+];

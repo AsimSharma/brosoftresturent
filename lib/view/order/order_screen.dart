@@ -97,9 +97,14 @@ class _OrderScreenState extends State<OrderScreen> {
 
                                           // OrderSItems listItems
                                           Container(
-                                            height: 0.25.h(context),
-                                            width: 1.0.w(context),
+                                            // height: 0.25.h(context),
+                                            // width: 1.0.w(context),
                                             // color: Colors.red,
+                                            constraints: BoxConstraints(
+                                              minHeight: 0.15.h(context),
+                                              minWidth: 0.25.h(context),
+                                            ),
+
                                             padding: EdgeInsets.all(
                                                 0.005.toResponsive(context)),
                                             child: ListView.builder(
