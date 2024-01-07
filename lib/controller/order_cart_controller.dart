@@ -10,7 +10,10 @@ class OrDerController extends GetxController {
   var isLooding = false.obs;
   RxList<Order> addItems = <Order>[].obs;
 
-  addItemsOnCart(FoodItems foodItems, String tableName) {
+  addItemsOnCart(
+    FoodItems foodItems,
+    String tableName,
+  ) {
     bool hasItem = false;
     for (Order item in addItems) {
       if (item.fid == foodItems.fid) {
@@ -267,5 +270,53 @@ class OrDerController extends GetxController {
 
     update();
     addItems.refresh();
+  }
+
+  //
+  addCustomizeItemsInCart(FoodItems foodItems, String foodQuantity,
+      String spicyLevel, String addOns, String tableName) {
+    bool hasItem = false;
+    for (Order item in addItems) {
+      if (item.fid == foodItems.fid) {
+        hasItem = true;
+      }
+    }
+
+    if (hasItem) {
+      var item = addItems.indexWhere((p0) => p0.fid == foodItems.fid);
+      log(" this is the index where Items  $item ");
+      addItems[item] = Order(
+          fid: addItems[item].fid,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
+          quantity: foodItems.customizeQuantity,
+          price: foodItems.customizePrices,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg);
+
+      //update
+    } else {
+      Order cusTomizeOrder = Order(
+          fid: foodItems.fid,
+          foodName: foodItems.fname,
+          tableName: tableName,
+          quantity: foodItems.customizeQuantity,
+          price: foodItems.customizePrices,
+          note: "",
+          foodQuantity: foodQuantity,
+          spicyLevel: spicyLevel,
+          addons: [addOns],
+          isCustomisable: foodItems.isCustomize,
+          isVeg: foodItems.isVeg);
+
+      addItems.add(cusTomizeOrder);
+
+      update();
+      addItems.refresh();
+    }
   }
 }

@@ -8,6 +8,7 @@ import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
 import '../../table/models/btn_selected_model.dart';
+import '../ConfirmOrder/confirm_selected_order.dart';
 import '../widgets/table_order_info.dart';
 import 'models/spicylevel_btn.dart';
 import 'widgets/bottom_navigation_cart.dart';
@@ -168,7 +169,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     scrollDirection: Axis.horizontal,
                     itemCount: filterProduct[index1].foodItems.length,
                     itemBuilder: (context, index2) {
-                      var productItem = filterProduct[index1].foodItems[index2];
+                      var fooditems = filterProduct[index1].foodItems[index2];
                       var images = imagesList[index2];
                       return Card(
                         color: Colors.grey[300],
@@ -181,7 +182,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    productItem.isCustomize == true
+                                    remoteProductCtrl.initilizedtotalQuantiry();
+                                    fooditems.isCustomize == true
                                         ? showModalBottomSheet(
                                             context: context,
                                             isScrollControlled: true,
@@ -189,13 +191,18 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                 StatefulBuilder(builder:
                                                     (BuildContext context,
                                                         StateSetter setState) {
-                                                  return cusTomizedButtomSheet(
-                                                      context, setState);
-                                                }))
+                                              return cusTomizedButtomSheet(
+                                                  context,
+                                                  setState,
+                                                  filterProduct[index1],
+                                                  fooditems,
+                                                  tableName);
+                                            }),
+                                          )
                                         : "";
                                   },
                                   child: Hero(
-                                      tag: productItem.fid,
+                                      tag: fooditems.fid,
                                       child: Image.asset(
                                           "${images['imageName']}")),
                                 ),
@@ -205,12 +212,12 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 SizedBox(
                                   height: 0.015.toResponsive(context),
                                   width: 0.05.w(context),
-                                  child: Image.asset(productItem.isVeg == false
+                                  child: Image.asset(fooditems.isVeg == false
                                       ? AppImages.novegImage
                                       : AppImages.vegImages),
                                 ),
                                 Text(
-                                  productItem.fname.capitalize.toString(),
+                                  fooditems.fname.capitalize.toString(),
                                   style: TextStyle(
                                       color: secondaryColors,
                                       fontSize: 0.015.toResponsive(context),
@@ -226,7 +233,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                           Image.asset(
                                               "assets/images/bluenepali.png"),
                                           Text(
-                                            productItem.prices
+                                            fooditems.prices
                                                 .toString()
                                                 .capitalize
                                                 .toString(),
@@ -239,7 +246,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                           ),
                                         ],
                                       ),
-                                      productItem.isCustomize == true
+                                      fooditems.isCustomize == true
                                           ? TextButton(
                                               onPressed: () {},
                                               child: Text(
@@ -258,7 +265,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 SizedBox(
                                   height: 0.01.h(context),
                                 ),
-                                productItem.totalQuantity == 0
+                                fooditems.totalQuantity == 0
                                     ? InkWell(
                                         onTap: () async {
                                           orderCartController.addItemsOnCart(
@@ -340,7 +347,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                                         "assets/images/subwhite.png"),
                                                   )),
                                               Text(
-                                                productItem.totalQuantity
+                                                fooditems.totalQuantity
                                                         .toString() ??
                                                     "1",
                                                 style: TextStyle(
@@ -389,7 +396,17 @@ class _SelectedOrderState extends State<SelectedOrder> {
     );
   }
 
-  Container cusTomizedButtomSheet(BuildContext context, StateSetter setState) {
+  Container cusTomizedButtomSheet(BuildContext context, StateSetter setState,
+      Foods foods, FoodItems foodItems, String tableName) {
+    double customizePrices;
+    if (selectedOption == "Half") {
+      customizePrices = foodItems.customizePrices / 2.toDouble();
+      log('This is CustomizePrices: ${customizePrices.toString()}');
+    } else {
+      customizePrices = foodItems.customizePrices.toDouble();
+      log('This is CustomizePrices: ${customizePrices.toString()}');
+    }
+
     return Container(
       height: 0.97.h(context),
       width: 1.0.w(context),
@@ -407,15 +424,82 @@ class _SelectedOrderState extends State<SelectedOrder> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 0.1.h(context),
-                      width: 0.2.w(context),
-                      margin: EdgeInsets.all(0.010.toResponsive(context)),
-                      decoration: const BoxDecoration(
-                          color: primary,
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: const Center(child: Text("Add")),
-                    ),
+                    foodItems.customizeQuantity == 0
+                        ? InkWell(
+                            onTap: () {
+                              remoteProductCtrl.increaseCFoodQuantity(
+                                  foods, foodItems);
+                              remoteProductCtrl.totaFoodsPrices(
+                                  foods, foodItems);
+                            },
+                            child: Container(
+                              height: 0.1.h(context),
+                              width: 0.2.w(context),
+                              margin:
+                                  EdgeInsets.all(0.010.toResponsive(context)),
+                              decoration: const BoxDecoration(
+                                  color: primary,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
+                              child: const Center(child: Text("Add")),
+                            ))
+                        : Container(
+                            margin: EdgeInsets.only(
+                                left: 0.025.toResponsive(context),
+                                right: 0.025.toResponsive(context)),
+                            height: 0.05.h(context),
+                            width: 0.27.w(context),
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(
+                                color: primary,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        remoteProductCtrl.decreaseCFoodQuantity(
+                                            foods, foodItems);
+
+                                        remoteProductCtrl.totaFoodsPrices(
+                                            foods, foodItems);
+
+                                        // orderCartController.decFoodQuanity(foodItems);
+                                      },
+                                      child: SizedBox(
+                                        height: 1.0.h(context),
+                                        width: 0.073.w(context),
+                                        child: Image.asset(
+                                            "assets/images/subBlack.png"),
+                                      )),
+                                  Text(
+                                    foodItems.customizeQuantity.toString() ??
+                                        "1",
+                                    style: TextStyle(
+                                        color: secondaryColors,
+                                        fontSize: 0.013.toResponsive(context),
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "Roboto"),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        remoteProductCtrl.increaseCFoodQuantity(
+                                            foods, foodItems);
+
+                                        remoteProductCtrl.totaFoodsPrices(
+                                            foods, foodItems);
+                                      },
+                                      child: SizedBox(
+                                        height: 1.0.h(context),
+                                        width: 0.073.w(context),
+                                        child: Image.asset(
+                                            "assets/images/addBlack.png"),
+                                      )),
+                                ]),
+                          ),
 
                     //prices
                     Container(
@@ -430,7 +514,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
                             width: 0.0025.w(context),
                           ),
                           Text(
-                            "0",
+                            customizePrices.toString(),
+
+                            // selectedOption == "Half"
+                            //     ? (customizePrices + 50).toString()
+                            //     : (customizePrices + 100).toString(),
                             style: TextStyle(
                               color: primary,
                               fontSize: 0.017.toResponsive(context),
@@ -441,14 +529,29 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         ],
                       )),
                     ),
-                    Container(
-                      height: 0.1.h(context),
-                      width: 0.25.w(context),
-                      margin: EdgeInsets.all(0.010.toResponsive(context)),
-                      decoration: const BoxDecoration(
-                          color: primary,
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: const Center(child: Text("Add Order")),
+                    InkWell(
+                      onTap: () {
+                        log("Hello from  Add Orders");
+                        orderCartController.addCustomizeItemsInCart(
+                          foodItems,
+                          selectedOption,
+                          addOnselected,
+                          "Medium",
+                          tableName,
+                        );
+
+                        Get.back();
+                      },
+                      child: Container(
+                        height: 0.1.h(context),
+                        width: 0.23.w(context),
+                        margin: EdgeInsets.all(0.010.toResponsive(context)),
+                        decoration: const BoxDecoration(
+                            color: primary,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12))),
+                        child: const Center(child: Text("Add Order")),
+                      ),
                     )
                   ]),
             )),
@@ -492,12 +595,14 @@ class _SelectedOrderState extends State<SelectedOrder> {
             ),
             Row(
               children: [
-                Image.asset("assets/images/Non-veg Tag.png"),
+                foodItems.isVeg
+                    ? Image.asset("assets/images/Veg Icon.png")
+                    : Image.asset("assets/images/Non-veg Tag.png"),
                 SizedBox(
                   width: 0.02.w(context),
                 ),
                 Text(
-                  "Miso Ramen",
+                  foodItems.fname,
                   style: TextStyle(
                       color: textColor,
                       fontSize: 0.016.toResponsive(context),
@@ -564,7 +669,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     children: [
                       Image.asset("assets/images/nepalirupees.png"),
                       Text(
-                        "200",
+                        " ${foodItems.prices / 2.round()}".toString(),
                         style: myTextStyle(secondaryColors,
                             0.015.toResponsive(context), "Roboto"),
                       ),
@@ -574,6 +679,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
+                            log(selectedOption);
                           });
                         },
                       ),
@@ -603,7 +709,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     children: [
                       Image.asset("assets/images/nepalirupees.png"),
                       Text(
-                        "200",
+                        foodItems.prices.toString(),
                         style: myTextStyle(secondaryColors,
                             0.015.toResponsive(context), "Roboto"),
                       ),
@@ -613,6 +719,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
+                            log(selectedOption);
                           });
                         },
                       ),
@@ -664,6 +771,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             addOnselected = value!;
+                            log(addOnselected);
                           });
                         },
                       ),
@@ -702,6 +810,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             addOnselected = value!;
+                            log(addOnselected);
                           });
                         },
                       ),

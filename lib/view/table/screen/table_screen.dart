@@ -604,6 +604,7 @@ class _TableScreenState extends State<TableScreen> {
                     btnTitle: "Start",
                     onPressed: () {
                       Get.back();
+
                       tableController.noofseat > 0
                           ? showModalBottomSheet(
                               backgroundColor: Colors.transparent,
@@ -619,6 +620,11 @@ class _TableScreenState extends State<TableScreen> {
                                 );
                               })
                           : showToast(context, "guest cannot be Zero");
+
+                      tableItems.reserved == false
+                          ? tableController.changeReserved(
+                              tablemodel, tableItems)
+                          : null;
                     },
                     width: 0.44.w(context),
                   )

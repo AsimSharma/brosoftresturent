@@ -63,7 +63,6 @@ class RemoteProductCtrl extends GetxController {
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
     log("$index1 $index2");
-
     productList[index1].foodItems[index2].totalQuantity++;
     update();
     productList.refresh();
@@ -84,7 +83,6 @@ class RemoteProductCtrl extends GetxController {
     } else {
       productList[index1].foodItems[index2].totalQuantity = 0;
     }
-
     update();
     productList.refresh();
   }
@@ -93,12 +91,63 @@ class RemoteProductCtrl extends GetxController {
     for (Foods item in productList) {
       for (FoodItems iteem in item.foodItems) {
         iteem.totalQuantity = 0;
-
-        log("initial Quantity : ${iteem.totalQuantity}");
+        iteem.customizeQuantity = 0;
+        iteem.customizePrices = 0;
+        log("initial Quantity : ${iteem.totalQuantity} ${iteem.customizePrices},${iteem.customizeQuantity}");
       }
     }
     update();
   }
 
-  //
+  //totalpricesCustomize
+  totaFoodsPrices(
+    Foods foods,
+    FoodItems foodsItem,
+  ) {
+    var index1 = productList.indexWhere((p0) => p0.id == foods.id);
+    var index2 = productList[index1]
+        .foodItems
+        .indexWhere((element) => element.fid == foodsItem.fid);
+    productList[index1].foodItems[index2].customizePrices =
+        (productList[index1].foodItems[index2].customizeQuantity) *
+            (productList[index1].foodItems[index2].prices);
+    update();
+    productList.refresh();
+  }
+
+/////CustomizeincreaseCFoodQuantity
+  increaseCFoodQuantity(
+    Foods foods,
+    FoodItems foodsItem,
+  ) {
+    var index1 = productList.indexWhere((p0) => p0.id == foods.id);
+    var index2 = productList[index1]
+        .foodItems
+        .indexWhere((element) => element.fid == foodsItem.fid);
+    log("$index1 $index2");
+    productList[index1].foodItems[index2].customizeQuantity++;
+    update();
+    productList.refresh();
+  }
+
+  ///CustomizedecreaseCFoodQuantity
+
+  decreaseCFoodQuantity(
+    Foods foods,
+    FoodItems foodsItem,
+  ) {
+    var index1 = productList.indexWhere((p0) => p0.id == foods.id);
+    var index2 = productList[index1]
+        .foodItems
+        .indexWhere((element) => element.fid == foodsItem.fid);
+    log("$index1 $index2");
+
+    if (productList[index1].foodItems[index2].customizeQuantity > 0) {
+      productList[index1].foodItems[index2].customizeQuantity--;
+    } else {
+      productList[index1].foodItems[index2].customizeQuantity = 0;
+    }
+    update();
+    productList.refresh();
+  }
 }
