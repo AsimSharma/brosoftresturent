@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
+import 'package:brosoftresturent/controller/remote_order_controller.dart';
 
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/remote_productcontroller.dart';
+import '../../../model/remote_order_models.dart';
 import '../widgets/header_app_bar.dart';
 import '../order_placed_screen.dart';
 import '../widgets/table_order_info.dart';
@@ -18,10 +20,14 @@ class ConfirmOrderScreen extends StatefulWidget {
       {super.key,
       required this.tableName,
       required this.totalGuest,
-      required this.orderNo});
+      required this.orderNo,
+      required this.isAddOrders,
+      required this.orderId});
   final String tableName;
   final int totalGuest;
   final int orderNo;
+  final bool isAddOrders;
+  final String orderId;
 
   @override
   State<ConfirmOrderScreen> createState() => _ConfirmOrderScreenState();
@@ -30,13 +36,21 @@ class ConfirmOrderScreen extends StatefulWidget {
 class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   final orderController = Get.find<OrDerController>();
   final productController = Get.find<RemoteProductCtrl>();
+
+  final remoteOrderCtrl = Get.put(RemoteOrderCtrl());
   String noteText = "";
   bool addNote = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: bottomCartBar(
-          context, widget.tableName, widget.totalGuest, widget.orderNo),
+          context,
+          widget.tableName,
+          widget.totalGuest,
+          widget.orderNo,
+          widget.isAddOrders,
+          widget.orderId),
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -503,10 +517,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     );
   }
 
-  Container bottomCartBar(
-      BuildContext context, String tableName, int totalGuest, int) {
+  Container bottomCartBar(BuildContext context, String tableName,
+      int totalGuest, int orderNo, bool isAddedOrders, String orderId) {
     final orderController = Get.find<OrDerController>();
-    // final remoteOrderController = Get.find<RemoteOrderCtrl>();
+    final remoteOrderController = Get.find<RemoteOrderCtrl>();
     return Container(
       height: 0.08.h(context),
       width: 1.0.w(context),
@@ -568,10 +582,24 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
 
           InkWell(
             onTap: () {
+              RemoteOrderModel newOrder = RemoteOrderModel(
+                  orderNo: widget.orderNo,
+                  totalGuest: widget.totalGuest,
+                  tableName: tableName,
+                  time: DateTime.now(),
+                  scheduleFor: DateTime.now(),
+                  isCompleted: false,
+                  orders: orderController.addItems,
+                  addedOrders: [],
+                  id: "${widget.orderNo}");
+
+              isAddedOrders == false
+                  ? remoteOrderController.addOrders(newOrder)
+                  : remoteOrderCtrl.updateAddOrders(
+                      orderId, orderController.addItems);
+
               Get.to(() => OrderPlacedSucess(
                     orderNo: widget.orderNo,
-                    totalGuest: totalGuest,
-                    tableName: tableName,
                   ));
             },
             child: Container(

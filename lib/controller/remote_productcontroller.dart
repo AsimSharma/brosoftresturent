@@ -27,7 +27,6 @@ class RemoteProductCtrl extends GetxController {
       List data = jsonDecode(response.body);
       productList = <Foods>[].obs;
       productList.addAll(data.map((items) => Foods.fromJson(items)).toList());
-      log(data.toString());
     } catch (err) {
       log(err.toString());
     } finally {
@@ -46,7 +45,6 @@ class RemoteProductCtrl extends GetxController {
     var index2 = productList[index1]
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
-    log("$index1 $index2");
 
     productList[index1].foodItems[index2].isAdded = true;
 
@@ -62,7 +60,7 @@ class RemoteProductCtrl extends GetxController {
     var index2 = productList[index1]
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
-    log("$index1 $index2");
+
     productList[index1].foodItems[index2].totalQuantity++;
     update();
     productList.refresh();
@@ -76,7 +74,6 @@ class RemoteProductCtrl extends GetxController {
     var index2 = productList[index1]
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
-    log("$index1 $index2");
 
     if (productList[index1].foodItems[index2].totalQuantity > 0) {
       productList[index1].foodItems[index2].totalQuantity--;
@@ -93,7 +90,6 @@ class RemoteProductCtrl extends GetxController {
         iteem.totalQuantity = 0;
         iteem.customizeQuantity = 0;
         iteem.customizePrices = 0;
-        log("initial Quantity : ${iteem.totalQuantity} ${iteem.customizePrices},${iteem.customizeQuantity}");
       }
     }
     update();
@@ -124,7 +120,7 @@ class RemoteProductCtrl extends GetxController {
     var index2 = productList[index1]
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
-    log("$index1 $index2");
+
     productList[index1].foodItems[index2].customizeQuantity++;
     update();
     productList.refresh();
@@ -140,7 +136,6 @@ class RemoteProductCtrl extends GetxController {
     var index2 = productList[index1]
         .foodItems
         .indexWhere((element) => element.fid == foodsItem.fid);
-    log("$index1 $index2");
 
     if (productList[index1].foodItems[index2].customizeQuantity > 0) {
       productList[index1].foodItems[index2].customizeQuantity--;

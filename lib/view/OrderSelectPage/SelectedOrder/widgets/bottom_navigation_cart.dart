@@ -20,6 +20,7 @@ class BottoNavigations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orderCartController = Get.find<OrDerController>();
     return Container(
       height: 0.08.h(context),
       width: 0.8.w(context),
@@ -84,10 +85,11 @@ class BottoNavigations extends StatelessWidget {
               orderCartController.addItems.isEmpty
                   ? showToast(context, "Add something in cart")
                   : Get.to(() => ConfirmOrderScreen(
-                        tableName: widget.tablename,
-                        totalGuest: widget.totalGuest,
-                        orderNo: widget.oderNo,
-                      ));
+                      tableName: widget.tablename,
+                      totalGuest: widget.totalGuest,
+                      orderNo: widget.orderNo,
+                      isAddOrders: widget.isAddOrders,
+                      orderId: widget.orderId ?? "120"));
             },
             child: Container(
               height: 0.06.h(context),

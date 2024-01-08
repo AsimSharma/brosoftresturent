@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'dart:developer';
 
 import '../../utils/app_style.dart';
+import '../OrderSelectPage/SelectedOrder/selected_order.dart';
+import 'widgets/addedorders.dart';
+import 'widgets/orders_lists.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -23,7 +26,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void initState() {
     btnTapIndex = 0;
-    remoteOrderCtrl.getHistoryOrders();
+    // remoteOrderCtrl.getHistoryOrders();
     super.initState();
   }
 
@@ -35,6 +38,7 @@ class _OrderScreenState extends State<OrderScreen> {
           .where((p0) => p0.orderNo.toString().contains(selectedValue))
           .toList();
     } else {
+      remoteOrderCtrl.remoteOrderList.reversed;
       return remoteOrderCtrl.remoteOrderList;
     }
   }
@@ -76,6 +80,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                 itemCount: filterValue.length,
                                 itemBuilder: (context, index1) {
                                   var orderData = filterValue[index1];
+                                  int time = DateTime.now()
+                                      .difference(orderData.time)
+                                      .inMinutes;
                                   return Visibility(
                                     key: UniqueKey(),
                                     visible:
@@ -96,118 +103,100 @@ class _OrderScreenState extends State<OrderScreen> {
                                               context, btnTapIndex, orderData),
 
                                           // OrderSItems listItems
-                                          Container(
-                                            // height: 0.25.h(context),
-                                            // width: 1.0.w(context),
-                                            // color: Colors.red,
-                                            constraints: BoxConstraints(
-                                              minHeight: 0.15.h(context),
-                                              minWidth: 0.25.h(context),
-                                            ),
+                                          OrderList(
+                                              filterValue: filterValue,
+                                              index1: index1),
 
-                                            padding: EdgeInsets.all(
-                                                0.005.toResponsive(context)),
-                                            child: ListView.builder(
-                                                physics:
-                                                    const ClampingScrollPhysics(),
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: filterValue[index1]
-                                                    .orders
-                                                    .length,
-                                                itemBuilder: (context, index2) {
-                                                  var listData =
-                                                      filterValue[index1]
-                                                          .orders[index2];
-                                                  return Container(
-                                                    height: 0.1.h(context),
-                                                    width: 1.0.w(context),
-                                                    // color: Colors.green,
-                                                    margin: EdgeInsets.only(
-                                                        top: 0.001.toResponsive(
-                                                            context)),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              listData.quantity
-                                                                      .toString() ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      textColor,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 0.013
-                                                                      .toResponsive(
-                                                                          context)),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 0.01
-                                                                  .w(context),
-                                                            ),
-                                                            Text(
-                                                              listData.foodName ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      textColor,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 0.013
-                                                                      .toResponsive(
-                                                                          context)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Image.asset(
-                                                                "assets/images/nepalirupees.png"),
-                                                            SizedBox(
-                                                              width: 0.001
-                                                                  .w(context),
-                                                            ),
-                                                            Text(
-                                                              listData.price
-                                                                      .toString() ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      textColor,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 0.013
-                                                                      .toResponsive(
-                                                                          context)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                }),
-                                          ),
+                                          filterValue[index1]
+                                                  .addedOrders
+                                                  .isNotEmpty
+                                              ? Container(
+                                                  padding: EdgeInsets.all(0.010
+                                                      .toResponsive(context)),
+                                                  child: Column(
+                                                    children: [
+                                                      const Divider(
+                                                        color: secondaryColors,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "${filterValue[index1].addedOrders.length} item Added",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                fontFamily:
+                                                                    "Nunito",
+                                                                fontSize: 0.012
+                                                                    .toResponsive(
+                                                                        context),
+                                                                color:
+                                                                    Colors.red),
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                " OrderNo ${(filterValue[index1].orderNo) + 13}",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800,
+                                                                    fontFamily:
+                                                                        "Nunito",
+                                                                    fontSize: 0.012
+                                                                        .toResponsive(
+                                                                            context),
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 0.020
+                                                                    .w(context),
+                                                              ),
+                                                              Text(
+                                                                "$time m ago",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800,
+                                                                    fontFamily:
+                                                                        "Nunito",
+                                                                    fontSize: 0.012
+                                                                        .toResponsive(
+                                                                            context),
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      AddedOrdersList(
+                                                          filterValue:
+                                                              filterValue,
+                                                          index1: index1)
+                                                    ],
+                                                  ),
+                                                )
+                                              : const Text(""),
+
+                                          // OrderList(
+                                          //     filterValue: filterValue,
+                                          //     index1: index1),
 
                                           const Divider(
                                             color: secondaryColors,
                                           ),
 
-                                          addDeleBtns(
-                                              context, btnTapIndex, "120")
+                                          addDeleteSections(
+                                              context, btnTapIndex, orderData)
                                         ],
                                       ),
                                     ),
@@ -241,114 +230,15 @@ class _OrderScreenState extends State<OrderScreen> {
                                           topHeader(
                                               context, btnTapIndex, orderData),
                                           // OrderSItems listItems
-                                          Container(
-                                            height: 0.25.h(context),
-                                            width: 1.0.w(context),
-                                            // color: Colors.red,
-                                            padding: EdgeInsets.all(
-                                                0.005.toResponsive(context)),
-                                            child: ListView.builder(
-                                                physics:
-                                                    const ClampingScrollPhysics(),
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: filterValue[index1]
-                                                        .orders
-                                                        .length ??
-                                                    1,
-                                                itemBuilder: (context, index2) {
-                                                  var listdata =
-                                                      filterValue[index1]
-                                                          .orders[index2];
-                                                  return Container(
-                                                    height: 0.1.h(context),
-                                                    width: 1.0.w(context),
-                                                    // color: Colors.green,
-                                                    margin: EdgeInsets.only(
-                                                        top: 0.001.toResponsive(
-                                                            context)),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              listdata.quantity
-                                                                      .toString() ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      textColor,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 0.013
-                                                                      .toResponsive(
-                                                                          context)),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 0.01
-                                                                  .w(context),
-                                                            ),
-                                                            Text(
-                                                              listdata.foodName ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      textColor,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 0.013
-                                                                      .toResponsive(
-                                                                          context)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Image.asset(
-                                                                "assets/images/nepalirupees.png"),
-                                                            SizedBox(
-                                                              width: 0.001
-                                                                  .w(context),
-                                                            ),
-                                                            Text(
-                                                              listdata.price
-                                                                      .toString() ??
-                                                                  "",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      textColor,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 0.013
-                                                                      .toResponsive(
-                                                                          context)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                }),
+                                          OrderList(
+                                            filterValue: filterValue,
+                                            index1: index1,
                                           ),
-
                                           const Divider(
                                             color: secondaryColors,
                                           ),
-
-                                          addDeleBtns(
-                                              context, btnTapIndex, "120")
+                                          addDeleteSections(
+                                              context, btnTapIndex, orderData)
                                         ],
                                       ),
                                     ),
@@ -363,11 +253,12 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Container addDeleBtns(BuildContext context, int btnTapIndex, String id) {
+  Container addDeleteSections(
+      BuildContext context, int btnTapIndex, RemoteOrderModel orderData) {
     return Container(
         height: 0.09.h(context),
         width: 1.0.w(context),
-        padding: EdgeInsets.symmetric(horizontal: 0.0015.toResponsive(context)),
+        padding: EdgeInsets.symmetric(horizontal: 0.0035.toResponsive(context)),
         child: btnTapIndex == 0
             ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 //left
@@ -384,11 +275,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     SizedBox(width: 0.012.w(context)),
                     InkWell(
                       onTap: () {
-                        // remoteOrderCtrl.isLoading == true.obs
-                        //     ? const CircularProgressIndicator(
-                        //         color: Colors.blue,
-                        //       )
-                        //     : remoteOrderCtrl.cancelById(id);
+                        remoteOrderCtrl.isLoading2 == true
+                            ? const CircularProgressIndicator()
+                            : remoteOrderCtrl.cancelById(orderData.id);
                       },
                       child: Text(
                         "Cancle Order",
@@ -421,18 +310,13 @@ class _OrderScreenState extends State<OrderScreen> {
                     SizedBox(width: 0.012.w(context)),
                     InkWell(
                       onTap: () {
-                        // Get.to(() => const SelectedOrder(
-                        //       tablename: "",
-                        //       totalGuest: 0,
-                        //       oderNo: 0,
-                        //     ));
-
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => SelectedOrder(
-                        //           tablename: "",
-                        //           totalGuest: 0,
-                        //           oderNo: 0,
-                        //         )));
+                        Get.to(() => SelectedOrder(
+                              tablename: orderData.tableName,
+                              totalGuest: orderData.totalGuest,
+                              orderNo: orderData.orderNo,
+                              isAddOrders: true,
+                              orderId: orderData.id,
+                            ));
                       },
                       child: Text(
                         "Add Order",
@@ -464,6 +348,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   Container topHeader(
       BuildContext context, int btnIndex, RemoteOrderModel orderData) {
+    int time = DateTime.now().difference(orderData.time).inMinutes;
     return Container(
       height: 0.07.h(context),
       width: 1.0.w(context),
@@ -502,7 +387,7 @@ class _OrderScreenState extends State<OrderScreen> {
               width: 0.02.w(context),
             ),
             Text(
-              "5Items",
+              "${orderData.orders.length.toString()} items",
               style: TextStyle(
                   color: btnTapIndex == 0 ? primary : textColor,
                   fontFamily: "Roboto",
@@ -547,7 +432,7 @@ class _OrderScreenState extends State<OrderScreen> {
               width: 0.02.w(context),
             ),
             Text(
-              "1m ago",
+              "${time.toString()} m ago ",
               style: TextStyle(
                   color: btnTapIndex == 0 ? primary : textColor,
                   fontFamily: "Roboto",
@@ -606,7 +491,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   Container logoHeader(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 0.01.toResponsive(context)),
+      // padding: EdgeInsets.only(top: 0.01.toResponsive(context)),
       color: primary,
       height: 0.1.h(context),
       width: 1.0.w(context),

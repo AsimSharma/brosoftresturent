@@ -18,16 +18,19 @@ import 'package:get/get.dart';
 import 'dart:developer';
 
 class SelectedOrder extends StatefulWidget {
-  const SelectedOrder({
-    super.key,
-    required this.tablename,
-    required this.totalGuest,
-    required this.oderNo,
-  });
+  const SelectedOrder(
+      {super.key,
+      required this.tablename,
+      required this.totalGuest,
+      required this.orderNo,
+      this.isAddOrders = false,
+      this.orderId});
 
   final String tablename;
   final int totalGuest;
-  final int oderNo;
+  final int orderNo;
+  final bool isAddOrders;
+  final String? orderId;
 
   @override
   State<SelectedOrder> createState() => _SelectedOrderState();
@@ -57,6 +60,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
     remoteProductCtrl.getRemoteProductsItems();
     _filteredProducts();
     btnTapIndex = 0;
+    log("${widget.isAddOrders}");
     remoteProductCtrl.initilizedtotalQuantiry();
   }
 
@@ -111,7 +115,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
               TableOrderInfo(
                 tableName: widget.tablename,
                 totalGuest: widget.totalGuest,
-                orderNo: widget.oderNo,
+                orderNo: widget.orderNo,
               ),
 
               const Divider(),

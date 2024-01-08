@@ -71,7 +71,6 @@ class TableController extends GetxController {
       tables
           .assignAll(data.map((items) => TableModel.fromJson(items)).toList());
       isLooding.value = true;
-      log(data.toString());
     } catch (err) {
       log(err.toString());
     }

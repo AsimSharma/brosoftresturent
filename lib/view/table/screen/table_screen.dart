@@ -738,7 +738,7 @@ class _TableScreenState extends State<TableScreen> {
         Get.to(() => SelectedOrder(
             tablename: tableName,
             totalGuest: totalGuest,
-            oderNo: getRandomnumber()));
+            orderNo: getRandomnumber()));
       },
       child: Container(
         height: 0.1.h(context),
