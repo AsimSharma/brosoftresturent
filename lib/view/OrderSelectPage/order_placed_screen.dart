@@ -3,7 +3,7 @@ import 'package:brosoftresturent/controller/order_cart_controller.dart';
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 
-import 'package:brosoftresturent/view/widgets/custome_btns.dart';
+import 'package:brosoftresturent/view/widgets/shared/custome_btns.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

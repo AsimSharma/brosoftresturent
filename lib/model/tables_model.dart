@@ -31,20 +31,23 @@ class TableItem {
   bool reserved;
   int seat;
   String tid;
+  int? totalguest;
 
-  TableItem({
-    String? tid,
-    required this.tableName,
-    required this.reserved,
-    required this.seat,
-  }) : tid = tid ?? uuid.v1();
+  TableItem(
+      {String? tid,
+      required this.tableName,
+      required this.reserved,
+      required this.seat,
+      this.totalguest})
+      : tid = tid ?? uuid.v1();
 
   factory TableItem.fromJson(Map<String, dynamic> json) {
     return TableItem(
         tableName: json['tableName'],
         reserved: false,
         seat: json['seat'],
-        tid: json['tid']);
+        tid: json['tid'],
+        totalguest: 0);
   }
 
   Map<String, dynamic> tojson() => {

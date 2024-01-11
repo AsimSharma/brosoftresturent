@@ -242,7 +242,7 @@ class OrDerController extends GetxController {
   }
 
   //addNote
-
+  //Todo make add note methods and updateNote
   isAddedNote(Order order) {
     bool hasItem = false;
     for (Order item in addItems) {

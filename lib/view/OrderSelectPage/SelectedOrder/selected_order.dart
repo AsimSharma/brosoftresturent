@@ -271,6 +271,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 SizedBox(
                                   height: 0.01.h(context),
                                 ),
+
+                                //todo know the total quantity from id
+                                // total quantity=0 make add the ordercartIncQuantity
+                                //and Show increase decrease buttons
+                                //show from order cart not foodremoteProducts
                                 fooditems.totalQuantity == 0
                                     ? InkWell(
                                         onTap: () async {
@@ -430,6 +435,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    //Todo do Same like this ass
+                    //todo know the total quantity from id
+                    // total quantity=0 make add the ordercartIncQuantity
+                    //and Show increase decrease buttons
+                    //show from order cart not  remoteProducts
                     foodItems.customizeQuantity == 0
                         ? InkWell(
                             onTap: () {
@@ -1008,6 +1018,9 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 style: myTextStyle(
                     textColor, 0.013.toResponsive(context), "Roboto"),
               ),
+
+              //Todo make radio icons Buttons not Radio buttons
+              //and work on this funcnality
               Radio(
                 groupValue: selectedRadio,
                 value: selectedRadio,

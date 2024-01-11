@@ -24,6 +24,7 @@ class BottoNavigations extends StatelessWidget {
     return Container(
       height: 0.08.h(context),
       width: 0.8.w(context),
+      //todo change margin hori vertical and height 0.008h
       margin: EdgeInsets.all(0.002.toResponsive(context)),
       decoration: const BoxDecoration(
           color: secondaryColors,
