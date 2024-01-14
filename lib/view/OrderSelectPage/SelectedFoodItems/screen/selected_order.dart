@@ -1,4 +1,4 @@
-import 'package:brosoftresturent/view/OrderSelectPage/SelectedOrder/widgets/add_button.dart';
+import 'package:brosoftresturent/view/OrderSelectPage/SelectedFoodItems/widgets/add_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
@@ -9,17 +9,17 @@ import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
 
-import '../../widgets/shared/search_bar.dart';
-import '../widgets/table_order_info.dart';
-import 'models/spicylevel_btn.dart';
-import 'widgets/bottom_navigation_cart.dart';
-import '../widgets/header_app_bar.dart';
+import '../../../widgets/shared/search_bar.dart';
+import '../../widgets/table_order_info.dart';
+import '../models/spicylevel_btn.dart';
+import '../widgets/bottom_navigation_cart.dart';
+import '../../widgets/header_app_bar.dart';
 
 import 'package:get/get.dart';
 import 'dart:developer';
 
-import 'widgets/category_selected_btn.dart';
-import 'widgets/inc_dec_btns.dart';
+import '../widgets/category_selected_btn.dart';
+import '../widgets/inc_dec_btns.dart';
 
 class SelectedOrder extends StatefulWidget {
   const SelectedOrder(

@@ -264,12 +264,26 @@ class OrDerController extends GetxController {
     // var index = addItems.indexWhere((p0) => p0.fid == order.fid);
   }
 
-  updateNote(String noteText, Order order) {
-    var index = addItems.indexWhere((p0) => p0.fid == order.fid);
-    addItems[index].note = noteText;
+  updateNote(String noteText, int fid) {
+    for (int i = 0; i < addItems.length; i++) {
+      if (addItems[i].fid == fid) {
+        addItems[i].note = noteText;
+      }
+    }
 
     update();
-    addItems.refresh();
+  }
+
+  bool checkedNotes(int fid) {
+    bool isAlreadyNote = false;
+    for (int i = 0; i < addItems.length; i++) {
+      if (addItems[i].fid == fid) {
+        if (addItems[i].note.isNotEmpty) {
+          isAlreadyNote = true;
+        }
+      }
+    }
+    return isAlreadyNote;
   }
 
   //

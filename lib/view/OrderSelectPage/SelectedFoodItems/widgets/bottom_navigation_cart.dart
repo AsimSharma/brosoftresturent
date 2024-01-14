@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../../../../controller/order_cart_controller.dart';
 import '../../../../utils/app_style.dart';
 import '../../../widgets/toast_message.dart';
-import '../../ConfirmOrder/confirm_selected_order.dart';
-import '../selected_order.dart';
+import '../../ConfirmOrder/screen/confirm_selected_order.dart';
+import '../screen/selected_order.dart';
 
 class BottoNavigations extends StatelessWidget {
   const BottoNavigations({

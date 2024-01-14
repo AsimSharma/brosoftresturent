@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'dart:developer';
 
 import '../../utils/app_style.dart';
-import '../OrderSelectPage/SelectedOrder/selected_order.dart';
+import '../OrderSelectPage/SelectedFoodItems/screen/selected_order.dart';
 import 'widgets/addedorders.dart';
 import 'widgets/orders_lists.dart';
 

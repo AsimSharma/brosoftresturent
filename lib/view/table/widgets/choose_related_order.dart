@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../model/tables_model.dart';
 import '../../../utils/app_style.dart';
 import '../../../utils/random_number.dart';
-import '../../OrderSelectPage/SelectedOrder/selected_order.dart';
+import '../../OrderSelectPage/SelectedFoodItems/screen/selected_order.dart';
 import '../models/images.dart';
 
 class ChooseRelatedOrderBottomSheet extends StatelessWidget {
