@@ -1,3 +1,4 @@
+import 'package:brosoftresturent/view/OrderSelectPage/SelectedOrder/widgets/add_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
@@ -7,8 +8,8 @@ import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/images_path_store.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/table/models/images.dart';
-import '../../table/models/btn_selected_model.dart';
 
+import '../../widgets/shared/search_bar.dart';
 import '../widgets/table_order_info.dart';
 import 'models/spicylevel_btn.dart';
 import 'widgets/bottom_navigation_cart.dart';
@@ -16,6 +17,9 @@ import '../widgets/header_app_bar.dart';
 
 import 'package:get/get.dart';
 import 'dart:developer';
+
+import 'widgets/category_selected_btn.dart';
+import 'widgets/inc_dec_btns.dart';
 
 class SelectedOrder extends StatefulWidget {
   const SelectedOrder(
@@ -49,7 +53,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
 
   String selectedOption = 'Half';
   String addOnselected = 'Egg';
-
+  List<String> btnlistOrder = ["All", "Momo", "Biryani", "Chaumin"];
   @override
   void initState() {
     _init();
@@ -123,13 +127,13 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 height: 0.008.h(context),
               ),
 
-              seaechBar(context),
+              searchBar(context),
 
               SizedBox(
                 height: 0.015.h(context),
               ),
               //btnSelected
-              selectedBtn(context),
+              categoryselectedbtn(context),
               SizedBox(
                 height: 0.018.h(context),
               ),
@@ -143,6 +147,73 @@ class _SelectedOrderState extends State<SelectedOrder> {
           ),
         ),
       ),
+    );
+  }
+
+  Container categoryselectedbtn(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 0.0035.toResponsive(context)),
+      padding: EdgeInsets.only(left: 0.0035.toResponsive(context)),
+      height: 0.05.h(context),
+      width: 1.0.w(context),
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: btnlistOrder.length,
+          itemBuilder: (context, index) {
+            return CategoryselectedBtn(
+              btnTapIndex: btnTapIndex,
+              index: index,
+              onPressed: () {
+                setState(() {
+                  btnTapIndex = index;
+                });
+              },
+            );
+          }),
+    );
+  }
+
+  Row searchBar(BuildContext context) {
+    return Row(
+      children: [
+        SearchBarContainer(
+          hintText: "Search by Cusine name",
+          width: 0.62.w(context),
+          onChangeValue: (value) {
+            setState(() {
+              searchValue = value;
+            });
+          },
+        ),
+        SizedBox(
+          width: 0.012.w(context),
+        ),
+        Expanded(
+          child:
+              //Todo make radio icons Buttons not Radio buttons
+              //and work on this funcnality
+              Row(
+            children: [
+              Text(
+                "veg only",
+                style: myTextStyle(
+                    textColor, 0.012.toResponsive(context), "Roboto"),
+              ),
+              Radio(
+                groupValue: selectedRadio,
+                value: selectedRadio,
+                onChanged: (value) {
+                  setState(() {
+                    selectedRadio != value!;
+
+                    log(selectedRadio.toString());
+                  });
+                },
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -174,6 +245,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                     itemCount: filterProduct[index1].foodItems.length,
                     itemBuilder: (context, index2) {
                       var fooditems = filterProduct[index1].foodItems[index2];
+                      var foods = filterProduct[index1];
                       var images = imagesList[index2];
                       return Card(
                         color: Colors.grey[300],
@@ -271,127 +343,20 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                 SizedBox(
                                   height: 0.01.h(context),
                                 ),
-
-                                //todo know the total quantity from id
-                                // total quantity=0 make add the ordercartIncQuantity
-                                //and Show increase decrease buttons
-                                //show from order cart not foodremoteProducts
-                                fooditems.totalQuantity == 0
-                                    ? InkWell(
-                                        onTap: () async {
-                                          orderCartController.addItemsOnCart(
-                                              filterProduct[index1]
-                                                  .foodItems[index2],
-                                              tableName);
-
-                                          remoteProductCtrl
-                                              .increaseFoodQuantity(
-                                                  filterProduct[index1],
-                                                  filterProduct[index1]
-                                                      .foodItems[index2]);
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.only(
-                                                left:
-                                                    0.020.toResponsive(context),
-                                                right: 0.020
-                                                    .toResponsive(context)),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                                border: Border.all(
-                                                    color: secondaryColors,
-                                                    width: 2)),
-                                            margin: EdgeInsets.only(
-                                                left:
-                                                    0.04.toResponsive(context),
-                                                right:
-                                                    0.04.toResponsive(context)),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Add",
-                                              style: myTextStyle(
-                                                  textColor,
-                                                  0.015.toResponsive(context),
-                                                  "Roboto"),
-                                            )),
+                                Obx(() => orderCartController
+                                            .findQuantity(fooditems.fid) ==
+                                        0
+                                    ? AddButtons(
+                                        orderCartController:
+                                            orderCartController,
+                                        fooditems: fooditems,
+                                        tableName: tableName,
                                       )
-                                    : Container(
-                                        margin: EdgeInsets.only(
-                                            left: 0.025.toResponsive(context),
-                                            right: 0.025.toResponsive(context)),
-                                        height: 0.05.h(context),
-                                        width: 0.3.w(context),
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                            color: secondaryColors,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(15))),
-                                        child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              InkWell(
-                                                  onTap: () {
-                                                    remoteProductCtrl
-                                                        .decreaseFoodQuantity(
-                                                            filterProduct[
-                                                                index1],
-                                                            filterProduct[
-                                                                        index1]
-                                                                    .foodItems[
-                                                                index2]);
-
-                                                    orderCartController
-                                                        .decFoodQuanity(
-                                                      filterProduct[index1]
-                                                          .foodItems[index2],
-                                                    );
-                                                  },
-                                                  child: SizedBox(
-                                                    height: 1.0.h(context),
-                                                    width: 0.073.w(context),
-                                                    child: Image.asset(
-                                                        "assets/images/subwhite.png"),
-                                                  )),
-                                              Text(
-                                                fooditems.totalQuantity
-                                                        .toString() ??
-                                                    "1",
-                                                style: TextStyle(
-                                                    color: primary,
-                                                    fontSize: 0.013
-                                                        .toResponsive(context),
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Roboto"),
-                                              ),
-                                              InkWell(
-                                                  onTap: () {
-                                                    remoteProductCtrl
-                                                        .increaseFoodQuantity(
-                                                            filterProduct[
-                                                                index1],
-                                                            filterProduct[
-                                                                        index1]
-                                                                    .foodItems[
-                                                                index2]);
-                                                    orderCartController
-                                                        .increaseFoodQuanity(
-                                                      filterProduct[index1]
-                                                          .foodItems[index2],
-                                                    );
-                                                  },
-                                                  child: SizedBox(
-                                                    height: 1.0.h(context),
-                                                    width: 0.073.w(context),
-                                                    child: Image.asset(
-                                                        "assets/images/addwhite.png"),
-                                                  )),
-                                            ]),
-                                      ),
+                                    : IncDecButtons(
+                                        orderCartController:
+                                            orderCartController,
+                                        fooditems: fooditems,
+                                      )),
                                 SizedBox(
                                   height: 0.015.h(context),
                                 )
@@ -435,7 +400,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    //Todo do Same like this ass
+                    //Todo do Same like this as
                     //todo know the total quantity from id
                     // total quantity=0 make add the ordercartIncQuantity
                     //and Show increase decrease buttons
@@ -910,132 +875,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
           ]),
         ),
       ]),
-    );
-  }
-
-  Container selectedBtn(BuildContext context) {
-    return Container(
-      // color: Colors.red,
-      margin: EdgeInsets.only(left: 0.00015.toResponsive(context)),
-      padding: EdgeInsets.only(left: 0.00008.toResponsive(context)),
-      height: 0.05.h(context),
-      width: 1.0.w(context),
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: btnlistOrder.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  btnTapIndex = index;
-                });
-              },
-              child: Container(
-                height: 0.8.h(context),
-                width: 0.27.w(context),
-                margin: const EdgeInsets.only(left: 5),
-                decoration: BoxDecoration(
-                    color: btnTapIndex == index ? secondaryColors : primary,
-                    borderRadius: const BorderRadius.all(Radius.circular(50))),
-                child: Center(
-                    child: Text(
-                  btnlistOrder[index],
-                  style: myTextStyle(
-                      btnTapIndex != index ? secondaryColors : primary,
-                      0.0134.toResponsive(context),
-                      " Roboto"),
-                )),
-              ),
-            );
-          }),
-    );
-  }
-
-  SizedBox seaechBar(BuildContext context) {
-    return SizedBox(
-      height: 0.065.h(context),
-      width: 1.0.w(context),
-      child: Row(
-        children: [
-          Container(
-            height: 0.06.h(context),
-            width: 0.57.w(context),
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 2.2,
-                style: BorderStyle.solid,
-                color: textColor,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 0.1.h(context),
-                  width: 0.1.w(context),
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/searchicons.png"),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          searchValue = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Search by table or category",
-                        hintStyle: TextStyle(
-                            color: textColor,
-                            fontSize: 0.012.toResponsive(context),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "Nunito"),
-                        border: InputBorder.none,
-                      ),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 0.03.w(context),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 0.015.toResponsive(context)),
-            height: 0.80.h(context),
-            width: 0.324.w(context),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Text(
-                "veg only",
-                style: myTextStyle(
-                    textColor, 0.013.toResponsive(context), "Roboto"),
-              ),
-
-              //Todo make radio icons Buttons not Radio buttons
-              //and work on this funcnality
-              Radio(
-                groupValue: selectedRadio,
-                value: selectedRadio,
-                onChanged: (value) {
-                  setState(() {
-                    selectedRadio != value!;
-
-                    log(selectedRadio.toString());
-                  });
-                },
-              ),
-            ]),
-          )
-        ],
-      ),
     );
   }
 }

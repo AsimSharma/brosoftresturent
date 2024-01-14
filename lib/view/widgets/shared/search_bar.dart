@@ -8,17 +8,19 @@ class SearchBarContainer extends StatelessWidget {
     super.key,
     this.width = double.infinity,
     required this.onChangeValue,
+    required this.hintText,
   });
 
   final double width;
   final dynamic onChangeValue;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 0.065.h(context),
       width: width,
-      margin: EdgeInsets.only(left: 0.0055.toResponsive(context)),
+      // margin: EdgeInsets.only(left: 0.0055.toResponsive(context)),
       decoration: BoxDecoration(
         border: Border.all(
           width: 2.2,
@@ -32,7 +34,7 @@ class SearchBarContainer extends StatelessWidget {
         children: [
           Container(
             height: 0.06.h(context),
-            width: 0.2.w(context),
+            width: 0.12.w(context),
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/searchicons.png"),
@@ -41,13 +43,13 @@ class SearchBarContainer extends StatelessWidget {
           ),
           SizedBox(
             height: 0.89.h(context),
-            width: 0.7.w(context),
+            width: 0.45.w(context),
             child: Padding(
-              padding: EdgeInsets.all(0.0037.toResponsive(context)),
+              padding: EdgeInsets.all(0.0027.toResponsive(context)),
               child: TextField(
                 onChanged: onChangeValue,
                 decoration: InputDecoration(
-                  hintText: "Search by table or category",
+                  hintText: hintText,
                   hintStyle: TextStyle(
                       color: textColor,
                       fontSize: 0.014.toResponsive(context),

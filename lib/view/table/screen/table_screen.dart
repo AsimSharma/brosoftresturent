@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/table_controller.dart';
+
 import '../../../utils/app_style.dart';
 import '../../widgets/shared/logo_app_bar.dart';
-import '../models/btnmodels.dart';
+
 import '../widgets/category_selectedbtn.dart';
 import '../widgets/table_grids.dart';
 
@@ -43,6 +44,13 @@ class _TableScreenState extends State<TableScreen> {
       }
     }
   }
+
+  final List<String> btnlist = [
+    "All",
+    "Ground floor",
+    "Cottage",
+    "Open Garden"
+  ];
 
   @override
   void initState() {
@@ -82,6 +90,7 @@ class _TableScreenState extends State<TableScreen> {
                 height: 0.015.h(context),
               ),
               SearchBarContainer(
+                hintText: "Search by table or category",
                 onChangeValue: (value) {
                   setState(() {
                     searchValue = value;
@@ -97,7 +106,7 @@ class _TableScreenState extends State<TableScreen> {
                 height: 0.015.h(context),
               ),
 
-              // llistedTableItems(context, filterTable)
+              // // llistedTableItems(context, filterTable)
               Obx(() => tableController.isLooding == false.obs
                   ? const Center(
                       child: CircularProgressIndicator(
@@ -105,6 +114,8 @@ class _TableScreenState extends State<TableScreen> {
                       ),
                     )
                   : TableGridItem(filterTable: filterTable))
+
+              // Obx(() => TableGridItem(filterTable: filterTable))
             ],
           ),
         ),

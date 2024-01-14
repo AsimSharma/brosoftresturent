@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
 import 'package:brosoftresturent/controller/remote_order_controller.dart';
-
 import 'package:brosoftresturent/utils/app_style.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/home/home.dart';
@@ -14,6 +12,7 @@ import '../../../model/remote_order_models.dart';
 import '../widgets/header_app_bar.dart';
 import '../order_placed_screen.dart';
 import '../widgets/table_order_info.dart';
+import 'widget/grand_total.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   const ConfirmOrderScreen(
@@ -101,138 +100,17 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 ),
                 Obx(() => confirmOrderList(
                     context, orderController, productController)),
-                Obx(() => grandTotaL(context, orderController))
+                GrandTotal(
+                  orderController: orderController,
+                  onBack: () {
+                    Get.back();
+                  },
+                )
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Container grandTotaL(BuildContext context, OrDerController orderController) {
-    return Container(
-      height: 0.17.h(context),
-      width: 1.0.w(context),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //left
-            InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Container(
-                height: 0.06.h(context),
-                padding: EdgeInsets.all(0.010.toResponsive(context)),
-                decoration: const BoxDecoration(
-                    color: btnBghColor,
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: Row(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      border:
-                          Border.all(color: const Color(0xFF000000), width: 2),
-                    ),
-                    child: const Icon(
-                      Icons.add_rounded,
-                      color: secondaryColors,
-                      size: 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 0.016.w(context),
-                  ),
-                  Text(
-                    "Add More Item",
-                    style: TextStyle(
-                        color: textColor,
-                        fontFamily: "RobotoRegular",
-                        fontWeight: FontWeight.w900,
-                        fontSize: 0.014.toResponsive(context)),
-                  )
-                ]),
-              ),
-            ),
-            //right
-            SizedBox(
-              // width: 0.6.w(context),
-              height: 1.0.h(context),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textData(
-                        context,
-                        "Total",
-                        orderController.calculateTotalPrices(),
-                        secondaryColors,
-                        "nepalirupees.png",
-                        "Roboto",
-                        FontWeight.w500),
-                    textData(
-                        context,
-                        "Service Tax",
-                        orderController.getServicTax(),
-                        Colors.grey,
-                        "nepalirupees.png",
-                        "Roboto",
-                        FontWeight.w400),
-                    textData(
-                        context,
-                        "Vat 13%",
-                        orderController.getVatTax(),
-                        Colors.grey,
-                        "nepalirupees.png",
-                        "Roboto",
-                        FontWeight.w400),
-                    textData(
-                        context,
-                        "Grand Total",
-                        orderController.grandTotalPrices(),
-                        secondaryColors,
-                        "paisanilo.png",
-                        "Roboto",
-                        FontWeight.w900),
-                  ]),
-            )
-          ]),
-    );
-  }
-
-  Row textData(BuildContext context, String title, double pricesTotal,
-      Color collors, String images, String fontFamily, FontWeight fontWeight) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-              color: collors,
-              fontFamily: fontFamily,
-              fontWeight: fontWeight,
-              fontSize: 0.015.toResponsive(context)),
-        ),
-        SizedBox(
-          width: 0.03.w(context),
-        ),
-        Row(
-          children: [
-            Image.asset(
-              ("assets/images/$images"),
-            ),
-            Text(
-              pricesTotal.toString(),
-              style: TextStyle(
-                  color: collors,
-                  fontFamily: fontFamily,
-                  fontWeight: fontWeight,
-                  fontSize: 0.015.toResponsive(context)),
-            ),
-          ],
-        )
-      ],
     );
   }
 

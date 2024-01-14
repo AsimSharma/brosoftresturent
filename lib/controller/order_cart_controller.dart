@@ -319,4 +319,18 @@ class OrDerController extends GetxController {
       addItems.refresh();
     }
   }
+
+  //find quantityby id
+  int findQuantity(int foodId) {
+    int quantity = 0;
+    for (int i = 0; i < addItems.length; i++) {
+      if (addItems[i].fid == foodId) {
+        quantity += addItems[i].quantity;
+        update();
+        // addItems.refresh();
+        log("your quantity  $quantity");
+      }
+    }
+    return quantity;
+  }
 }

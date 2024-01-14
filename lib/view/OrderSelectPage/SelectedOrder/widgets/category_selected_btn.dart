@@ -1,10 +1,10 @@
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/app_style.dart';
+import '../../../../utils/app_style.dart';
 
-class CategoryselectedBtns extends StatelessWidget {
-  const CategoryselectedBtns({
+class CategoryselectedBtn extends StatelessWidget {
+  const CategoryselectedBtn({
     super.key,
     required this.btnTapIndex,
     required this.index,
@@ -17,12 +17,8 @@ class CategoryselectedBtns extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> btnlist = [
-      "All",
-      "Ground floor",
-      "Cottage",
-      "Open Garden"
-    ];
+    List<String> btnlistOrder = ["All", "Momo", "Biryani", "Chaumin"];
+
     return InkWell(
       onTap: onPressed,
       child: Container(
@@ -34,7 +30,7 @@ class CategoryselectedBtns extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(50))),
         child: Center(
             child: Text(
-          btnlist[index],
+          btnlistOrder[index],
           style: myTextStyle(btnTapIndex != index ? secondaryColors : primary,
               0.0134.toResponsive(context), " Roboto"),
         )),

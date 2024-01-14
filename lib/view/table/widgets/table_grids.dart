@@ -7,12 +7,10 @@ import 'package:get/get.dart';
 import '../../../controller/table_controller.dart';
 import '../../../model/tables_model.dart';
 import '../../../utils/app_style.dart';
-import '../../../utils/random_number.dart';
-import '../../OrderSelectPage/SelectedOrder/selected_order.dart';
 import '../../widgets/shared/custome_btns.dart';
 import '../../widgets/shared/custome_inputs.dart';
 
-import '../models/images.dart';
+import 'choose_related_order.dart';
 
 class TableGridItem extends StatefulWidget {
   const TableGridItem({
@@ -35,11 +33,11 @@ class _TableGridItemState extends State<TableGridItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SizedBox(
-        height: 0.62.h(context),
-        width: 1.0.w(context),
-        child: ListView.builder(
+    return SizedBox(
+      height: 0.62.h(context),
+      width: 1.0.w(context),
+      child: Obx(
+        () => ListView.builder(
             shrinkWrap: false,
             scrollDirection: Axis.vertical,
             itemCount: widget.filterTable.length,
@@ -103,7 +101,7 @@ class _TableGridItemState extends State<TableGridItem> {
                                     Positioned(
                                       bottom: 0.01.h(context),
                                       child: Row(children: [
-                                        Container(
+                                        SizedBox(
                                           height: 0.03.w(context),
                                           width: 0.05.w(context),
                                           child: Image.asset(
@@ -167,7 +165,6 @@ class _TableGridItemState extends State<TableGridItem> {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  // tableController.noofseat = 0.obs;
                   Get.back();
                 },
                 child: Container(
@@ -203,7 +200,7 @@ class _TableGridItemState extends State<TableGridItem> {
               ],
             ),
 
-            Container(
+            SizedBox(
               // color: Colors.red,
               height: 0.08.h(context),
               width: 1.0.w(context),
@@ -219,13 +216,17 @@ class _TableGridItemState extends State<TableGridItem> {
                         fontWeight: FontWeight.w800),
                   ),
 
-                  Text(
-                    tablesItems.totalguest.toString(),
-                    style: TextStyle(
-                        color: secondaryColors,
-                        fontSize: 0.017.toResponsive(context),
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w900),
+                  Obx(
+                    () => Text(
+                      tableController
+                          .findAddedGuest(tablesItems.tid)
+                          .toString(),
+                      style: TextStyle(
+                          color: secondaryColors,
+                          fontSize: 0.017.toResponsive(context),
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w900),
+                    ),
                   ),
 
                   //btnContainer
@@ -241,8 +242,8 @@ class _TableGridItemState extends State<TableGridItem> {
                         children: [
                           InkWell(
                               onTap: () {
-                                tableController.increaseSeat(
-                                    tables, tablesItems, 1);
+                                tableController.decreaseSeat(
+                                    tables, tablesItems);
 
                                 // tableController.getTables();
                               },
@@ -259,7 +260,9 @@ class _TableGridItemState extends State<TableGridItem> {
                           InkWell(
                               onTap: () {
                                 tableController.increaseSeat(
-                                    tables, tablesItems, 1);
+                                  tables,
+                                  tablesItems,
+                                );
                               },
                               child: SizedBox(
                                   height: 0.2.h(context),
@@ -278,7 +281,7 @@ class _TableGridItemState extends State<TableGridItem> {
             ),
 
             //GeustPersinolinfo
-            Container(
+            SizedBox(
               height: 0.065.h(context),
               width: 1.0.w(context),
               child: Row(
@@ -377,22 +380,13 @@ class _TableGridItemState extends State<TableGridItem> {
                     onPressed: () {
                       Get.back();
 
-                      tablesItems.totalguest! > 0
-                          ? showModalBottomSheet(
-                              backgroundColor: Colors.transparent,
+                      tableController.findAddedGuest(tablesItems.tid) > 0
+                          ? showDialog(
+                              // backgroundColor: Colors.transparent,
                               context: context,
                               builder: (context) {
-                                return FractionallySizedBox(
-                                  alignment: Alignment.center,
-                                  heightFactor: 0.004.h(context),
-
-                                  //todo make showDailogs
-                                  child: Center(
-                                    child: orderBottomSheet(
-                                        context,
-                                        tablesItems.tableName,
-                                        tablesItems.totalguest!),
-                                  ),
+                                return ChooseRelatedOrderBottomSheet(
+                                  tableItem: tablesItems,
                                 );
                               })
                           : Fluttertoast.showToast(
@@ -418,132 +412,6 @@ class _TableGridItemState extends State<TableGridItem> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  //orderBottomSheet
-  Container orderBottomSheet(
-    BuildContext context,
-    String tableName,
-    int totalGuest,
-  ) {
-    return Container(
-      height: 0.4.h(context),
-      width: 1.0.toResponsive(context),
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      decoration: const BoxDecoration(
-          color: btnBghColor,
-          borderRadius: BorderRadius.all(Radius.circular(15))),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Choose Related Order",
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.017.toResponsive(context),
-                    fontWeight: FontWeight.w800,
-                    fontFamily: "Nunito"),
-              ),
-              InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Container(
-                  height: 0.060.h(context),
-                  width: 0.060.w(context),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/images/cance_icons.png"))),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            width: 1.0.w(context),
-            height: 0.55.w(context),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      choseReletedContainer(context,
-                          images: imageListcro[0]['imageName'] ?? "",
-                          name: imageListcro[0]['name'] ?? "",
-                          tableName: tableName,
-                          totalGuest: totalGuest),
-                      SizedBox(
-                        width: 0.013.toResponsive(context),
-                      ),
-                      choseReletedContainer(context,
-                          images: imageListcro[1]['imageName'] ?? "",
-                          name: imageListcro[1]['name'] ?? "",
-                          tableName: tableName,
-                          totalGuest: totalGuest),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 0.015.h(context),
-                  ),
-                  choseReletedContainer(context,
-                      images: imageListcro[2]['imageName'] ?? "",
-                      name: imageListcro[2]['name'] ?? "",
-                      tableName: tableName,
-                      totalGuest: totalGuest),
-                ]),
-          )
-        ],
-      ),
-    );
-  }
-
-  InkWell choseReletedContainer(
-    BuildContext context, {
-    required String images,
-    required String name,
-    required String tableName,
-    required int totalGuest,
-  }) {
-    return InkWell(
-      onTap: () {
-        Get.back();
-        Get.to(() => SelectedOrder(
-            tablename: tableName,
-            totalGuest: totalGuest,
-            orderNo: getRandomnumber()));
-      },
-      child: Container(
-        height: 0.1.h(context),
-        width: 0.35.w(context),
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            border: Border.all(width: 1, color: secondaryColors)),
-        child: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Image.asset(images),
-              Text(
-                name,
-                style: TextStyle(
-                    color: secondaryColors,
-                    fontSize: 0.017.toResponsive(context),
-                    fontWeight: FontWeight.w800,
-                    fontFamily: "Nunito"),
-              )
-            ])),
       ),
     );
   }

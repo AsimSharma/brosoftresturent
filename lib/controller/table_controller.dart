@@ -13,76 +13,73 @@ import '../model/tables_model.dart';
 
 class TableController extends GetxController {
   var tables = <TableModel>[].obs;
-  // var noofseat = 0.obs;
+
   var isLooding = false.obs;
 
-  // var reserved = false.obs;
-  // increaseSeat(BuildContext context, tableIndex1, int tableIndex2) {
-  //   var currentTable = tables[tableIndex1].tableItem[tableIndex2];
-  //   if (noofseat < currentTable.seat) {
-  //     noofseat++;
-  //   } else {
-  //     Fluttertoast.showToast(
-  //         msg: "Can't  add more guest",
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.BOTTOM,
-  //         timeInSecForIosWeb: 1,
-  //         backgroundColor: Colors.black,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0);
-  //   }
-  // }
-
-  // decreaseSeat(
-  //   BuildContext context,
-  // ) {
-  //   if (noofseat > 0) {
-  //     noofseat--;
-  //   } else {
-  //     noofseat = 0.obs;
-  //     Fluttertoast.showToast(
-  //         msg: "Guest can't be less than Zero",
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.BOTTOM,
-  //         timeInSecForIosWeb: 1,
-  //         backgroundColor: Colors.black,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0);
-  //   }
-  // }
-
-  increaseSeat(TableModel tableModel, TableItem tableItem, int totalguest) {
-    // int index1 = tables.indexWhere((p0) => p0.id == tableModel.id);
-    // int index2 = tables[index1].tableItem.indexWhere(
-    //       (p1) => p1.tid == tableItem.tid,
-    //     );
-
-    // if (tables[index1].tableItem[index2].seat >
-    //     tables[index1].tableItem[index2].totalguest!) {
-    //   tables[index1].tableItem[index2].totalguest! + 10;
-    // } else {
-    //   Fluttertoast.showToast(
-    //       msg: "Guest can't be less than Zero",
-    //       toastLength: Toast.LENGTH_SHORT,
-    //       gravity: ToastGravity.BOTTOM,
-    //       timeInSecForIosWeb: 1,
-    //       backgroundColor: Colors.black,
-    //       textColor: Colors.white,
-    //       fontSize: 16.0);
-    // }
-
+  increaseSeat(TableModel tableModel, TableItem tableItem) {
     for (int i = 0; i < tables.length; i++) {
       for (int j = 0; j < tables[i].tableItem.length; j++) {
         if (tableItem.tid == tables[i].tableItem[j].tid) {
-          tables[i].tableItem[j].totalguest = totalguest;
-          update();
-          log(tables[i].tableItem[j].totalguest.toString());
+          if (tables[i].tableItem[j].totalguest! < tableItem.seat) {
+            tables[i].tableItem[j].totalguest =
+                tables[i].tableItem[j].totalguest! + 1;
+            update();
+            tables.refresh();
+          } else {
+            Fluttertoast.showToast(
+                msg: "Can't  add more guest",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          }
         }
       }
     }
 
     update();
     tables.refresh();
+  }
+
+  decreaseSeat(TableModel tableModel, TableItem tableItem) {
+    for (int i = 0; i < tables.length; i++) {
+      for (int j = 0; j < tables[i].tableItem.length; j++) {
+        if (tableItem.tid == tables[i].tableItem[j].tid) {
+          if (tables[i].tableItem[j].totalguest! > 0) {
+            tables[i].tableItem[j].totalguest =
+                tables[i].tableItem[j].totalguest! - 1;
+          } else {
+            Fluttertoast.showToast(
+                msg: "Guest can't be less than Zero",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          }
+        }
+      }
+    }
+
+    update();
+    tables.refresh();
+  }
+
+  int findAddedGuest(String id) {
+    int totalAddedGuest = 0;
+    for (int i = 0; i < tables.length; i++) {
+      for (int j = 0; j < tables[i].tableItem.length; j++) {
+        if (tables[i].tableItem[j].tid == id) {
+          totalAddedGuest = tables[i].tableItem[j].totalguest!;
+          log("the added total quest $totalAddedGuest");
+          update();
+        }
+      }
+    }
+    return totalAddedGuest;
   }
 
   changeReserved(TableModel tableModels, TableItem tableItem) {
