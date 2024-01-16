@@ -70,6 +70,7 @@ class Order {
   bool isCustomisable;
   bool isVeg;
   bool isAdded;
+  DateTime addedTime;
 
   Order(
       {required this.fid,
@@ -83,6 +84,7 @@ class Order {
       required this.addons,
       required this.isCustomisable,
       required this.isVeg,
+      required this.addedTime,
       this.isAdded = false});
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -97,6 +99,7 @@ class Order {
       addons: List<String>.from(json["addons"].map((x) => x)),
       isCustomisable: json["isCustomisable"],
       isVeg: json["isVeg"],
+      addedTime: json['addedTime'],
       isAdded: false);
 
   Map<String, dynamic> toJson() => {
@@ -111,5 +114,6 @@ class Order {
         "addons": List<dynamic>.from(addons.map((x) => x)),
         "isCustomisable": isCustomisable,
         "isVeg": isVeg,
+        "addedTime": addedTime
       };
 }

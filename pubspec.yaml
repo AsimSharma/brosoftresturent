@@ -38,7 +38,8 @@ dependencies:
   http: ^1.1.2
   uuid: ^4.2.2
   fluttertoast: ^8.2.4
-  qr_code_scanner: ^1.0.1
+  lottie: ^3.0.0
+  mobile_scanner: ^3.0.0
 
 
 dev_dependencies:
@@ -63,6 +64,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/animations/
 
   fonts:
     - family: Roboto

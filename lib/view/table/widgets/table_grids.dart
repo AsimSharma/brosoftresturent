@@ -11,6 +11,8 @@ import '../../widgets/shared/custome_btns.dart';
 import '../../widgets/shared/custome_inputs.dart';
 
 import 'choose_related_order.dart';
+import 'tables_card.dart';
+import 'user_form_inputs.dart';
 
 class TableGridItem extends StatefulWidget {
   const TableGridItem({
@@ -79,59 +81,7 @@ class _TableGridItemState extends State<TableGridItem> {
                                             context, tables, tableItems);
                                       });
                                 },
-                                child: Card(
-                                  color: tableItems.reserved == true
-                                      ? reservedColor
-                                      : primary,
-                                  margin: EdgeInsets.all(
-                                      0.0051.toResponsive(context)),
-                                  child: Stack(children: [
-                                    Positioned(
-                                        top: 0.010.h(context),
-                                        right: 0.02.h(context),
-                                        child: Text(
-                                          tableItems.tableName,
-                                          style: TextStyle(
-                                              color: secondaryColors,
-                                              fontSize:
-                                                  0.023.toResponsive(context),
-                                              fontWeight: FontWeight.w900,
-                                              fontFamily: "Roboto"),
-                                        )),
-                                    Positioned(
-                                      bottom: 0.01.h(context),
-                                      child: Row(children: [
-                                        SizedBox(
-                                          height: 0.03.w(context),
-                                          width: 0.05.w(context),
-                                          child: Image.asset(
-                                            "assets/images/imageperson.png",
-                                            fit: BoxFit.contain,
-                                            filterQuality: FilterQuality.high,
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "${tableItems.seat} ",
-                                              style: myTextStyle(
-                                                  secondaryColors,
-                                                  0.017.toResponsive(context),
-                                                  "Roboto"),
-                                            ),
-                                            Text(
-                                              "people",
-                                              style: myTextStyle(
-                                                  textColor,
-                                                  0.013.toResponsive(context),
-                                                  "Nunito"),
-                                            )
-                                          ],
-                                        )
-                                      ]),
-                                    ),
-                                  ]),
-                                ),
+                                child: TablesCard(tableItems: tableItems),
                               );
                             }))
                   ],
@@ -297,7 +247,7 @@ class _TableGridItemState extends State<TableGridItem> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => const QrCodeReader());
+                      Get.to(() => const QrCodeScanner());
                     },
                     child: Container(
                       height: 0.31.h(context),
@@ -313,40 +263,10 @@ class _TableGridItemState extends State<TableGridItem> {
             ),
 
             //Inputs
-            Form(
-              child: Column(children: [
-                SizedBox(
-                  height: 0.07.h(context),
-                  width: 1.0.w(context),
-                  child: CustomeInputs(
-                      textEditingController: nameController,
-                      hintText: "Name",
-                      textinputTypes: TextInputType.text),
-                ),
-                SizedBox(
-                  height: 0.01.h(context),
-                ),
-                SizedBox(
-                  height: 0.07.h(context),
-                  width: 1.0.w(context),
-                  child: CustomeInputs(
-                      textEditingController: numberController,
-                      hintText: "Number",
-                      textinputTypes: TextInputType.number),
-                ),
-                SizedBox(
-                  height: 0.01.h(context),
-                ),
-                SizedBox(
-                  height: 0.07.h(context),
-                  width: 1.0.w(context),
-                  child: CustomeInputs(
-                      textEditingController: customernoController,
-                      hintText: "Customer No",
-                      textinputTypes: TextInputType.number),
-                ),
-              ]),
-            ),
+            UserFormInputs(
+                nameController: nameController,
+                numberController: numberController,
+                customernoController: customernoController),
             SizedBox(
               height: 0.02.h(context),
             ),
@@ -378,29 +298,29 @@ class _TableGridItemState extends State<TableGridItem> {
                     height: 1.0.h(context),
                     btnTitle: "Start",
                     onPressed: () {
-                      Get.back();
-
-                      tableController.findAddedGuest(tablesItems.tid) > 0
-                          ? showDialog(
-                              // backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (context) {
-                                return ChooseRelatedOrderBottomSheet(
-                                  tableItem: tablesItems,
-                                );
-                              })
-                          : Fluttertoast.showToast(
-                              msg: "guest can't be Zero",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.black,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-
-                      tablesItems.reserved == false
-                          ? tableController.changeReserved(tables, tablesItems)
-                          : null;
+                      if (tableController.findAddedGuest(tablesItems.tid) > 0) {
+                        showDialog(
+                            // backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (context) {
+                              return ChooseRelatedOrderBottomSheet(
+                                tableItem: tablesItems,
+                              );
+                            });
+                        tablesItems.reserved == false
+                            ? tableController.changeReserved(
+                                tables, tablesItems)
+                            : null;
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "guest can't be Zero",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
                     },
                     width: 0.44.w(context),
                   )

@@ -10,10 +10,12 @@ class IncDecButtons extends StatelessWidget {
     super.key,
     required this.orderCartController,
     required this.fooditems,
+    required this.backGroungColor,
   });
 
   final OrDerController orderCartController;
   final FoodItems fooditems;
+  final Color backGroungColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,10 @@ class IncDecButtons extends StatelessWidget {
       height: 0.05.h(context),
       width: 0.3.w(context),
       padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-          color: secondaryColors,
-          borderRadius: BorderRadius.all(Radius.circular(15))),
+      decoration: BoxDecoration(
+          color: backGroungColor,
+          borderRadius:
+              BorderRadius.all(Radius.circular(0.015.toResponsive(context)))),
       child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,12 +41,15 @@ class IncDecButtons extends StatelessWidget {
                 child: SizedBox(
                   height: 1.0.h(context),
                   width: 0.073.w(context),
-                  child: Image.asset("assets/images/subwhite.png"),
+                  child: Image.asset(
+                      "assets/images/${backGroungColor == Colors.white ? "subtract icon.png" : "subwhite.png"}"),
                 )),
             Text(
               orderCartController.findQuantity(fooditems.fid).toString(),
               style: TextStyle(
-                  color: primary,
+                  color: backGroungColor == Colors.white
+                      ? secondaryColors
+                      : primary,
                   fontSize: 0.013.toResponsive(context),
                   fontWeight: FontWeight.w700,
                   fontFamily: "Roboto"),
@@ -55,7 +61,8 @@ class IncDecButtons extends StatelessWidget {
                 child: SizedBox(
                   height: 1.0.h(context),
                   width: 0.073.w(context),
-                  child: Image.asset("assets/images/addwhite.png"),
+                  child: Image.asset(
+                      "assets/images/${backGroungColor == Colors.white ? "Add icon.png" : "addwhite.png"}"),
                 )),
           ]),
     );

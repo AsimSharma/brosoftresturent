@@ -35,7 +35,8 @@ class OrDerController extends GetxController {
           spicyLevel: addItems[item].spicyLevel,
           addons: addItems[item].addons,
           isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg);
+          isVeg: addItems[item].isVeg,
+          addedTime: DateTime.now());
 
       //update
     } else {
@@ -50,7 +51,8 @@ class OrDerController extends GetxController {
           spicyLevel: "",
           addons: [""],
           isCustomisable: foodItems.isCustomize,
-          isVeg: foodItems.isVeg);
+          isVeg: foodItems.isVeg,
+          addedTime: DateTime.now());
 
       addItems.add(newOrdersItemss);
     }
@@ -82,7 +84,8 @@ class OrDerController extends GetxController {
           spicyLevel: addItems[item].spicyLevel,
           addons: addItems[item].addons,
           isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg);
+          isVeg: addItems[item].isVeg,
+          addedTime: DateTime.now());
     } else {
       log("Product not Found");
     }
@@ -113,7 +116,8 @@ class OrDerController extends GetxController {
           spicyLevel: addItems[item].spicyLevel,
           addons: addItems[item].addons,
           isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg);
+          isVeg: addItems[item].isVeg,
+          addedTime: DateTime.now());
     } else {
       log("Product not Found");
     }
@@ -209,7 +213,8 @@ class OrDerController extends GetxController {
           spicyLevel: addItems[item].spicyLevel,
           addons: addItems[item].addons,
           isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg);
+          isVeg: addItems[item].isVeg,
+          addedTime: DateTime.now());
     }
     update();
   }
@@ -236,7 +241,8 @@ class OrDerController extends GetxController {
           spicyLevel: addItems[item].spicyLevel,
           addons: addItems[item].addons,
           isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg);
+          isVeg: addItems[item].isVeg,
+          addedTime: DateTime.now());
     }
     update();
   }
@@ -303,14 +309,15 @@ class OrDerController extends GetxController {
           fid: addItems[item].fid,
           foodName: addItems[item].foodName,
           tableName: addItems[item].tableName,
-          quantity: foodItems.customizeQuantity,
-          price: foodItems.customizePrices,
+          quantity: addItems[item].quantity + 1,
+          price: addItems[item].price,
           note: addItems[item].note,
           foodQuantity: addItems[item].foodQuantity,
           spicyLevel: addItems[item].spicyLevel,
           addons: addItems[item].addons,
           isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg);
+          isVeg: addItems[item].isVeg,
+          addedTime: DateTime.now());
 
       //update
     } else {
@@ -325,7 +332,8 @@ class OrDerController extends GetxController {
           spicyLevel: spicyLevel,
           addons: [addOns],
           isCustomisable: foodItems.isCustomize,
-          isVeg: foodItems.isVeg);
+          isVeg: foodItems.isVeg,
+          addedTime: DateTime.now());
 
       addItems.add(cusTomizeOrder);
 

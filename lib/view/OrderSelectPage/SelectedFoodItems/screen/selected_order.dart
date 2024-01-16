@@ -1,4 +1,5 @@
 import 'package:brosoftresturent/view/OrderSelectPage/SelectedFoodItems/widgets/add_button.dart';
+import 'package:brosoftresturent/view/widgets/shared/nepalirs.dart';
 import 'package:flutter/material.dart';
 
 import 'package:brosoftresturent/controller/order_cart_controller.dart';
@@ -351,11 +352,15 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                             orderCartController,
                                         fooditems: fooditems,
                                         tableName: tableName,
+                                        backGroundColors: primary,
+                                        height: 0.045.h(context),
+                                        width: 0.23.w(context),
                                       )
                                     : IncDecButtons(
                                         orderCartController:
                                             orderCartController,
                                         fooditems: fooditems,
+                                        backGroungColor: secondaryColors,
                                       )),
                                 SizedBox(
                                   height: 0.015.h(context),
@@ -383,6 +388,8 @@ class _SelectedOrderState extends State<SelectedOrder> {
       log('This is CustomizePrices: ${customizePrices.toString()}');
     }
 
+    final orderCartCtrl = Get.find<OrDerController>();
+
     return Container(
       height: 0.97.h(context),
       width: 1.0.w(context),
@@ -397,144 +404,70 @@ class _SelectedOrderState extends State<SelectedOrder> {
               decoration: const BoxDecoration(
                   color: secondaryColors,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //Todo do Same like this as
-                    //todo know the total quantity from id
-                    // total quantity=0 make add the ordercartIncQuantity
-                    //and Show increase decrease buttons
-                    //show from order cart not  remoteProducts
-                    foodItems.customizeQuantity == 0
-                        ? InkWell(
-                            onTap: () {
-                              remoteProductCtrl.increaseCFoodQuantity(
-                                  foods, foodItems);
-                              remoteProductCtrl.totaFoodsPrices(
-                                  foods, foodItems);
-                            },
-                            child: Container(
-                              height: 0.1.h(context),
-                              width: 0.2.w(context),
-                              margin:
-                                  EdgeInsets.all(0.010.toResponsive(context)),
-                              decoration: const BoxDecoration(
-                                  color: primary,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: const Center(child: Text("Add")),
-                            ))
-                        : Container(
-                            margin: EdgeInsets.only(
-                                left: 0.025.toResponsive(context),
-                                right: 0.025.toResponsive(context)),
-                            height: 0.05.h(context),
-                            width: 0.27.w(context),
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                                color: primary,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        remoteProductCtrl.decreaseCFoodQuantity(
-                                            foods, foodItems);
-
-                                        remoteProductCtrl.totaFoodsPrices(
-                                            foods, foodItems);
-
-                                        // orderCartController.decFoodQuanity(foodItems);
-                                      },
-                                      child: SizedBox(
-                                        height: 1.0.h(context),
-                                        width: 0.073.w(context),
-                                        child: Image.asset(
-                                            "assets/images/subBlack.png"),
-                                      )),
-                                  Text(
-                                    foodItems.customizeQuantity.toString() ??
-                                        "1",
-                                    style: TextStyle(
-                                        color: secondaryColors,
-                                        fontSize: 0.013.toResponsive(context),
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: "Roboto"),
-                                  ),
-                                  InkWell(
-                                      onTap: () {
-                                        remoteProductCtrl.increaseCFoodQuantity(
-                                            foods, foodItems);
-
-                                        remoteProductCtrl.totaFoodsPrices(
-                                            foods, foodItems);
-                                      },
-                                      child: SizedBox(
-                                        height: 1.0.h(context),
-                                        width: 0.073.w(context),
-                                        child: Image.asset(
-                                            "assets/images/addBlack.png"),
-                                      )),
-                                ]),
-                          ),
-
-                    //prices
-                    Container(
-                      height: 0.1.h(context),
-                      width: 0.2.w(context),
-                      margin: EdgeInsets.all(0.010.toResponsive(context)),
-                      child: Center(
-                          child: Row(
-                        children: [
-                          Image.asset("assets/images/nepalirs (1).png"),
-                          SizedBox(
-                            width: 0.0025.w(context),
-                          ),
-                          Text(
-                            customizePrices.toString(),
-
-                            // selectedOption == "Half"
-                            //     ? (customizePrices + 50).toString()
-                            //     : (customizePrices + 100).toString(),
-                            style: TextStyle(
-                              color: primary,
-                              fontSize: 0.017.toResponsive(context),
-                              fontWeight: FontWeight.w800,
-                              fontFamily: "Roboto",
-                            ),
-                          ),
-                        ],
-                      )),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        log("Hello from  Add Orders");
-                        orderCartController.addCustomizeItemsInCart(
-                          foodItems,
-                          selectedOption,
-                          addOnselected,
-                          "Medium",
-                          tableName,
-                        );
-
-                        Get.back();
-                      },
-                      child: Container(
-                        height: 0.1.h(context),
+              child: Row(children: [
+                //Todo do Same like this as
+                //todo know the total quantity from id
+                // total quantity=0 make add the ordercartIncQuantity
+                //and Show increase decrease buttons
+                //show from order cart not  remoteProducts
+                orderCartCtrl.findQuantity(foodItems.fid) == 0
+                    ? AddButtons(
+                        orderCartController: orderCartController,
+                        fooditems: foodItems,
+                        tableName: tableName,
+                        backGroundColors: primary,
+                        height: 0.045.h(context),
                         width: 0.23.w(context),
-                        margin: EdgeInsets.all(0.010.toResponsive(context)),
-                        decoration: const BoxDecoration(
-                            color: primary,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
-                        child: const Center(child: Text("Add Order")),
+                      )
+                    : IncDecButtons(
+                        orderCartController: orderCartController,
+                        fooditems: foodItems,
+                        backGroungColor: Colors.white,
                       ),
-                    )
-                  ]),
+
+                //prices
+                Container(
+                  height: 0.1.h(context),
+                  width: 0.12.w(context),
+                  margin: EdgeInsets.all(0.010.toResponsive(context)),
+                  child: Center(
+                      child: Row(
+                    children: [
+                      const NepaliRSw(),
+                      SizedBox(
+                        width: 0.0025.w(context),
+                      ),
+                      Text(
+                        customizePrices.toString(),
+
+                        // selectedOption == "Half"
+                        //     ? (customizePrices + 50).toString()
+                        //     : (customizePrices + 100).toString(),
+                        style: TextStyle(
+                          color: primary,
+                          fontSize: 0.017.toResponsive(context),
+                          fontWeight: FontWeight.w800,
+                          fontFamily: "Roboto",
+                        ),
+                      ),
+                    ],
+                  )),
+                ),
+                //add_orders_btns
+                AddOrderBtns(
+                  onPress: () {
+                    orderCartController.addCustomizeItemsInCart(
+                      foodItems,
+                      selectedOption,
+                      addOnselected,
+                      "Medium",
+                      tableName,
+                    );
+
+                    Get.back();
+                  },
+                )
+              ]),
             )),
         Container(
           padding: EdgeInsets.only(
@@ -875,6 +808,42 @@ class _SelectedOrderState extends State<SelectedOrder> {
           ]),
         ),
       ]),
+    );
+  }
+}
+
+class AddOrderBtns extends StatelessWidget {
+  const AddOrderBtns({
+    super.key,
+    required this.onPress,
+  });
+  final VoidCallback onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPress,
+      // onTap: () {
+      //   log("Hello from  Add Orders");
+      //   orderCartController.addCustomizeItemsInCart(
+      //     foodItems,
+      //     selectedOption,
+      //     addOnselected,
+      //     "Medium",
+      //     tableName,
+      //   );
+
+      //   Get.back();
+      // },
+      child: Container(
+        height: 0.1.h(context),
+        width: 0.23.w(context),
+        margin: EdgeInsets.all(0.010.toResponsive(context)),
+        decoration: const BoxDecoration(
+            color: primary,
+            borderRadius: BorderRadius.all(Radius.circular(12))),
+        child: const Center(child: Text("Add Order")),
+      ),
     );
   }
 }

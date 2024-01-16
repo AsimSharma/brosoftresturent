@@ -11,12 +11,16 @@ class AddButtons extends StatelessWidget {
     required this.orderCartController,
     required this.fooditems,
     required this.tableName,
+    required this.backGroundColors,
+    required this.height,
+    required this.width,
   });
 
   final OrDerController orderCartController;
   final FoodItems fooditems;
   final String tableName;
-
+  final Color backGroundColors;
+  final double height, width;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -24,10 +28,13 @@ class AddButtons extends StatelessWidget {
         orderCartController.addItemsOnCart(fooditems, tableName);
       },
       child: Container(
+          height: height,
+          width: width,
           padding: EdgeInsets.only(
               left: 0.020.toResponsive(context),
               right: 0.020.toResponsive(context)),
           decoration: BoxDecoration(
+              color: backGroundColors,
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               border: Border.all(color: secondaryColors, width: 2)),
           margin: EdgeInsets.only(
