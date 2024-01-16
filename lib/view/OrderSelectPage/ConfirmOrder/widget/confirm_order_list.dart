@@ -129,7 +129,7 @@ class _ConfirmOrderListItemsState extends State<ConfirmOrderListItems> {
                   visible: addNotesClicked == false,
                   child: AddNotesBtn(
                     onTap: () {
-                      orderController.isAddedNote(widget.order);
+                      orderController.updateNote("Heloo", widget.order.fid);
                       log("is Added ${widget.order.isAdded}");
                       setState(() {
                         addNotesClicked = true;
@@ -187,7 +187,8 @@ class _ConfirmOrderListItemsState extends State<ConfirmOrderListItems> {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    orderController.isAddedNote(widget.order);
+                                    orderController.updateNote(
+                                        "Hello", widget.order.fid);
                                     log("is Added ${widget.order.isAdded}");
                                     setState(() {
                                       addNotesClicked = false;
@@ -243,7 +244,8 @@ class _ConfirmOrderListItemsState extends State<ConfirmOrderListItems> {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    orderController.isAddedNote(widget.order);
+                                    orderController.updateNote(
+                                        "", widget.order.fid);
                                     log("is Added ${widget.order.isAdded}");
                                     setState(() {
                                       addNotesClicked = false;

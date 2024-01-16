@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:brosoftresturent/model/remote_order_models.dart';
 
 import 'package:brosoftresturent/model/remote_products.dart';
 
 import 'package:get/get.dart';
-import 'dart:developer';
 
 //this is our cart
 class OrDerController extends GetxController {
@@ -23,7 +24,7 @@ class OrDerController extends GetxController {
 
     if (hasItem) {
       var item = addItems.indexWhere((p0) => p0.fid == foodItems.fid);
-      log(" this is the index where Items  $item ");
+
       addItems[item] = Order(
           fid: addItems[item].fid,
           foodName: addItems[item].foodName,
@@ -69,10 +70,10 @@ class OrDerController extends GetxController {
         hasItem = true;
       }
     }
-    log("$hasItem");
+
     if (hasItem) {
       var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
-      log(" this is the index where Items  $item ");
+
       addItems[item] = Order(
           fid: addItems[item].fid,
           foodName: addItems[item].foodName,
@@ -86,9 +87,7 @@ class OrDerController extends GetxController {
           isCustomisable: addItems[item].isCustomisable,
           isVeg: addItems[item].isVeg,
           addedTime: DateTime.now());
-    } else {
-      log("Product not Found");
-    }
+    } else {}
     update();
   }
 
@@ -101,10 +100,10 @@ class OrDerController extends GetxController {
         hasItem = true;
       }
     }
-    log("$hasItem");
+
     if (hasItem) {
       var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
-      log(" this is the index where Items  $item ");
+
       addItems[item] = Order(
           fid: addItems[item].fid,
           foodName: addItems[item].foodName,
@@ -118,9 +117,7 @@ class OrDerController extends GetxController {
           isCustomisable: addItems[item].isCustomisable,
           isVeg: addItems[item].isVeg,
           addedTime: DateTime.now());
-    } else {
-      log("Product not Found");
-    }
+    } else {}
 
     update();
   }
@@ -161,7 +158,6 @@ class OrDerController extends GetxController {
   clearCart() {
     addItems = <Order>[].obs;
     update();
-    log(addItems.length.toString());
   }
 
   double grandTotalPrices() {
@@ -249,26 +245,26 @@ class OrDerController extends GetxController {
 
   //addNote
   //Todo make add note methods and updateNote
-  isAddedNote(Order order) {
-    bool hasItem = false;
-    for (Order item in addItems) {
-      if (item.fid == order.fid) {
-        hasItem = true;
-      }
-    }
-    log("HasItem $hasItem");
-    var index = addItems.indexWhere((p0) => p0.fid == order.fid);
-    if (addItems[index].isAdded == false) {
-      addItems[index].isAdded = true;
-    } else {
-      addItems[index].isAdded = false;
-    }
+  // isAddedNote(Order order) {
+  //   bool hasItem = false;
+  //   for (Order item in addItems) {
+  //     if (item.fid == order.fid) {
+  //       hasItem = true;
+  //     }
+  //   }
 
-    update();
-    addItems.refresh();
+  //   var index = addItems.indexWhere((p0) => p0.fid == order.fid);
+  //   if (addItems[index].isAdded == false) {
+  //     addItems[index].isAdded = true;
+  //   } else {
+  //     addItems[index].isAdded = false;
+  //   }
 
-    // var index = addItems.indexWhere((p0) => p0.fid == order.fid);
-  }
+  //   update();
+  //   addItems.refresh();
+
+  //   // var index = addItems.indexWhere((p0) => p0.fid == order.fid);
+  // }
 
   updateNote(String noteText, int fid) {
     for (int i = 0; i < addItems.length; i++) {
@@ -292,56 +288,6 @@ class OrDerController extends GetxController {
     return isAlreadyNote;
   }
 
-  //
-  addCustomizeItemsInCart(FoodItems foodItems, String foodQuantity,
-      String spicyLevel, String addOns, String tableName) {
-    bool hasItem = false;
-    for (Order item in addItems) {
-      if (item.fid == foodItems.fid) {
-        hasItem = true;
-      }
-    }
-
-    if (hasItem) {
-      var item = addItems.indexWhere((p0) => p0.fid == foodItems.fid);
-      log(" this is the index where Items  $item ");
-      addItems[item] = Order(
-          fid: addItems[item].fid,
-          foodName: addItems[item].foodName,
-          tableName: addItems[item].tableName,
-          quantity: addItems[item].quantity + 1,
-          price: addItems[item].price,
-          note: addItems[item].note,
-          foodQuantity: addItems[item].foodQuantity,
-          spicyLevel: addItems[item].spicyLevel,
-          addons: addItems[item].addons,
-          isCustomisable: addItems[item].isCustomisable,
-          isVeg: addItems[item].isVeg,
-          addedTime: DateTime.now());
-
-      //update
-    } else {
-      Order cusTomizeOrder = Order(
-          fid: foodItems.fid,
-          foodName: foodItems.fname,
-          tableName: tableName,
-          quantity: foodItems.customizeQuantity,
-          price: foodItems.customizePrices,
-          note: "",
-          foodQuantity: foodQuantity,
-          spicyLevel: spicyLevel,
-          addons: [addOns],
-          isCustomisable: foodItems.isCustomize,
-          isVeg: foodItems.isVeg,
-          addedTime: DateTime.now());
-
-      addItems.add(cusTomizeOrder);
-
-      update();
-      addItems.refresh();
-    }
-  }
-
   //find quantityby id
   int findQuantity(int foodId) {
     int quantity = 0;
@@ -349,10 +295,146 @@ class OrDerController extends GetxController {
       if (addItems[i].fid == foodId) {
         quantity += addItems[i].quantity;
         update();
-        // addItems.refresh();
-        log("your quantity  $quantity");
       }
     }
     return quantity;
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//customizeController
+
+  addCustomizeItemsInCart(FoodItems foodItems, String foodQuantity,
+      String spicyLevel, String addOns, String tableName) {
+    // bool hasItem = false;
+    // for (Order item in addItems) {
+    //   if (item.fid == foodItems.fid) {
+    //     hasItem = true;
+    //   }
+    // }
+
+    // if (hasItem) {
+    //   var item = addItems.indexWhere((p0) => p0.fid == foodItems.fid);
+
+    //   addItems[item] = Order(
+    //       fid: addItems[item].fid,
+    //       foodName: addItems[item].foodName,
+    //       tableName: addItems[item].tableName,
+    //       quantity: addItems[item].quantity,
+    //       price: addItems[item].price,
+    //       note: addItems[item].note,
+    //       foodQuantity: addItems[item].foodQuantity,
+    //       spicyLevel: addItems[item].spicyLevel,
+    //       addons: addItems[item].addons,
+    //       isCustomisable: addItems[item].isCustomisable,
+    //       isVeg: addItems[item].isVeg,
+    //       addedTime: DateTime.now(),
+    //       customizePrices: addItems[item].customizePrices,
+    //       customizeQuantity: addItems[item].customizeQuantity + 1);
+
+    //   //update
+    // } else {
+
+    log(" The Food Quantity :${foodItems.quantity} the foood Prices ${foodItems.quantity}");
+    Order cusTomizeOrder = Order(
+        fid: foodItems.fid,
+        foodName: foodItems.fname,
+        tableName: tableName,
+        quantity: 0,
+        price: 0,
+        note: "",
+        foodQuantity: foodQuantity,
+        spicyLevel: spicyLevel,
+        addons: [addOns],
+        isCustomisable: foodItems.isCustomize,
+        isVeg: foodItems.isVeg,
+        addedTime: DateTime.now(),
+        customizePrices: foodItems.prices,
+        customizeQuantity: foodItems.quantity);
+
+    addItems.add(cusTomizeOrder);
+
+    update();
+    addItems.refresh();
+    // }
+  }
+
+//increasetheCustomizeQuantity
+  increaseCustomizeQantity(
+    FoodItems productItems,
+  ) {
+    bool hasItem = false;
+    for (Order item in addItems) {
+      if (item.fid == productItems.fid) {
+        hasItem = true;
+      }
+    }
+
+    if (hasItem) {
+      var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
+
+      addItems[item] = Order(
+          fid: addItems[item].fid,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
+          quantity: addItems[item].quantity,
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg,
+          customizeQuantity: addItems[item].customizeQuantity + 1,
+          customizePrices: addItems[item].customizePrices,
+          addedTime: DateTime.now());
+    } else {}
+    update();
+  }
+
+  decraseCustomizeQantity(
+    FoodItems productItems,
+  ) {
+    bool hasItem = false;
+    for (Order item in addItems) {
+      if (item.fid == productItems.fid) {
+        hasItem = true;
+      }
+    }
+
+    if (hasItem) {
+      var item = addItems.indexWhere((p0) => p0.fid == productItems.fid);
+
+      addItems[item] = Order(
+          fid: addItems[item].fid,
+          foodName: addItems[item].foodName,
+          tableName: addItems[item].tableName,
+          quantity: addItems[item].quantity,
+          price: addItems[item].price,
+          note: addItems[item].note,
+          foodQuantity: addItems[item].foodQuantity,
+          spicyLevel: addItems[item].spicyLevel,
+          addons: addItems[item].addons,
+          isCustomisable: addItems[item].isCustomisable,
+          isVeg: addItems[item].isVeg,
+          customizeQuantity: addItems[item].customizeQuantity - 1,
+          customizePrices: addItems[item].customizePrices,
+          addedTime: DateTime.now());
+    } else {}
+    update();
+  }
+
+  //
+  int findCustomizeQuantity(int foodId) {
+    int customizeQuantity = 0;
+    for (int i = 0; i < addItems.length; i++) {
+      if (addItems[i].fid == foodId) {
+        customizeQuantity += addItems[i].customizeQuantity;
+        update();
+      }
+    }
+    return customizeQuantity;
   }
 }

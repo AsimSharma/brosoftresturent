@@ -65,8 +65,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
     remoteProductCtrl.getRemoteProductsItems();
     _filteredProducts();
     btnTapIndex = 0;
-    log("${widget.isAddOrders}");
-    remoteProductCtrl.initilizedtotalQuantiry();
   }
 
   List<Foods> _filteredProducts() {
@@ -206,8 +204,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 onChanged: (value) {
                   setState(() {
                     selectedRadio != value!;
-
-                    log(selectedRadio.toString());
                   });
                 },
               ),
@@ -259,7 +255,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    remoteProductCtrl.initilizedtotalQuantiry();
                                     fooditems.isCustomize == true
                                         ? showModalBottomSheet(
                                             context: context,
@@ -380,13 +375,13 @@ class _SelectedOrderState extends State<SelectedOrder> {
   Container cusTomizedButtomSheet(BuildContext context, StateSetter setState,
       Foods foods, FoodItems foodItems, String tableName) {
     double customizePrices;
-    if (selectedOption == "Half") {
-      customizePrices = foodItems.customizePrices / 2.toDouble();
-      log('This is CustomizePrices: ${customizePrices.toString()}');
-    } else {
-      customizePrices = foodItems.customizePrices.toDouble();
-      log('This is CustomizePrices: ${customizePrices.toString()}');
-    }
+    // if (selectedOption == "Half") {
+    //   customizePrices = foodItems.customizePrices / 2.toDouble();
+    //   log('This is CustomizePrices: ${customizePrices.toString()}');
+    // } else {
+    //   customizePrices = foodItems.customizePrices.toDouble();
+    //   log('This is CustomizePrices: ${customizePrices.toString()}');
+    // }
 
     final orderCartCtrl = Get.find<OrDerController>();
 
@@ -410,19 +405,24 @@ class _SelectedOrderState extends State<SelectedOrder> {
                 // total quantity=0 make add the ordercartIncQuantity
                 //and Show increase decrease buttons
                 //show from order cart not  remoteProducts
-                orderCartCtrl.findQuantity(foodItems.fid) == 0
-                    ? AddButtons(
+                orderCartCtrl.findCustomizeQuantity(foodItems.fid) == 0
+                    ? AddCustomizrOrder(
                         orderCartController: orderCartController,
                         fooditems: foodItems,
                         tableName: tableName,
                         backGroundColors: primary,
                         height: 0.045.h(context),
                         width: 0.23.w(context),
+                        spicyLevel: "max spicyLevel",
+                        foodQuantity: "Half",
+                        addOns: "very good",
                       )
                     : IncDecButtons(
                         orderCartController: orderCartController,
                         fooditems: foodItems,
-                        backGroungColor: Colors.white,
+                        backGroungColor:
+                            const Color.fromARGB(255, 181, 111, 111),
+                        isCustomize: true,
                       ),
 
                 //prices
@@ -438,7 +438,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         width: 0.0025.w(context),
                       ),
                       Text(
-                        customizePrices.toString(),
+                        100.toString(),
 
                         // selectedOption == "Half"
                         //     ? (customizePrices + 50).toString()
@@ -593,7 +593,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
-                            log(selectedOption);
                           });
                         },
                       ),
@@ -633,7 +632,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value!;
-                            log(selectedOption);
                           });
                         },
                       ),
@@ -685,7 +683,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             addOnselected = value!;
-                            log(addOnselected);
                           });
                         },
                       ),
@@ -724,7 +721,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         onChanged: (value) {
                           setState(() {
                             addOnselected = value!;
-                            log(addOnselected);
                           });
                         },
                       ),
@@ -770,7 +766,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                       setState(
                         () {
                           btnTapIndexForSpicy = index;
-                          log("$btnTapIndexForSpicy");
                         },
                       );
                     },
@@ -823,18 +818,6 @@ class AddOrderBtns extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPress,
-      // onTap: () {
-      //   log("Hello from  Add Orders");
-      //   orderCartController.addCustomizeItemsInCart(
-      //     foodItems,
-      //     selectedOption,
-      //     addOnselected,
-      //     "Medium",
-      //     tableName,
-      //   );
-
-      //   Get.back();
-      // },
       child: Container(
         height: 0.1.h(context),
         width: 0.23.w(context),

@@ -71,36 +71,44 @@ class Order {
   bool isVeg;
   bool isAdded;
   DateTime addedTime;
+  int customizeQuantity;
+  int customizePrices;
 
-  Order(
-      {required this.fid,
-      required this.foodName,
-      required this.tableName,
-      required this.quantity,
-      required this.price,
-      required this.note,
-      required this.foodQuantity,
-      required this.spicyLevel,
-      required this.addons,
-      required this.isCustomisable,
-      required this.isVeg,
-      required this.addedTime,
-      this.isAdded = false});
+  Order({
+    required this.fid,
+    required this.foodName,
+    required this.tableName,
+    required this.quantity,
+    required this.price,
+    required this.note,
+    required this.foodQuantity,
+    required this.spicyLevel,
+    required this.addons,
+    required this.isCustomisable,
+    required this.isVeg,
+    required this.addedTime,
+    this.isAdded = false,
+    this.customizeQuantity = 0,
+    this.customizePrices = 0,
+  });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-      fid: json["fid"],
-      foodName: json["foodName"],
-      tableName: json["tableName"],
-      quantity: json["quantity"],
-      price: json["price"],
-      note: json["note"],
-      foodQuantity: json["foodQuantity"],
-      spicyLevel: json["spicyLevel"],
-      addons: List<String>.from(json["addons"].map((x) => x)),
-      isCustomisable: json["isCustomisable"],
-      isVeg: json["isVeg"],
-      addedTime: json['addedTime'],
-      isAdded: false);
+        fid: json["fid"],
+        foodName: json["foodName"],
+        tableName: json["tableName"],
+        quantity: json["quantity"],
+        price: json["price"],
+        note: json["note"],
+        foodQuantity: json["foodQuantity"],
+        spicyLevel: json["spicyLevel"],
+        addons: List<String>.from(json["addons"].map((x) => x)),
+        isCustomisable: json["isCustomisable"],
+        isVeg: json["isVeg"],
+        addedTime: json['addedTime'],
+        isAdded: false,
+        customizeQuantity: 0,
+        customizePrices: 0,
+      );
 
   Map<String, dynamic> toJson() => {
         "fid": fid,
