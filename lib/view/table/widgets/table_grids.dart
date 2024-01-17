@@ -247,7 +247,7 @@ class _TableGridItemState extends State<TableGridItem> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => const QrCodeScanner());
+                      Get.to(() => const Scanner());
                     },
                     child: Container(
                       height: 0.31.h(context),

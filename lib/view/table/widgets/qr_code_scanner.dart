@@ -1,15 +1,21 @@
+import 'dart:developer';
 import 'dart:typed_data';
-
+import 'package:brosoftresturent/view/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class QrCodeScanner extends StatelessWidget {
-  const QrCodeScanner({super.key});
+class Scanner extends StatefulWidget {
+  const Scanner({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    MobileScannerController cameraController = MobileScannerController();
+  State<Scanner> createState() => _ScannerState();
+}
 
+class _ScannerState extends State<Scanner> {
+  MobileScannerController cameraController = MobileScannerController();
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mobile Scanner'),
@@ -48,29 +54,84 @@ class QrCodeScanner extends StatelessWidget {
           ),
         ],
       ),
-      body: MobileScanner(
-        // fit: BoxFit.contain,
-        controller: cameraController,
-        onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          final Uint8List? image = capture.image;
-          for (final barcode in barcodes) {
-            debugPrint('Barcode found! ${barcode.rawValue}');
-          }
-        },
+      body: Stack(
+        children: [
+          MobileScanner(
+            // fit: BoxFit.contain,
+            controller: cameraController,
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              final Uint8List? image = capture.image;
+              for (final barcode in barcodes) {
+                log('Barcode found! ${barcode.rawValue}');
+
+                if (barcode.rawValue!.isNotEmpty) {
+                  _navigateToResultScreen(barcode.rawValue!);
+                  cameraController.stop();
+                }
+
+                if (barcode.format == BarcodeFormat.qrCode) {
+                  // Handle WiFi QR code
+                  handleWifiQRCode(barcode.rawValue!);
+                }
+              }
+            },
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.5),
+          ),
+        ],
       ),
     );
-    ;
+  }
+
+  Future<void> _navigateToResultScreen(String barcodeValue) async {
+    await Get.to(() => ResultScreen(result: barcodeValue));
+    cameraController.stop();
+  }
+
+  //Qr formate wifi
+  void handleWifiQRCode(String rawResult) {
+    // Parse the rawResult to extract the password
+    final List<String> keyValuePairs = rawResult.split(';');
+    String password = '';
+
+    for (final pair in keyValuePairs) {
+      final List<String> parts = pair.split(':');
+      if (parts.length == 2) {
+        final String key = parts[0].trim().toLowerCase();
+        final String value = parts[1].trim();
+
+        if (key == 'password') {
+          password = value;
+          break;
+        }
+      }
+    }
+
+    if (password.isNotEmpty) {
+      // Navigate to ResultScreen and wait for result
+      _navigateToResultScreen(password);
+    }
   }
 }
 
-// import 'package:flutter/material.dart';
+class ResultScreen extends StatelessWidget {
+  const ResultScreen({super.key, required this.result});
 
-// class QrCodeScanner extends StatelessWidget {
-//   const QrCodeScanner({super.key});
+  final String result;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Get.to(const HomeScreen());
+            },
+            icon: Icon(Icons.arrow_back)),
+      ),
+      body: Center(child: Text(result ?? "")),
+    );
+  }
+}
