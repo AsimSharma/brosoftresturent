@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'package:brosoftresturent/model/guest_info_model.dart';
+
 import 'package:brosoftresturent/utils/url_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -101,36 +101,21 @@ class TableController extends GetxController {
 
   getTables() async {
     isLooding = false.obs;
-
     try {
-      isLooding.value = true;
+      await Future.delayed(const Duration(microseconds: 3000));
+      isLooding = true.obs;
+
       var url = Uri.parse(Url.tableinfo);
       var response = await http.get(url);
       List data = jsonDecode(response.body);
-
       tables.value = <TableModel>[].obs;
-
       tables
           .assignAll(data.map((items) => TableModel.fromJson(items)).toList());
-      isLooding.value = true;
     } catch (err) {
       log(err.toString());
-    }
-    update();
-  }
-
-//postInfo
-  postGuestInfo({required GuestModel guestModel}) async {
-    isLooding = true.obs;
-    try {
-      var url = Uri.parse("${Url.resturentApiEndPoint}/guestInfo");
-      var value = jsonEncode(guestModel.tojson());
-      var response = await http.post(url, body: value);
-      log(response.body);
     } finally {
       isLooding = false.obs;
     }
+    update();
   }
-
-  //todo make the current guest in tables
 }

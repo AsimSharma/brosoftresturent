@@ -1,5 +1,6 @@
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../../controller/order_cart_controller.dart';
@@ -84,7 +85,14 @@ class BottoNavigations extends StatelessWidget {
           InkWell(
             onTap: () {
               orderCartController.addItems.isEmpty
-                  ? showToast(context, "Add something in cart")
+                  ? Fluttertoast.showToast(
+                      msg: "Add some foodsItems in cart",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0)
                   : Get.to(() => ConfirmOrderScreen(
                       tableName: widget.tablename,
                       totalGuest: widget.totalGuest,

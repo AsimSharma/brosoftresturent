@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 import '../../../controller/table_controller.dart';
 import '../../../model/tables_model.dart';
 import '../../../utils/app_style.dart';
+import '../../widgets/shared/cancel_btns.dart';
 import '../../widgets/shared/custome_btns.dart';
-import '../../widgets/shared/custome_inputs.dart';
 
-import 'choose_related_order.dart';
-import 'tables_card.dart';
-import 'user_form_inputs.dart';
+import '../widgets/choose_related_order.dart';
+import '../widgets/tables_card.dart';
+import '../widgets/user_form_inputs.dart';
 
 class TableGridItem extends StatefulWidget {
   const TableGridItem({
@@ -112,20 +112,12 @@ class _TableGridItemState extends State<TableGridItem> {
               height: 0.035.h(context),
             ),
             Align(
-              alignment: Alignment.topRight,
-              child: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Container(
-                  height: 0.06.h(context),
-                  width: 0.03.h(context),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/images/cance_icons.png"))),
-                ),
-              ),
-            ),
+                alignment: Alignment.topRight,
+                child: CancelButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                )),
             Row(
               children: [
                 Text(
@@ -299,6 +291,7 @@ class _TableGridItemState extends State<TableGridItem> {
                     btnTitle: "Start",
                     onPressed: () {
                       if (tableController.findAddedGuest(tablesItems.tid) > 0) {
+                        Get.back();
                         showDialog(
                             // backgroundColor: Colors.transparent,
                             context: context,

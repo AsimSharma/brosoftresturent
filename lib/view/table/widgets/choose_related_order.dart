@@ -6,6 +6,7 @@ import '../../../model/tables_model.dart';
 import '../../../utils/app_style.dart';
 import '../../../utils/random_number.dart';
 import '../../OrderSelectPage/SelectedFoodItems/screen/selected_order.dart';
+import '../../widgets/shared/cancel_btns.dart';
 import '../models/images.dart';
 
 class ChooseRelatedOrderBottomSheet extends StatelessWidget {
@@ -46,18 +47,10 @@ class ChooseRelatedOrderBottomSheet extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         fontFamily: "Nunito"),
                   ),
-                  InkWell(
-                    onTap: () {
+                  CancelButton(
+                    onPressed: () {
                       Get.back();
                     },
-                    child: Container(
-                      height: 0.060.h(context),
-                      width: 0.060.w(context),
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/cance_icons.png"))),
-                    ),
                   ),
                 ],
               ),

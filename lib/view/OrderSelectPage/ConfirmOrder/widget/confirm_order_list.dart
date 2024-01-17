@@ -129,7 +129,7 @@ class _ConfirmOrderListItemsState extends State<ConfirmOrderListItems> {
                   visible: addNotesClicked == false,
                   child: AddNotesBtn(
                     onTap: () {
-                      orderController.updateNote("Heloo", widget.order.fid);
+                      orderController.updateNote(noteText, widget.order.fid);
                       log("is Added ${widget.order.isAdded}");
                       setState(() {
                         addNotesClicked = true;
@@ -141,121 +141,123 @@ class _ConfirmOrderListItemsState extends State<ConfirmOrderListItems> {
 
                 Visibility(
                   visible: addNotesClicked == true,
-                  child: orderController.checkedNotes(widget.order.fid) == true
-                      ? Container(
-                          constraints: BoxConstraints(
-                            minHeight: 0.05.h(context),
-                            maxHeight: 0.08.h(context),
-                            minWidth: 0.55.w(context),
-                          ),
-                          decoration: BoxDecoration(
-                              color: btnBghColor,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                color: secondaryColors,
-                                width: 1.0,
-                              )),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 0.8.h(context),
-                                width: 0.41.w(context),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: widget.order.note ?? "",
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 15,
-                                        bottom: 11,
-                                        top: 11,
-                                        right: 15),
-                                    disabledBorder: InputBorder.none,
+                  child: Obx(
+                    () => orderController.checkedNotes(widget.order.fid) == true
+                        ? Container(
+                            constraints: BoxConstraints(
+                              minHeight: 0.05.h(context),
+                              maxHeight: 0.08.h(context),
+                              minWidth: 0.55.w(context),
+                            ),
+                            decoration: BoxDecoration(
+                                color: btnBghColor,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  color: secondaryColors,
+                                  width: 1.0,
+                                )),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 0.8.h(context),
+                                  width: 0.41.w(context),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: widget.order.note ?? "",
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 15,
+                                          bottom: 11,
+                                          top: 11,
+                                          right: 15),
+                                      disabledBorder: InputBorder.none,
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        noteText = value;
+                                        log(" your Note: $noteText");
+                                        orderController.updateNote(
+                                            noteText, widget.order.fid);
+                                      });
+                                    },
                                   ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      noteText = value;
-                                      log(" your Note: $noteText");
-                                      orderController.updateNote(
-                                          noteText, widget.order.fid);
-                                    });
-                                  },
                                 ),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    orderController.updateNote(
-                                        "Hello", widget.order.fid);
-                                    log("is Added ${widget.order.isAdded}");
-                                    setState(() {
-                                      addNotesClicked = false;
-                                      log("The click Status is $addNotesClicked");
-                                    });
-                                  },
-                                  icon: const Icon(Icons.cancel_outlined))
-                            ],
-                          ),
-                        )
-                      : Container(
-                          constraints: BoxConstraints(
-                            minHeight: 0.05.h(context),
-                            maxHeight: 0.08.h(context),
-                            minWidth: 0.55.w(context),
-                          ),
-                          decoration: BoxDecoration(
-                              color: btnBghColor,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                color: secondaryColors,
-                                width: 1.0,
-                              )),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 0.8.h(context),
-                                width: 0.41.w(context),
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "",
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(
-                                        left: 15,
-                                        bottom: 11,
-                                        top: 11,
-                                        right: 15),
-                                    disabledBorder: InputBorder.none,
+                                IconButton(
+                                    onPressed: () {
+                                      orderController.updateNote(
+                                          "", widget.order.fid);
+                                      log("is Added ${widget.order.isAdded}");
+                                      setState(() {
+                                        addNotesClicked = false;
+                                        log("The click Status is $addNotesClicked");
+                                      });
+                                    },
+                                    icon: const Icon(Icons.cancel_outlined))
+                              ],
+                            ),
+                          )
+                        : Container(
+                            constraints: BoxConstraints(
+                              minHeight: 0.05.h(context),
+                              maxHeight: 0.08.h(context),
+                              minWidth: 0.55.w(context),
+                            ),
+                            decoration: BoxDecoration(
+                                color: btnBghColor,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  color: secondaryColors,
+                                  width: 1.0,
+                                )),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 0.8.h(context),
+                                  width: 0.41.w(context),
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "",
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 15,
+                                          bottom: 11,
+                                          top: 11,
+                                          right: 15),
+                                      disabledBorder: InputBorder.none,
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        noteText = value;
+                                        log(" your Note: $noteText");
+                                        orderController.updateNote(
+                                            noteText, widget.order.fid);
+                                      });
+                                    },
                                   ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      noteText = value;
-                                      log(" your Note: $noteText");
-                                      orderController.updateNote(
-                                          noteText, widget.order.fid);
-                                    });
-                                  },
                                 ),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    orderController.updateNote(
-                                        "", widget.order.fid);
-                                    log("is Added ${widget.order.isAdded}");
-                                    setState(() {
-                                      addNotesClicked = false;
-                                      log("The click Status is $addNotesClicked");
-                                    });
-                                  },
-                                  icon: const Icon(Icons.cancel_outlined))
-                            ],
+                                IconButton(
+                                    onPressed: () {
+                                      orderController.updateNote(
+                                          "", widget.order.fid);
+                                      log("is Added ${widget.order.isAdded}");
+                                      setState(() {
+                                        addNotesClicked = false;
+                                        log("The click Status is $addNotesClicked");
+                                      });
+                                    },
+                                    icon: const Icon(Icons.cancel_outlined))
+                              ],
+                            ),
                           ),
-                        ),
+                  ),
                 ),
                 Row(
                   children: [

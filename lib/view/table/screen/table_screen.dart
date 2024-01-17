@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:brosoftresturent/model/tables_model.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:brosoftresturent/view/widgets/shared/search_bar.dart';
@@ -10,7 +12,7 @@ import '../../../utils/app_style.dart';
 import '../../widgets/shared/logo_app_bar.dart';
 
 import '../widgets/category_selectedbtn.dart';
-import '../widgets/table_grids.dart';
+import 'table_grids_screen.dart';
 
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
@@ -57,6 +59,8 @@ class _TableScreenState extends State<TableScreen> {
     btnTapIndex = 0;
     tableController.getTables();
     super.initState();
+
+    log("${tableController.isLooding}");
   }
 
   @override
@@ -107,15 +111,13 @@ class _TableScreenState extends State<TableScreen> {
               ),
 
               // // llistedTableItems(context, filterTable)
-              Obx(() => tableController.isLooding == false.obs
+              Obx(() => tableController.isLooding.value
                   ? const Center(
                       child: CircularProgressIndicator(
                         backgroundColor: secondaryColors,
                       ),
                     )
                   : TableGridItem(filterTable: filterTable))
-
-              // Obx(() => TableGridItem(filterTable: filterTable))
             ],
           ),
         ),

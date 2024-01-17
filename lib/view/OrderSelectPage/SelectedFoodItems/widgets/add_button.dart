@@ -16,7 +16,6 @@ class AddButtons extends StatelessWidget {
       required this.backGroundColors,
       required this.height,
       required this.width,
-      this.isCustomize = false,
       this.foodQuantity = "",
       this.spicyLevel = "",
       this.addOns = ""});
@@ -26,17 +25,13 @@ class AddButtons extends StatelessWidget {
   final String tableName, foodQuantity, spicyLevel, addOns;
   final Color backGroundColors;
   final double height, width;
-  final bool isCustomize;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        log(" This is is Customize or not $isCustomize add yyyyyyyyy");
-        isCustomize == true
-            ? orderCartController.addCustomizeItemsInCart(
-                fooditems, foodQuantity, spicyLevel, addOns, tableName)
-            : orderCartController.addItemsOnCart(fooditems, tableName);
+        log(" This is is  addtoCart ");
+        orderCartController.addItemsOnCart(fooditems, tableName);
       },
       child: Container(
           height: height,
@@ -84,6 +79,7 @@ class AddCustomizrOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
+        // log("add customize Btns");
         orderCartController.addCustomizeItemsInCart(
             fooditems, foodQuantity, spicyLevel, addOns, tableName);
       },

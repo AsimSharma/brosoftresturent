@@ -400,11 +400,6 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   color: secondaryColors,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: Row(children: [
-                //Todo do Same like this as
-                //todo know the total quantity from id
-                // total quantity=0 make add the ordercartIncQuantity
-                //and Show increase decrease buttons
-                //show from order cart not  remoteProducts
                 orderCartCtrl.findCustomizeQuantity(foodItems.fid) == 0
                     ? AddCustomizrOrder(
                         orderCartController: orderCartController,
@@ -417,55 +412,59 @@ class _SelectedOrderState extends State<SelectedOrder> {
                         foodQuantity: "Half",
                         addOns: "very good",
                       )
-                    : IncDecButtons(
+                    : IncDecButtonsC(
                         orderCartController: orderCartController,
                         fooditems: foodItems,
-                        backGroungColor:
-                            const Color.fromARGB(255, 181, 111, 111),
-                        isCustomize: true,
+                        backGroungColor: Colors.white,
                       ),
 
                 //prices
-                Container(
-                  height: 0.1.h(context),
-                  width: 0.12.w(context),
-                  margin: EdgeInsets.all(0.010.toResponsive(context)),
-                  child: Center(
-                      child: Row(
-                    children: [
-                      const NepaliRSw(),
-                      SizedBox(
-                        width: 0.0025.w(context),
-                      ),
-                      Text(
-                        100.toString(),
-
-                        // selectedOption == "Half"
-                        //     ? (customizePrices + 50).toString()
-                        //     : (customizePrices + 100).toString(),
-                        style: TextStyle(
-                          color: primary,
-                          fontSize: 0.017.toResponsive(context),
-                          fontWeight: FontWeight.w800,
-                          fontFamily: "Roboto",
+                Expanded(
+                  child: Container(
+                    height: 0.1.h(context),
+                    width: 0.12.w(context),
+                    margin: EdgeInsets.all(0.010.toResponsive(context)),
+                    child: Center(
+                        child: Row(
+                      children: [
+                        const NepaliRSw(),
+                        SizedBox(
+                          width: 0.0025.w(context),
                         ),
-                      ),
-                    ],
-                  )),
+                        Text(
+                          orderCartCtrl
+                              .calculateIndivisualPricesCustomize(foodItems.fid)
+                              .toString(),
+
+                          // selectedOption == "Half"
+                          //     ? (customizePrices + 50).toString()
+                          //     : (customizePrices + 100).toString(),
+                          style: TextStyle(
+                            color: primary,
+                            fontSize: 0.017.toResponsive(context),
+                            fontWeight: FontWeight.w800,
+                            fontFamily: "Roboto",
+                          ),
+                        ),
+                      ],
+                    )),
+                  ),
                 ),
                 //add_orders_btns
-                AddOrderBtns(
-                  onPress: () {
-                    orderCartController.addCustomizeItemsInCart(
-                      foodItems,
-                      selectedOption,
-                      addOnselected,
-                      "Medium",
-                      tableName,
-                    );
+                Expanded(
+                  child: AddOrderBtns(
+                    onPress: () {
+                      orderCartController.addCustomizeItemsInCart(
+                        foodItems,
+                        selectedOption,
+                        addOnselected,
+                        "Medium",
+                        tableName,
+                      );
 
-                    Get.back();
-                  },
+                      Get.back();
+                    },
+                  ),
                 )
               ]),
             )),
