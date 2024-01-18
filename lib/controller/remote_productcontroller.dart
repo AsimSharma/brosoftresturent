@@ -30,4 +30,54 @@ class RemoteProductCtrl extends GetxController {
     update();
     productList.refresh();
   }
+
+  /////CustomizeincreaseCFoodQuantity
+  increaseCFoodQuantity(int fid) {
+    for (int i = 0; i < productList.length; i++) {
+      for (int j = 0; j < productList[i].foodItems.length; j++) {
+        if (productList[i].foodItems[j].fid == fid) {
+          productList[i].foodItems[j].customizeQuantity++;
+        }
+      }
+    }
+
+    update();
+    productList.refresh();
+  }
+
+  ///CustomizedecreaseCFoodQuantity
+
+  decreaseCFoodQuantity(int fid) {
+    for (int i = 0; i < productList.length; i++) {
+      for (int j = 0; j < productList[i].foodItems.length; j++) {
+        if (productList[i].foodItems[j].fid == fid) {
+          if (productList[i].foodItems[j].customizeQuantity > 0) {
+            productList[i].foodItems[j].customizeQuantity--;
+          } else {
+            productList[i].foodItems[j].customizeQuantity = 0;
+          }
+        }
+      }
+    }
+
+    update();
+    productList.refresh();
+  }
+
+  totaFoodsPrices(int id) {
+    for (int i = 0; i < productList.length; i++) {
+      for (int j = 0; j < productList[i].foodItems.length; j++) {
+        if (productList[i].foodItems[j].fid == id) {
+          productList[i].foodItems[j].customizePrices =
+              (productList[i].foodItems[j].customizeQuantity) *
+                  (productList[i].foodItems[j].prices);
+
+          log(" this is customize prices${productList[i].foodItems[j].customizePrices.toString()}");
+        }
+      }
+    }
+
+    update();
+    productList.refresh();
+  }
 }

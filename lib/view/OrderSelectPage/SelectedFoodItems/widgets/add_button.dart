@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:brosoftresturent/controller/remote_productcontroller.dart';
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../controller/order_cart_controller.dart';
 import '../../../../model/remote_products.dart';
@@ -57,17 +59,18 @@ class AddButtons extends StatelessWidget {
 }
 
 class AddCustomizrOrder extends StatelessWidget {
-  const AddCustomizrOrder(
-      {super.key,
-      required this.orderCartController,
-      required this.fooditems,
-      required this.tableName,
-      required this.backGroundColors,
-      required this.height,
-      required this.width,
-      this.foodQuantity = "",
-      this.spicyLevel = "",
-      this.addOns = ""});
+  const AddCustomizrOrder({
+    super.key,
+    required this.orderCartController,
+    required this.fooditems,
+    required this.tableName,
+    required this.backGroundColors,
+    required this.height,
+    required this.width,
+    this.foodQuantity = "",
+    this.spicyLevel = "",
+    this.addOns = "",
+  });
 
   final OrDerController orderCartController;
   final FoodItems fooditems;
@@ -77,11 +80,15 @@ class AddCustomizrOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remoteProductCtrl = Get.find<RemoteProductCtrl>();
     return InkWell(
       onTap: () async {
         // log("add customize Btns");
-        orderCartController.addCustomizeItemsInCart(
-            fooditems, foodQuantity, spicyLevel, addOns, tableName);
+        // orderCartController.addCustomizeItemsInCart(
+        //     fooditems, foodQuantity, spicyLevel, addOns, tableName);
+
+        remoteProductCtrl.increaseCFoodQuantity(fooditems.fid);
+        remoteProductCtrl.totaFoodsPrices(fooditems.fid);
       },
       child: Container(
           height: height,

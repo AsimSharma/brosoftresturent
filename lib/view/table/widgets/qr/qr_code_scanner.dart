@@ -1,19 +1,21 @@
-import 'dart:developer';
 import 'dart:typed_data';
-import 'package:brosoftresturent/view/home/home.dart';
+
+import 'package:brosoftresturent/view/table/widgets/qr/qr_result_screen.dart';
+import 'package:brosoftresturent/view/table/widgets/qr/qr_scanner_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class Scanner extends StatefulWidget {
-  const Scanner({super.key});
+class QrcodeScanner extends StatefulWidget {
+  const QrcodeScanner({super.key});
 
   @override
-  State<Scanner> createState() => _ScannerState();
+  State<QrcodeScanner> createState() => _QrcodeScannerState();
 }
 
-class _ScannerState extends State<Scanner> {
+class _QrcodeScannerState extends State<QrcodeScanner> {
   MobileScannerController cameraController = MobileScannerController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,75 +65,68 @@ class _ScannerState extends State<Scanner> {
               final List<Barcode> barcodes = capture.barcodes;
               final Uint8List? image = capture.image;
               for (final barcode in barcodes) {
-                log('Barcode found! ${barcode.rawValue}');
-
                 if (barcode.rawValue!.isNotEmpty) {
-                  _navigateToResultScreen(barcode.rawValue!);
-                  cameraController.stop();
-                }
+                  if (isWiFiQRCode(barcode.rawValue!)) {
+                    _navigateToResultScreen(barcode.rawValue!);
+                  } else {
+                    _navigateToResultScreen1(barcode.rawValue!);
+                  }
 
-                if (barcode.format == BarcodeFormat.qrCode) {
-                  // Handle WiFi QR code
-                  handleWifiQRCode(barcode.rawValue!);
+                  cameraController.stop();
                 }
               }
             },
           ),
-          Container(
-            color: Colors.black.withOpacity(0.5),
-          ),
+          QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5))
         ],
       ),
     );
   }
 
-  Future<void> _navigateToResultScreen(String barcodeValue) async {
-    await Get.to(() => ResultScreen(result: barcodeValue));
+  bool isWiFiQRCode(String rawResult) {
+    return rawResult.toUpperCase().contains('WIFI:');
+  }
+
+  Future<void> _navigateToResultScreen1(String barcodeValue) async {
+    await Get.to(() => ResultScreen1(result: barcodeValue));
     cameraController.stop();
   }
 
-  //Qr formate wifi
-  void handleWifiQRCode(String rawResult) {
-    // Parse the rawResult to extract the password
-    final List<String> keyValuePairs = rawResult.split(';');
+  Future<void> _navigateToResultScreen(String barcodeValue) async {
+    WiFiData wiFiData = parseWiFiQRCode(barcodeValue);
+    await Get.to(
+        () => ResultScreen(ssid: wiFiData.ssid, password: wiFiData.password));
+  }
+
+  WiFiData parseWiFiQRCode(String rawResult) {
+    String ssid = '';
     String password = '';
 
+    final List<String> keyValuePairs = rawResult.split(';');
     for (final pair in keyValuePairs) {
       final List<String> parts = pair.split(':');
       if (parts.length == 2) {
-        final String key = parts[0].trim().toLowerCase();
+        final String key = parts[0].trim().toUpperCase();
         final String value = parts[1].trim();
 
-        if (key == 'password') {
-          password = value;
-          break;
+        switch (key) {
+          case 'S':
+            ssid = value;
+            break;
+          case 'P':
+            password = value;
+            break;
         }
       }
     }
 
-    if (password.isNotEmpty) {
-      // Navigate to ResultScreen and wait for result
-      _navigateToResultScreen(password);
-    }
+    return WiFiData(ssid, password);
   }
 }
 
-class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.result});
+class WiFiData {
+  final String ssid;
+  final String password;
 
-  final String result;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Get.to(const HomeScreen());
-            },
-            icon: Icon(Icons.arrow_back)),
-      ),
-      body: Center(child: Text(result ?? "")),
-    );
-  }
+  WiFiData(this.ssid, this.password);
 }

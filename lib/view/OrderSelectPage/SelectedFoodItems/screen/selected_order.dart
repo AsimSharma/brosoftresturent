@@ -276,7 +276,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                                         : "";
                                   },
                                   child: Hero(
-                                      tag: fooditems.fid,
+                                      tag: "Helllo_Helllo",
                                       child: Image.asset(
                                           "${images['imageName']}")),
                                 ),
@@ -375,15 +375,14 @@ class _SelectedOrderState extends State<SelectedOrder> {
   Container cusTomizedButtomSheet(BuildContext context, StateSetter setState,
       Foods foods, FoodItems foodItems, String tableName) {
     double customizePrices;
-    // if (selectedOption == "Half") {
-    //   customizePrices = foodItems.customizePrices / 2.toDouble();
-    //   log('This is CustomizePrices: ${customizePrices.toString()}');
-    // } else {
-    //   customizePrices = foodItems.customizePrices.toDouble();
-    //   log('This is CustomizePrices: ${customizePrices.toString()}');
-    // }
+    if (selectedOption == "Half") {
+      customizePrices = foodItems.customizePrices / 2.toDouble();
+      log('This is CustomizePricest: ${customizePrices.toString()}');
+    } else {
+      customizePrices = foodItems.customizePrices.toDouble();
 
-    final orderCartCtrl = Get.find<OrDerController>();
+      log('This is CustomizePricest: ${customizePrices.toString()}');
+    }
 
     return Container(
       height: 0.97.h(context),
@@ -400,7 +399,7 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   color: secondaryColors,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: Row(children: [
-                orderCartCtrl.findCustomizeQuantity(foodItems.fid) == 0
+                foodItems.customizeQuantity == 0
                     ? AddCustomizrOrder(
                         orderCartController: orderCartController,
                         fooditems: foodItems,
@@ -432,13 +431,11 @@ class _SelectedOrderState extends State<SelectedOrder> {
                           width: 0.0025.w(context),
                         ),
                         Text(
-                          orderCartCtrl
-                              .calculateIndivisualPricesCustomize(foodItems.fid)
-                              .toString(),
+                          // orderCartCtrl
+                          //     .calculateIndivisualPricesCustomize(foodItems.fid)
+                          //     .toString(),
+                          customizePrices.toString(),
 
-                          // selectedOption == "Half"
-                          //     ? (customizePrices + 50).toString()
-                          //     : (customizePrices + 100).toString(),
                           style: TextStyle(
                             color: primary,
                             fontSize: 0.017.toResponsive(context),
@@ -455,12 +452,12 @@ class _SelectedOrderState extends State<SelectedOrder> {
                   child: AddOrderBtns(
                     onPress: () {
                       orderCartController.addCustomizeItemsInCart(
-                        foodItems,
-                        selectedOption,
-                        addOnselected,
-                        "Medium",
-                        tableName,
-                      );
+                          foodItems,
+                          selectedOption,
+                          addOnselected,
+                          "Medium",
+                          tableName,
+                          customizePrices);
 
                       Get.back();
                     },
@@ -491,18 +488,22 @@ class _SelectedOrderState extends State<SelectedOrder> {
             SizedBox(
               height: 0.005.h(context),
             ),
-            Container(
-                height: 0.28.h(context),
-                width: 1.0.w(context),
-                decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image:
-                            AssetImage("assets/images/customizedimages.png")),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(0.010.toResponsive(context)),
-                        topLeft:
-                            Radius.circular(0.010.toResponsive(context))))),
+            Hero(
+              tag: "Helllo_Helllo",
+              child: Container(
+                  height: 0.28.h(context),
+                  width: 1.0.w(context),
+                  decoration: BoxDecoration(
+                      image: const DecorationImage(
+                          fit: BoxFit.cover,
+                          image:
+                              AssetImage("assets/images/customizedimages.png")),
+                      borderRadius: BorderRadius.only(
+                          topRight:
+                              Radius.circular(0.010.toResponsive(context)),
+                          topLeft:
+                              Radius.circular(0.010.toResponsive(context))))),
+            ),
             SizedBox(
               height: 0.02.h(context),
             ),

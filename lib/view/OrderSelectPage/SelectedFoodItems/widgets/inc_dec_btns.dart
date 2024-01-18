@@ -2,23 +2,24 @@ import 'dart:developer';
 
 import 'package:brosoftresturent/utils/responsive_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../controller/order_cart_controller.dart';
+import '../../../../controller/remote_productcontroller.dart';
 import '../../../../model/remote_products.dart';
 import '../../../../utils/app_style.dart';
 
 class IncDecButtons extends StatelessWidget {
-  const IncDecButtons(
-      {super.key,
-      required this.orderCartController,
-      required this.fooditems,
-      required this.backGroungColor,
-      this.isCustomize = false});
+  const IncDecButtons({
+    super.key,
+    required this.orderCartController,
+    required this.fooditems,
+    required this.backGroungColor,
+  });
 
   final OrDerController orderCartController;
   final FoodItems fooditems;
   final Color backGroungColor;
-  final bool isCustomize;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,9 @@ class IncDecButtons extends StatelessWidget {
           children: [
             InkWell(
                 onTap: () {
-                  log(" This is is Customize or not $isCustomize dec");
-                  isCustomize == true
-                      ? orderCartController.decraseCustomizeQantity(fooditems)
-                      : orderCartController.decFoodQuanity(fooditems);
+                  log(" This is is Customize or not  dec");
+
+                  orderCartController.decFoodQuanity(fooditems);
                 },
                 child: SizedBox(
                   height: 1.0.h(context),
@@ -51,11 +51,7 @@ class IncDecButtons extends StatelessWidget {
                       "assets/images/${backGroungColor == Colors.white ? "subtract icon.png" : "subwhite.png"}"),
                 )),
             Text(
-              isCustomize == true
-                  ? orderCartController
-                      .findCustomizeQuantity(fooditems.fid)
-                      .toString()
-                  : orderCartController.findQuantity(fooditems.fid).toString(),
+              orderCartController.findQuantity(fooditems.fid).toString(),
               style: TextStyle(
                   color: backGroungColor == Colors.white
                       ? secondaryColors
@@ -66,10 +62,8 @@ class IncDecButtons extends StatelessWidget {
             ),
             InkWell(
                 onTap: () {
-                  log(" This is is Customize or not $isCustomize");
-                  isCustomize == true
-                      ? orderCartController.increaseCustomizeQantity(fooditems)
-                      : orderCartController.increaseFoodQuanity(fooditems);
+                  log(" This is is Customize or not ");
+                  orderCartController.increaseFoodQuanity(fooditems);
                 },
                 child: SizedBox(
                   height: 1.0.h(context),
@@ -96,6 +90,7 @@ class IncDecButtonsC extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remoteProductCtrl = Get.find<RemoteProductCtrl>();
     return Container(
       margin: EdgeInsets.only(
           left: 0.025.toResponsive(context),
@@ -115,7 +110,9 @@ class IncDecButtonsC extends StatelessWidget {
                 onTap: () {
                   log(" This is is Customize  dec");
 
-                  orderCartController.decraseCustomizeQantity(fooditems);
+                  // orderCartController.decraseCustomizeQantity(fooditems);
+                  remoteProductCtrl.decreaseCFoodQuantity(fooditems.fid);
+                  remoteProductCtrl.totaFoodsPrices(fooditems.fid);
                 },
                 child: SizedBox(
                   height: 1.0.h(context),
@@ -124,9 +121,7 @@ class IncDecButtonsC extends StatelessWidget {
                       "assets/images/${backGroungColor == Colors.white ? "subtract icon.png" : "subwhite.png"}"),
                 )),
             Text(
-              orderCartController
-                  .findCustomizeQuantity(fooditems.fid)
-                  .toString(),
+              fooditems.customizeQuantity.toString(),
               style: TextStyle(
                   color: backGroungColor == Colors.white
                       ? secondaryColors
@@ -139,7 +134,9 @@ class IncDecButtonsC extends StatelessWidget {
                 onTap: () {
                   log(" This is is Customize  increaser");
 
-                  orderCartController.increaseCustomizeQantity(fooditems);
+                  // orderCartController.increaseCustomizeQantity(fooditems);
+                  remoteProductCtrl.increaseCFoodQuantity(fooditems.fid);
+                  remoteProductCtrl.totaFoodsPrices(fooditems.fid);
                 },
                 child: SizedBox(
                   height: 1.0.h(context),

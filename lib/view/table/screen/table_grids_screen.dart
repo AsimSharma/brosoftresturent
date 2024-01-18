@@ -1,5 +1,6 @@
 import 'package:brosoftresturent/utils/responsive_extension.dart';
-import 'package:brosoftresturent/view/table/widgets/qr_code_scanner.dart';
+import 'package:brosoftresturent/view/table/widgets/qr/qr_code_scanner.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -239,7 +240,7 @@ class _TableGridItemState extends State<TableGridItem> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => const Scanner());
+                      Get.to(() => const QrcodeScanner());
                     },
                     child: Container(
                       height: 0.31.h(context),

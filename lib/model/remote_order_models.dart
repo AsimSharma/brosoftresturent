@@ -71,25 +71,22 @@ class Order {
   bool isVeg;
   bool isAdded;
   DateTime addedTime;
-  int customizeQuantity;
-  int customizePrices;
 
-  Order(
-      {required this.fid,
-      required this.foodName,
-      required this.tableName,
-      required this.quantity,
-      required this.price,
-      required this.note,
-      required this.foodQuantity,
-      required this.spicyLevel,
-      required this.addons,
-      required this.isCustomisable,
-      required this.isVeg,
-      required this.addedTime,
-      this.isAdded = false,
-      required this.customizeQuantity,
-      required this.customizePrices});
+  Order({
+    required this.fid,
+    required this.foodName,
+    required this.tableName,
+    required this.quantity,
+    required this.price,
+    required this.note,
+    required this.foodQuantity,
+    required this.spicyLevel,
+    required this.addons,
+    required this.isCustomisable,
+    required this.isVeg,
+    required this.addedTime,
+    this.isAdded = false,
+  });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         fid: json["fid"],
@@ -105,8 +102,6 @@ class Order {
         isVeg: json["isVeg"],
         addedTime: json['addedTime'],
         isAdded: false,
-        customizeQuantity: json['customizeQuantity'],
-        customizePrices: json['customizePrices'],
       );
 
   Map<String, dynamic> toJson() => {
