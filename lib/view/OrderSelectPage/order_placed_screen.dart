@@ -82,6 +82,7 @@ class OrderPlacedSucess extends StatelessWidget {
               CustomBtn(
                 btnTitle: "Done",
                 onPressed: () {
+                  log("hello bibek what is your name")
                   Get.to(() => const HomeScreen());
                   orderController.clearCart();
                 },
@@ -106,3 +107,5 @@ class OrderPlacedSucess extends StatelessWidget {
     );
   }
 }
+
+///djshdsddsmd
